@@ -1,0 +1,39 @@
+<!doctype html>
+  <head>
+    <title>Knitting Web App</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script> 
+   function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#img_loader').attr('src', e.target.result)
+		    .width(350)
+                    .height(350);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#file").change(function(){
+    readURL(this);
+});
+    </script>	
+   </head>
+
+  <body>
+     <h1><center>Welcome to Knitting Web App</center><h1> 
+     <h3></h3>
+     <fieldset>     
+       <p id="status">Load a Pattern</p>
+       <div id="progressbar"></div>
+       <input id="file" type="file" onchange="readURL(this);" />
+     </fieldset>
+     <fieldset>
+       <div><img id="img_loader" style="border:1px solid black" src="#" /></div>
+     </fieldset>
+  </body>
+
