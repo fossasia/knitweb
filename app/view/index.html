@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Knitting Web App</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+    <script src="../controller/editor.js"></script>
+</head>
+
+<body>
+<h1>
+    <center>Welcome to Knitting Web App</center>
+    </h1>
+        <h3></h3>
+    <div ng-app="knitWebApp" ng-controller="knitPattrnCtrl">
+        <fieldset>
+            <p id="status">Load a Pattern</p>
+
+            <div id="progressbar"></div>
+            <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
+            <button id="inputBtn" onclick="">
+        </fieldset>
+        <fieldset>
+            <div><img id="img_loader" style="border:1px solid black" src="#"/></div>
+        </fieldset>
+     </div>
+</body>
+</html>
+

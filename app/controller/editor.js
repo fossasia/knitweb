@@ -1,8 +1,3 @@
-<!doctype html>
-<head>
-    <title>Knitting Web App</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
   var url;
 
    function readURL(input) {
@@ -21,9 +16,10 @@
     }
 }
 
-$("#file").change(function(){
+  $("#file").change(function(){
     readURL(this);
-});
+  });
+ 
 
   function getURL(){
     return url;
@@ -60,43 +56,3 @@ $("#file").change(function(){
       file_select_handler(e.target.files[0]);
       e.target.value = '';
   });
-
-    </script>
-</head>
-
-<body>
-<h1>
-    <center>Welcome to Knitting Web App</center>
-    <h1>
-        <h3></h3>
-        <fieldset>
-            <p id="status">Load a Pattern</p>
-
-            <div id="progressbar"></div>
-            <input id="file" type="file" onchange="readURL(this);"/>
-            <button id="inputBtn" onclick="">
-        </fieldset>
-        <fieldset>
-            <div><img id="img_loader" style="border:1px solid black" src="#"/></div>
-        </fieldset>
-</body>
-
-
-{%from PIL import Image%}
-
-{%backgrndColor = 1%}
-{%pixelSize = 8%}
-
-{%image = Image.open(%}
-<script>getURL()</script>{%)%}
-{%image = image.resize((image.size[0]/pixelSize, image.size[1]/pixelSize), Image.NEAREST)%}
-{%image = image.resize((image.size[0]*pixelSize, image.size[1]*pixelSize), Image.NEAREST)%}
-{%pixel = image.load()%}
-
-{%for i in range(0,image.size[0],pixelSize):%}
-{% for j in range(0,image.size[1],pixelSize):%}
-{%    for r in range(pixelSize):%}
-{%     pixel[i+r,j] = backgrndColor%}
-{%     pixel[i,j+r] = backgrndColor%}
-
-{%image.save('ImageOut.jpg') %}
