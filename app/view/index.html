@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 
+    <script src="../controller/pixelate.js"></script>
     <script src="../controller/editor.js"></script>
 </head>
 
@@ -19,12 +20,14 @@
 
             <div id="progressbar"></div>
             <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
-            <button id="inputBtn" onclick="">
         </fieldset>
+        <button onclick="init()">Pixelate</button>
         <fieldset>
             <div><img id="img_loader" style="border:1px solid black" src="#"/></div>
         </fieldset>
+
      </div>
 </body>
 </html>
+
 
