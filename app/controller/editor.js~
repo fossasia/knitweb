@@ -11,12 +11,8 @@ function readURL(input) {
                 .width(350)
                 .height(350);
         }
-        console.log(input.files[0]);
         reader.readAsDataURL(input.files[0]);
     }
-
-    var blocks = document.getElementById('blocks');
-    blocks.addEventListener('change', pixelate, false);
 }
 
 $("#file").change(function () {
@@ -59,7 +55,3 @@ $('#file').change(function (e) {
     file_select_handler(e.target.files[0]);
     e.target.value = '';
 });
-
-var blocks = document.getElementById('blocks');
-blocks.addEventListener('change', pixelate, false);
-

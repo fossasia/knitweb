@@ -12,22 +12,25 @@
 <body>
 <h1>
     <center>Welcome to Knitting Web App</center>
-    </h1>
-        <h3></h3>
-    <div ng-app="knitWebApp" ng-controller="knitPattrnCtrl">
-        <fieldset>
-            <p id="status">Load a Pattern</p>
+</h1>
+<h3></h3>
+<div ng-app="knitWebApp" ng-controller="knitPattrnCtrl">
+    <fieldset>
+        <p id="status">Load a Pattern</p>
 
-            <div id="progressbar"></div>
-            <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
-        </fieldset>
-        <button onclick="init()">Pixelate</button>
-        <fieldset>
-            <div><img id="img_loader" style="border:1px solid black" src="#"/></div>
-        </fieldset>
+        <div id="progressbar"></div>
+        <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
+    </fieldset>
+    <br>
+    <button onclick="pixelate()">Pixelate</button>
 
-     </div>
+    <fieldset>
+        <div><img id="img_loader" style="border:1px solid black; display: inline;margin-top: 200px" src="#"/><canvas id="canvas" style="border:1px solid grey;width: 40%; height:40%; margin-left: 100px"></canvas></div>
+
+        <input id="blocks" type="range" min="1" max="12" value="12">
+    </fieldset>
+
+</div>
 </body>
 </html>
-
 
