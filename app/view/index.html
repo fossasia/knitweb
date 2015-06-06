@@ -7,6 +7,9 @@
 
     <script src="../controller/pixelate.js"></script>
     <script src="../controller/editor.js"></script>
+    <script src="../controller/colourpicker.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
@@ -25,7 +28,11 @@
     <button onclick="pixelate()">Pixelate</button>
 
     <fieldset>
-        <div><img id="img_loader" style="border:1px solid black; display: inline;margin-top: 200px" src="#"/><canvas id="canvas" style="border:1px solid grey;width: 40%; height:40%; margin-left: 100px"></canvas></div>
+        <div>
+            <img id="img_loader" style="border:1px solid black; display: inline;margin-top: 200px" src="#"/>
+            <canvas id="canvas" style="border:1px solid grey;width: 40%; height:40%; margin-left: 100px"></canvas>
+            <div class="colorPreview"></div>
+        </div>
 
         <input id="blocks" type="range" min="1" max="12" value="12">
     </fieldset>
