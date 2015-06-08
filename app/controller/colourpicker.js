@@ -1,38 +1,22 @@
-var canvas = document.getElementById('canvas');
 
-var x='', y='';
+window.addEventListener('load', function(ev) {
+    var sourceImage = document.querySelector('img');
+    var canvas = document.querySelector('canvas');
+    var swab = document.querySelector('div');
+    var context = canvas.getContext('2d');
+    canvas.height = sourceImage.height;
+    canvas.width = sourceImage.width;
+    context.drawImage(sourceImage, 0, 0);
+    sourceImage.style.display = 'none';
 
-// preview function mousemove
-img.addEventListener('mousemove', function(e){
-
-    if(e.offsetX) {
-        x = e.offsetX;
-        y = e.offsetY;
+    function pixcol(ev) {
+        var x = ev.layerX;
+        var y = ev.layerY;
+        var pixelData = context.getImageData(x, y, 1, 1);
+        var col = pixelData.data;
+        swab.style.background = 'rgba(' +
+            col[0] + ',' + col[1] + ',' +
+            col[2] + ',' + col[3] + ')';
     }
-    else if(e.layerX) {
-        x = e.layerX;
-        y = e.layerY;
-    }
-
-    useCanvas(canvas,img,function(){
-
-        // get image data
-        var p = canvas.getContext('2d')
-            .getImageData(x, y, 1, 1).data;
-
-        // show preview color
-        console.log(p[0]+", "+p[1]);
-    });
+    canvas.addEventListener('mousemove', pixcol, false);
 },false);
-
-
-// canvas function
-function useCanvas(el,image,callback){
-    el.width = image.width;
-    el.height = image.height;
-
-    // draw image in canvas tag
-    el.getContext('2d')
-        .drawImage(image, 0, 0, image.width, image.height);
-    return callback();
-}

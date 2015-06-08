@@ -1,6 +1,6 @@
 
 var blocks = document.getElementById('blocks');
-var img = document.getElementById("img_loader");
+var img = document.getElementById("canvas2");
 
 
 //image pixelating function
@@ -11,7 +11,7 @@ function pixelate() {
     var ctx = canvas.getContext('2d');
 
     var blocks = document.getElementById('blocks');
-    var img = document.getElementById("img_loader");
+    var img = document.getElementById("canvas2");
 
     //adjust canvas size
     canvas.height = img.height;
@@ -22,6 +22,7 @@ function pixelate() {
         w = canvas.width * size,
         h = canvas.height * size;
 
+    console.log(size);
     ctx.drawImage(img, 0, 0, w, h);
 
     ctx.mozImageSmoothingEnabled = false;

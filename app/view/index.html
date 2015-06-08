@@ -27,17 +27,23 @@
     <br>
     <button onclick="pixelate()">Pixelate</button>
 
-    <fieldset>
-        <div>
-            <img id="img_loader" style="border:1px solid black; display: inline;margin-top: 200px" src="#"/>
-            <canvas id="canvas" style="border:1px solid grey;width: 40%; height:40%; margin-left: 100px"></canvas>
-            <div class="colorPreview"></div>
-        </div>
+    <div>
+        <img id="img_loader" style="border:1px solid black;margin-top: 30px" src="#" onload="init()"/>
 
+        <div class="colorPreview"></div>
+    </div>
+    <fieldset>
+        <p>Preview of the pattern</p>
+        <div>
+
+            <canvas id="canvas" style="border:1px solid grey;width: 30%; height:30%; margin-left: 700px"></canvas>
+            <canvas id="canvas2" width=500 height=500 style="margin-left: -1265px; position: absolute" ></canvas>
+        </div>
         <input id="blocks" type="range" min="1" max="12" value="12">
     </fieldset>
 
 </div>
+<script src="../controller/colorschema.js"></script>
 </body>
 </html>
 
