@@ -1,6 +1,10 @@
 var url;
 
+
+
 function readURL(input) {
+
+    var img_loader = document.getElementById('img_loader');
 
     if (input.files && input.files[0]) {
         var reader = new FileReader();

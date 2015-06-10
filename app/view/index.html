@@ -7,43 +7,64 @@
 
     <script src="../controller/pixelate.js"></script>
     <script src="../controller/editor.js"></script>
-    <script src="../controller/colourpicker.js"></script>
+    <script src="../lib/js/colpick.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
-<h1>
-    <center>Welcome to Knitting Web App</center>
-</h1>
-<h3></h3>
-<div ng-app="knitWebApp" ng-controller="knitPattrnCtrl">
-    <fieldset>
-        <p id="status">Load a Pattern</p>
+    <h1>
+        <center>Welcome to Knitting Web App</center>
+    </h1>
+    <h3></h3>
 
-        <div id="progressbar"></div>
-        <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
-    </fieldset>
-    <br>
-    <button onclick="pixelate()">Pixelate</button>
+    <div ng-app="knitWebApp" ng-controller="knitPattrnCtrl">
+        <fieldset>
+            <p id="status">Load a Pattern</p>
 
-    <div>
-        <img id="img_loader" style="border:1px solid black;margin-top: 30px" src="#" onload="init()"/>
+            <div id="progressbar"></div>
+            <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
+        </fieldset>
+        <br>
 
-        <div class="colorPreview"></div>
-    </div>
-    <fieldset>
-        <p>Preview of the pattern</p>
-        <div>
 
-            <canvas id="canvas" style="border:1px solid grey;width: 30%; height:30%; margin-left: 700px"></canvas>
-            <canvas id="canvas2" width=500 height=500 style="margin-left: -1265px; position: absolute" ></canvas>
+        <div class="img-outer">
+            <div class="img-inner">
+                <img id="img_loader" style="border:1px solid black; display: inline" src="#"/>
+            </div>
+            <!--<button id="picker">Colour Picker</button>-->
+            <!--<canvas id="imageLoader"></canvas>
+            <div id="colorPreview"></div>-->
+            <div class="right-to-img-loader">
+                <button id="addBtn">Add Colour</button>
+                <table id="previewTable">
+                    <!--<tr>-->
+                    <!--<td class="color-box" style="border: solid 1px black"></td>-->
+                    <!--</tr>-->
+                </table>
+            </div>
+            <div class="clear"></div>
         </div>
-        <input id="blocks" type="range" min="1" max="12" value="12">
-    </fieldset>
 
-</div>
-<script src="../controller/colorschema.js"></script>
+        <button onclick="init()">Preview</button>
+        <br>
+        <fieldset>
+            <p>Preview of the pattern</p>
+
+            <div>
+                <canvas id="canvas" style="border:1px solid grey;width: 567px; height:400px; margin-left: 700px"></canvas>
+                <canvas id="canvas2" width=400 height=400 style="margin-left: -1265px; position: absolute;border: solid 1px grey"></canvas>
+            </div>
+            <button onclick="pixelate()" style="display: inline">Pixelate</button>
+            <button onclick="clear()">Clear</button>
+            <br>
+            <input id="blocks" type="range" min="1" max="12" value="12">
+        </fieldset>
+
+    </div>
+    <script src="../controller/colorschema.js"></script>
+    <script src="../controller/colourpicker.js"></script>
 </body>
 </html>
 
