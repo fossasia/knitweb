@@ -225,6 +225,8 @@ function clear() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+
+//pixelating algo function
 function getColourValues(){
 
     var pixelWidth  = canvas.width / 40;
