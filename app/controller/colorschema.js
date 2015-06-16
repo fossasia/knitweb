@@ -7,6 +7,8 @@ var gArr = [];
 var bArr = [];
 
 var rowCount;
+var mouseX;
+var mouseY;
 
 window.addEventListener('load', function (ev) {
     rowCount = 0;
@@ -48,26 +50,36 @@ $('.color-box').colpick({
     }
 })
 
+//getting canvas position for select tool
+canvas.onmousedown = function(e){
+    var startX = e.layerX;
+    var startY = e.layerY;
+    var endX,endY;
+
+    document.onmousemove = function(e){
+
+        endX = e.layerX;
+        endY = e.layerY;
+    }
+
+    document.onmouseup = function() {
+        	    document.onmousemove = null
+        console.log("end: "+endX/4+" "+endY/4);
+        	  }
+
+    console.log("start: "+startX/4+" "+startY/4);
+}
+
 function changeContent(el) {
     el.innerHTML = "";
 }
 
 function init() {
     var img = document.getElementById("img_loader");
-    ctx.drawImage(img, 0, 0);
-    getColourValues();
+    pixelate();
 
 }
 
-
-function getrgb(colour) {
-    var rgba = colour.split('-');
-    var r = rgba[1];
-    var g = rgba[2];
-    var b = rgba[3]
-
-    return { r: r, g: g, b: b }
-}
 
 function rgbToHsl(r, g, b) {
     r /= 255, g /= 255, b /= 255;
@@ -101,110 +113,6 @@ function rgbToHsl(r, g, b) {
     });
 }
 
-function hslToRgb(h, s, l) {
-    var r, g, b, m, c, x
-
-    if (!isFinite(h)) h = 0
-    if (!isFinite(s)) s = 0
-    if (!isFinite(l)) l = 0
-
-    h /= 60
-    if (h < 0) h = 6 - (-h % 6)
-    h %= 6
-
-    s = Math.max(0, Math.min(1, s / 100))
-    l = Math.max(0, Math.min(1, l / 100))
-
-    c = (1 - Math.abs((2 * l) - 1)) * s
-    x = c * (1 - Math.abs((h % 2) - 1))
-
-    if (h < 1) {
-        r = c
-        g = x
-        b = 0
-    } else if (h < 2) {
-        r = x
-        g = c
-        b = 0
-    } else if (h < 3) {
-        r = 0
-        g = c
-        b = x
-    } else if (h < 4) {
-        r = 0
-        g = x
-        b = c
-    } else if (h < 5) {
-        r = x
-        g = 0
-        b = c
-    } else {
-        r = c
-        g = 0
-        b = x
-    }
-
-    m = l - c / 2
-    r = Math.round((r + m) * 255)
-    g = Math.round((g + m) * 255)
-    b = Math.round((b + m) * 255)
-
-    return { r: r, g: g, b: b }
-}
-
-function sort(values) {
-
-    var length = values.length - 1;
-    do {
-        var swapped = false;
-        for (var i = 0; i < length; ++i) {
-            if (values[i] > values[i + 1]) {
-
-                var temp = values[i];
-                var temp1 = rArr[i];
-                var temp2 = sArr[i];
-                var temp3 = lArr[i];
-
-                values[i] = values[i + 1];
-                rArr[i] = rArr[i + 1];
-                sArr[i] = sArr[i + 1];
-                lArr[i] = lArr[i + 1];
-
-                values[i + 1] = temp;
-                rArr[i + 1] = temp1;
-                sArr[i + 1] = temp2;
-                lArr[i + 1] = temp3;
-
-                swapped = true;
-            }
-        }
-    }
-    while (swapped == true)
-}
-
-function binarySearch(key, inputArray) {
-    var low = 0,
-        high = inputArray.length - 1,
-        mid;
-
-    while (low <= high) {
-        mid = low + (high - low) / 2;
-        if ((mid % 1) > 0) {
-            mid = Math.ceil(mid);
-        }
-
-        if (key < inputArray[mid]) {
-            high = mid - 1;
-        }
-        else if (key > inputArray[mid]) {
-            low = mid + 1;
-        }
-        else {
-            return mid;
-        }
-    }
-    return mid;
-}
 
 function addButtonClick(hex) {
 
@@ -229,10 +137,8 @@ function clear() {
 //pixelating algo function
 function getColourValues(){
 
-    var pixelWidth  = canvas.width / 40;
-    var pixelHeight = canvas.height / 40;
-
-    console.log(canvas.height+" "+canvas.width);
+    var pixelWidth  = canvas.width / 100;
+    var pixelHeight = canvas.height / 100;
 
     var height = canvas.height;
     var width = canvas.width;
@@ -276,5 +182,6 @@ function getColourValues(){
             pixelCount++;
         }
     }
+
 
 }
