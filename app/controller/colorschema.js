@@ -19,9 +19,6 @@ var pixelCanvas = document.getElementById("canvas");
 var pixelCtx = pixelCanvas.getContext("2d");
 var ctx = canvas.getContext("2d");
 
-pixelCanvas.height = canvas.height;
-pixelCanvas.width = canvas.width;
-
 $('#picker').colpick();
 
 $('#addBtn').colpick({
@@ -51,23 +48,24 @@ $('.color-box').colpick({
 })
 
 //getting canvas position for select tool
-canvas.onmousedown = function(e){
-    var startX = e.layerX;
-    var startY = e.layerY;
+pixelCanvas.onmousedown = function(e){
+    var rect = pixelCanvas.getBoundingClientRect();
+    var startX = e.clientX - rect.left;
+    var startY = e.clientY - rect.top;
     var endX,endY;
 
     document.onmousemove = function(e){
 
-        endX = e.layerX;
-        endY = e.layerY;
+        endX = e.clientX - rect.left;
+        endY = e.clientY - rect.top;
     }
 
     document.onmouseup = function() {
         	    document.onmousemove = null
-        console.log("end: "+endX/4+" "+endY/4);
+        console.log("end: "+Math.floor(endX/10)+" "+Math.floor(endY/10));
         	  }
 
-    console.log("start: "+startX/4+" "+startY/4);
+    console.log("start: "+Math.floor(startX/10)+" "+Math.floor(startY/10));
 }
 
 function changeContent(el) {
@@ -77,7 +75,7 @@ function changeContent(el) {
 function init() {
     var img = document.getElementById("img_loader");
     pixelate();
-
+    getColourValues();
 }
 
 
@@ -170,15 +168,21 @@ function getColourValues(){
         }
     }
 
-
     var pixelCount = 0;
-    for (var i = 0; i < height; i += pixelHeight) {
-        for (var j = 0; j < width; j += pixelWidth) {
+    var pixelDistX = 10;
+    var pixelDistY = 10;
+
+    pixelCtx.clearRect(0,0,pixelCanvas.width,pixelCanvas.height);
+
+    for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
+        for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
             pixelCtx.fillStyle ='rgba(' +
                 rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
                 bArr[pixelCount]+',255' +
                 ')';
-            pixelCtx.fillRect(i,j,pixelHeight,pixelWidth);
+            pixelCtx.lineWidth = 0.2;
+            pixelCtx.strokeRect(i,j,pixelDistX,pixelDistY);
+            pixelCtx.fillRect(i,j,pixelDistX,pixelDistY);
             pixelCount++;
         }
     }

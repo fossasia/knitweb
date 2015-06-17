@@ -47,16 +47,16 @@
             <div class="clear"></div>
         </div>
 
-        <button onclick="init()">Preview</button>
+        <button onclick="init()">Generate Pattern</button>
         <br>
         <fieldset>
             <p>Preview of the pattern</p>
 
             <div>
-                <canvas id="canvas" style="border:1px solid grey;width: 567px; height:400px; margin-left: 700px"></canvas>
-                <canvas id="canvas2" width=400 height=400 style="margin-left: -1265px; position: absolute;border: solid 1px grey"></canvas>
+                <canvas id="canvas" width=1000 height=1000 style="border:1px solid grey; margin-left: 50px"></canvas>
+                <canvas id="canvas2" width=400 height=400 style="display: none"></canvas>
             </div>
-            <button onclick="pixelate()" style="display: inline">Pixelate</button>
+            <button onclick="getColourValues()" style="display: inline">Pixelate</button>
             <button onclick="clear()">Clear</button>
             <br>
             <input id="blocks" type="range" min="1" max="12" value="12">
