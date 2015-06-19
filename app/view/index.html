@@ -33,15 +33,9 @@
             <div class="img-inner">
                 <img id="img_loader" style="border:1px solid black; display: inline" src="#"/>
             </div>
-            <!--<button id="picker">Colour Picker</button>-->
-            <!--<canvas id="imageLoader"></canvas>
-            <div id="colorPreview"></div>-->
             <div class="right-to-img-loader">
                 <button id="addBtn">Add Colour</button>
                 <table id="previewTable">
-                    <!--<tr>-->
-                    <!--<td class="color-box" style="border: solid 1px black"></td>-->
-                    <!--</tr>-->
                 </table>
             </div>
             <div class="clear"></div>
@@ -53,13 +47,28 @@
             <p>Preview of the pattern</p>
 
             <div>
-                <canvas id="canvas" width=1000 height=1000 style="border:1px solid grey; margin-left: 50px"></canvas>
+                <div>
+                    <div id="container"  style="float: left;width:1000px;height:1000px;">
+                        <canvas id="canvas" width=1000 height=1000 style="border:1px solid grey; margin-left: 50px;float: left"></canvas>
+                        <canvas id="layoutCanvas" width="1000" height="1000" style="border:1px solid grey; margin-left: 50px;float: left"></canvas>
+                    </div>
+                    <div style="float: left;margin-left: 100px">
+                        <div id="picker1" ></div>
+                        <button onclick="colourChange()">Add</button>
+                        <button onclick="pixelDel()">Delete</button>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
                 <canvas id="canvas2" width=400 height=400 style="display: none"></canvas>
             </div>
-            <button onclick="getColourValues()" style="display: inline">Pixelate</button>
-            <button onclick="clear()">Clear</button>
+            <div style="display: none">
+                <button onclick="getColourValues()" style="display: inline">Pixelate</button>
+                <button onclick="clear()">Clear</button>
+                <br>
+                <input id="blocks" type="range" min="1" max="12" value="12">
+            </div>
             <br>
-            <input id="blocks" type="range" min="1" max="12" value="12">
+            <br>
         </fieldset>
 
     </div>

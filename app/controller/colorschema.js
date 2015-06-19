@@ -19,7 +19,9 @@ var pixelCanvas = document.getElementById("canvas");
 var pixelCtx = pixelCanvas.getContext("2d");
 var ctx = canvas.getContext("2d");
 
-$('#picker').colpick();
+var layoutCanvas = document.getElementById("layoutCanvas");
+var layoutCtx = layoutCanvas.getContext("2d");
+
 
 $('#addBtn').colpick({
     colorScheme: 'dark',
@@ -37,6 +39,13 @@ $('#addBtn').colpick({
     }
 })
 
+$('#picker1').colpick({
+    flat:true,
+    layout:'hex',
+    submit:0
+});
+
+
 $('.color-box').colpick({
     colorScheme: 'dark',
     layout: 'rgbhex',
@@ -47,25 +56,97 @@ $('.color-box').colpick({
     }
 })
 
+var rect,startX,startY,endX,endY;
+var startPixelX,startPixelY,endPixelX,endPixelY,pixelWidth,pixelHeight;
+
+
 //getting canvas position for select tool
-pixelCanvas.onmousedown = function(e){
-    var rect = pixelCanvas.getBoundingClientRect();
-    var startX = e.clientX - rect.left;
-    var startY = e.clientY - rect.top;
-    var endX,endY;
+layoutCanvas.onmousedown = function(e){
+    var mousemove = false;
+
+     rect = pixelCanvas.getBoundingClientRect();
+     startX = e.clientX - rect.left;
+     startY = e.clientY - rect.top;
+     layoutCtx.clearRect(0,0,1000,1000);
+
 
     document.onmousemove = function(e){
+        mousemove = true;
 
         endX = e.clientX - rect.left;
         endY = e.clientY - rect.top;
+        startPixelX = Math.floor(startX/10)*10;
+        startPixelY = Math.floor(startY/10)*10;
+        endPixelX = Math.floor(endX/10)*10;
+        endPixelY = Math.floor(endY/10)*10;
+
+        console.log("start: "+startPixelX+" "+startPixelY);
+        console.log("end: "+endPixelX+" "+endPixelY);
+
+        pixelWidth = startPixelX - endPixelX;
+        pixelHeight = startPixelY - endPixelY;
+
+        if(pixelHeight<0)pixelHeight= -pixelHeight;
+        if(pixelWidth<0)pixelWidth = -pixelWidth;
+
+        layoutCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+        layoutCtx.strokeStyle = "rgba(255,0,0,255)";
+        layoutCtx.lineWidth = 1;
+        layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
     }
 
     document.onmouseup = function() {
         	    document.onmousemove = null
-        console.log("end: "+Math.floor(endX/10)+" "+Math.floor(endY/10));
+        startPixelX = Math.floor(startX/10)*10;
+        startPixelY = Math.floor(startY/10)*10;
+        endPixelX = Math.floor(endX/10)*10;
+        endPixelY = Math.floor(endY/10)*10;
+
+        console.log("start: "+startPixelX+" "+startPixelY);
+        console.log("end: "+endPixelX+" "+endPixelY);
+
+        pixelWidth = startPixelX - endPixelX;
+        pixelHeight = startPixelY - endPixelY;
+
+        if(pixelHeight<0)pixelHeight= -pixelHeight;
+        if(pixelWidth<0)pixelWidth = -pixelWidth;
+
+        if(mousemove){
+            layoutCtx.strokeStyle = "rgba(255,0,0,255)";
+            layoutCtx.lineWidth = 1;
+            layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+        }
+
+   //     pixelCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+
         	  }
 
-    console.log("start: "+Math.floor(startX/10)+" "+Math.floor(startY/10));
+//    console.log("start: "+Math.floor(startX/10)+" "+Math.floor(startY/10));
+}
+
+function colourChange(){
+var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
+   // pixelCtx.fillRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+console.log(startPixelX+" : "+startPixelY+" : "+style);
+    for (var i = startPixelX; i < startPixelX+pixelWidth; i += 10) {
+        for (var j = startPixelY; j < startPixelY+pixelHeight; j += 10) {
+            pixelCtx.clearRect(i,j,10,10);
+            pixelCtx.fillStyle = style;
+            pixelCtx.lineWidth = 0.2;
+            pixelCtx.strokeRect(i,j,10,10);
+            pixelCtx.fillRect(i,j,10,10);
+
+        }
+    }
+}
+
+function pixelDel(){
+    console.log("got here");
+//    pixelCtx.clear();
+//    pixelCtx.strokeStyle = "rgba(0,0,0,255)";
+//    pixelCtx.lineWidth = 1;
+//    pixelCtx.strokeRect(startPixelX,startPixelY,100,10);
+    pixelCtx.clearRect(startPixelX, startPixelY, startPixelX+pixelWidth,1);
 }
 
 function changeContent(el) {
