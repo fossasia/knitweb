@@ -63,6 +63,7 @@ var startPixelX,startPixelY,endPixelX,endPixelY,pixelWidth,pixelHeight;
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function(e){
     var mousemove = false;
+    var count = 0;
 
      rect = pixelCanvas.getBoundingClientRect();
      startX = e.clientX - rect.left;
@@ -89,7 +90,7 @@ layoutCanvas.onmousedown = function(e){
         if(pixelHeight<0)pixelHeight= -pixelHeight;
         if(pixelWidth<0)pixelWidth = -pixelWidth;
 
-        layoutCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+        layoutCtx.clearRect(0,0,1000,1000);
         layoutCtx.strokeStyle = "rgba(255,0,0,255)";
         layoutCtx.lineWidth = 1;
         layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
@@ -141,11 +142,6 @@ console.log(startPixelX+" : "+startPixelY+" : "+style);
 }
 
 function pixelDel(){
-    console.log("got here");
-//    pixelCtx.clear();
-//    pixelCtx.strokeStyle = "rgba(0,0,0,255)";
-//    pixelCtx.lineWidth = 1;
-//    pixelCtx.strokeRect(startPixelX,startPixelY,100,10);
     pixelCtx.clearRect(startPixelX, startPixelY, startPixelX+pixelWidth,1);
 }
 

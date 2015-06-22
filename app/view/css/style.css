@@ -10,6 +10,13 @@
 
 }
 
+.preview-box{
+    height: 350px;
+    width: 350px;
+    float: left;
+    margin-left: 50px;
+}
+
 .right-to-img-loader {
     height: 350px;
     display: block;
