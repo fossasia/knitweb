@@ -37,13 +37,14 @@
     <div class="img-outer">
         <div id="img_inner" class="img-inner">
             <img id="img_loader" style="border:1px solid black; display: inline;width: 350px;height: 350px" src="#"/>
+            <img id="test" src="#" style="width: 350px;height: 350px;display: none"/>
         </div>
         <div id="preview" class="preview-box">
             <canvas id="previewCanvas" width="350" height="350" style="border: solid 1px grey"></canvas>
-            <button onclick="crop()">Crop</button>
+            <input id="cropCheck" type="checkbox" onclick="crop()">Crop</input>
             <button onclick="draw()">Draw</button>
-            <button id="rotateLeftBtn" onclick="rotate(-30)">Rotate Left</button>
-            <button id="rotateRightBtn" onclick="rotate(30)">Rotate Right</button>
+            <button id="rotateLeftBtn" onclick="rotate(-90)">Rotate<-</button>
+            <button id="rotateRightBtn" onclick="rotate(90)">Rotate-></button>
         </div>
         <div class="right-to-img-loader">
             <button id="addBtn">Add Yarn Colour</button>
@@ -88,7 +89,6 @@
 
 </div>
 <script src="../controller/colorschema.js"></script>
-<script src="../controller/colourpicker.js"></script>
 </body>
 </html>
 

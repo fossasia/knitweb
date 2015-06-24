@@ -57,7 +57,7 @@ $('.color-box').colpick({
 })
 
 var rect,startX,startY,endX,endY;
-var startPixelX,startPixelY,endPixelX,endPixelY,pixelWidth,pixelHeight;
+var startPixelX,startPixelY,endPixelX,endPixelY,pixelWidth,pixelHeight,prevPixelX,prevPixelY;
 
 
 //getting canvas position for select tool
@@ -70,6 +70,8 @@ layoutCanvas.onmousedown = function(e){
      startY = e.clientY - rect.top;
      layoutCtx.clearRect(0,0,1000,1000);
 
+    prevPixelX = Math.floor(startX/10)*10;
+    prevPixelY = Math.floor(startY/10)*10;
 
     document.onmousemove = function(e){
         mousemove = true;
@@ -81,19 +83,25 @@ layoutCanvas.onmousedown = function(e){
         endPixelX = Math.floor(endX/10)*10;
         endPixelY = Math.floor(endY/10)*10;
 
-        console.log("start: "+startPixelX+" "+startPixelY);
-        console.log("end: "+endPixelX+" "+endPixelY);
-
         pixelWidth = startPixelX - endPixelX;
         pixelHeight = startPixelY - endPixelY;
 
         if(pixelHeight<0)pixelHeight= -pixelHeight;
         if(pixelWidth<0)pixelWidth = -pixelWidth;
 
-        layoutCtx.clearRect(0,0,1000,1000);
+//        layoutCtx.clearRect(0,0,1000,1000);
+//        layoutCtx.strokeStyle = "rgba(255,0,0,255)";
+//        layoutCtx.lineWidth = 1;
+//        layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+        layoutCtx.beginPath();
+        layoutCtx.moveTo(prevPixelX,prevPixelY);
+        layoutCtx.lineTo(prevPixelX,prevPixelY);
+        layoutCtx.lineTo(endPixelX,endPixelY);
         layoutCtx.strokeStyle = "rgba(255,0,0,255)";
-        layoutCtx.lineWidth = 1;
-        layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+        layoutCtx.stroke();
+        prevPixelX = endPixelX;
+        prevPixelY = endPixelY;
+
     }
 
     document.onmouseup = function() {
@@ -102,9 +110,9 @@ layoutCanvas.onmousedown = function(e){
         startPixelY = Math.floor(startY/10)*10;
         endPixelX = Math.floor(endX/10)*10;
         endPixelY = Math.floor(endY/10)*10;
-
-        console.log("start: "+startPixelX+" "+startPixelY);
-        console.log("end: "+endPixelX+" "+endPixelY);
+//
+//        console.log("start: "+startPixelX+" "+startPixelY);
+//        console.log("end: "+endPixelX+" "+endPixelY);
 
         pixelWidth = startPixelX - endPixelX;
         pixelHeight = startPixelY - endPixelY;
@@ -128,7 +136,7 @@ layoutCanvas.onmousedown = function(e){
 function colourChange(){
 var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
    // pixelCtx.fillRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
-console.log(startPixelX+" : "+startPixelY+" : "+style);
+
     for (var i = startPixelX; i < startPixelX+pixelWidth; i += 10) {
         for (var j = startPixelY; j < startPixelY+pixelHeight; j += 10) {
             pixelCtx.clearRect(i,j,10,10);
@@ -263,6 +271,4 @@ function getColourValues(){
             pixelCount++;
         }
     }
-
-
 }
