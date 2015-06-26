@@ -41,7 +41,6 @@ function crop() {
 var image;
 
 function draw() {
-
     context.drawImage(imageObj, x, y, widthX, heightY, 0, 0, canvas.width, canvas.height);
     var dataUrl = canvas.toDataURL();
     image = document.getElementById('test');

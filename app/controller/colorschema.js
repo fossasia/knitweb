@@ -5,10 +5,24 @@ var rArr = [];
 var rdArr = [];
 var gArr = [];
 var bArr = [];
+var imageDataArr =[];
+var imageArr = [];
 
 var rowCount;
 var mouseX;
 var mouseY;
+
+window.onload = function(){
+    console.log("loaded");
+    for(var i=0;i<=100;i++){
+        imageDataArr[i]=[];
+        imageArr[i] = []
+        for(var j=0;j<=100;j++){
+            imageDataArr[i][j]=false;
+            imageArr[i][j] =false;
+        }
+    }
+}
 
 window.addEventListener('load', function (ev) {
     rowCount = 0;
@@ -59,7 +73,8 @@ $('.color-box').colpick({
 var rect,startX,startY,endX,endY;
 var startPixelX,startPixelY,endPixelX,endPixelY,pixelWidth,pixelHeight,prevPixelX,prevPixelY;
 
-
+var pixelCountX = 0;
+var pixelCountY = 0;
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function(e){
     var mousemove = false;
@@ -93,10 +108,32 @@ layoutCanvas.onmousedown = function(e){
 //        layoutCtx.strokeStyle = "rgba(255,0,0,255)";
 //        layoutCtx.lineWidth = 1;
 //        layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
+
         layoutCtx.beginPath();
         layoutCtx.moveTo(prevPixelX,prevPixelY);
         layoutCtx.lineTo(prevPixelX,prevPixelY);
+        imageDataArr[prevPixelX/10][prevPixelY/10] = true;
+
+        if(prevPixelX == endPixelX){
+           pixelCountX++;
+        }
+        if(prevPixelY == endPixelY){
+            pixelCountY++;
+        }
+
+        if(prevPixelX!=endPixelX && prevPixelY!=endPixelY){
+            layoutCtx.lineTo(endPixelX,prevPixelY);
+            imageDataArr[endPixelX/10][prevPixelY/10]=true;
+            if(prevPixelX!=endPixelX){
+                pixelCountY = 0;
+            }
+            if(prevPixelY!=endPixelY){
+                pixelCountX = 0;
+            }
+        }
         layoutCtx.lineTo(endPixelX,endPixelY);
+        imageDataArr[endPixelX/10][endPixelY/10]=true;
+
         layoutCtx.strokeStyle = "rgba(255,0,0,255)";
         layoutCtx.stroke();
         prevPixelX = endPixelX;
@@ -110,9 +147,6 @@ layoutCanvas.onmousedown = function(e){
         startPixelY = Math.floor(startY/10)*10;
         endPixelX = Math.floor(endX/10)*10;
         endPixelY = Math.floor(endY/10)*10;
-//
-//        console.log("start: "+startPixelX+" "+startPixelY);
-//        console.log("end: "+endPixelX+" "+endPixelY);
 
         pixelWidth = startPixelX - endPixelX;
         pixelHeight = startPixelY - endPixelY;
@@ -125,26 +159,47 @@ layoutCanvas.onmousedown = function(e){
             layoutCtx.lineWidth = 1;
             layoutCtx.strokeRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
         }
-
    //     pixelCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
 
         	  }
-
-//    console.log("start: "+Math.floor(startX/10)+" "+Math.floor(startY/10));
 }
 
 function colourChange(){
+    for(var i=0; i<100;i++){
+        for(var j=0; j<100;j++){
+            console.log(imageDataArr[i][j]+" and "+imageDataArr[i+1][j+1]);
+            if(imageDataArr[i][j]&&imageDataArr[i+1][j+1]){
+                imageArr[i][j] = true;
+            }
+        }
+    }
 var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
    // pixelCtx.fillRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
 
-    for (var i = startPixelX; i < startPixelX+pixelWidth; i += 10) {
-        for (var j = startPixelY; j < startPixelY+pixelHeight; j += 10) {
-            pixelCtx.clearRect(i,j,10,10);
-            pixelCtx.fillStyle = style;
-            pixelCtx.lineWidth = 0.2;
-            pixelCtx.strokeRect(i,j,10,10);
-            pixelCtx.fillRect(i,j,10,10);
+  //*************************************************************************
+//    for (var i = startPixelX; i < startPixelX+pixelWidth; i += 10) {
+//        for (var j = startPixelY; j < startPixelY+pixelHeight; j += 10) {
+//            pixelCtx.clearRect(i,j,10,10);
+//            pixelCtx.fillStyle = style;
+//            pixelCtx.lineWidth = 0.2;
+//            pixelCtx.strokeRect(i,j,10,10);
+//            pixelCtx.fillRect(i,j,10,10);
+//        }
+//    }
+    //**********************************************************************
 
+
+    for(var i=0; i<100;i++){
+        for(var j=0;j<100;j++){
+         //   console.log(imageArr[i][j]);
+            if(imageArr[i][j]){
+         //       console.log('got here');
+                pixelCtx.clearRect(i*10,j*10,10,10);
+                pixelCtx.fillStyle = style;
+                pixelCtx.lineWidth = 0.2;
+                pixelCtx.strokeRect(i*10,j*10,10,10);
+                pixelCtx.fillRect(i*10,j*10,10,10);
+            }
         }
     }
 }
