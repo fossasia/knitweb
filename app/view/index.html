@@ -68,10 +68,15 @@
                     <canvas id="layoutCanvas" width="1000" height="1000"
                             style="border:1px solid grey; margin-left: 50px;float: left"></canvas>
                 </div>
-                <div style="float: left;margin-left: 100px">
+                <div style="float: left;margin-left: 5%">
                     <div id="picker1"></div>
                     <button onclick="colourChange()">Add</button>
                     <button onclick="pixelDel()">Delete</button>
+                </div>
+                <br>
+                <div style="float: left;margin-left: 5%;margin-top: 10px;border: groove 1px lightgrey;width: 200px;height: 60px">
+                    <input type="radio" name="areaTool" id="freeHandSelect" onclick="selectTool(true)">Free Hand<br>
+                    <input type="radio" name="areaTool" id="squareSelect" onclick="selectTool(false)" checked="checked">Square
                 </div>
                 <div style="clear:both;"></div>
             </div>
