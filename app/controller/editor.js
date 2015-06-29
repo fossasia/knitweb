@@ -12,6 +12,11 @@ function readURL(input) {
             $('#img_loader').attr('src', e.target.result)
                 .width(350)
                 .height(350);
+            var canvas = document.getElementById('previewCanvas');
+            var context = canvas.getContext('2d');
+            setTimeout(function(){context.drawImage(img_loader, 0, 0, canvas.width, canvas.height);},100);
+
+
         }
         reader.readAsDataURL(input.files[0]);
     }
