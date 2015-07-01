@@ -1,6 +1,6 @@
 var rect, startX, startY, endX, endY;
 var startPixelX, startPixelY, endPixelX, endPixelY, pixelWidth, pixelHeight, prevPixelX, prevPixelY;
-var temp;
+var temp, testX, testY;
 
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
@@ -93,14 +93,14 @@ layoutCanvas.onmousedown = function (e) {
         if (pixelHeight < 0)pixelHeight = -pixelHeight;
         if (pixelWidth < 0)pixelWidth = -pixelWidth;
 
-
         if (mousemove && !isFreeHand) {
             layoutCtx.strokeStyle = "rgba(255,0,0,255)";
             layoutCtx.lineWidth = 1;
+            testX = startPixelX;
+            testY = startPixelY;
             layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
         }
         //     pixelCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
-
     }
 }
 
@@ -152,6 +152,41 @@ function colourChange() {
                 pixelCtx.strokeRect(i * 10, j * 10, 10, 10);
                 pixelCtx.fillRect(i * 10, j * 10, 10, 10);
             }
+        }
+    }
+}
+
+function getColorBounds(){
+    var pixelWidth = canvas.width / 100;
+    var pixelHeight = canvas.height / 100;
+
+    var height = canvas.height;
+    var width = canvas.width;
+
+    var count = 0;
+
+    //colour mapping logic for roundup the image colour values with available yarn colours.
+    for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
+        for (var j = pixelWidth / 2; j < width; j += pixelWidth) {
+
+            var imgData = ctx.getImageData(i, j, 1, 1);
+            var data = imgData.data;
+            var minRGB = 10000000;
+
+            for (var k = 0; k < rowCount; k++) {
+                var rDist = data[0] * data[0];
+                var gDist = data[1] * data[1];
+                var bDist = data[2] * data[2];
+
+
+                if ((rDist + gDist + bDist) < minRGB) {
+                    minRGB = rDist + gDist + bDist;
+                    rdArr[count] = rArr[k];
+                    gArr[count] = sArr[k];
+                    bArr[count] = lArr[k];
+                }
+            }
+            count++;
         }
     }
 }
