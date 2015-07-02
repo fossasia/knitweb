@@ -154,39 +154,47 @@ function colourChange() {
             }
         }
     }
+
+    getColorBounds();
 }
 
 function getColorBounds(){
-    var pixelWidth = canvas.width / 100;
-    var pixelHeight = canvas.height / 100;
 
-    var height = canvas.height;
-    var width = canvas.width;
+    var pixelWidth = layoutCanvas.width / 100;
+    var pixelHeight = layoutCanvas.height / 100;
+
+    var height = layoutCanvas.height;
+    var width = layoutCanvas.width;
 
     var count = 0;
+    var imgData = ctx.getImageData(0, 0, layoutCanvas.width, layoutCanvas.height);
+    var data = imgData.data;
+    console.log("height: "+height+" width: "+width+" "+data.length/4);
 
     //colour mapping logic for roundup the image colour values with available yarn colours.
-    for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
-        for (var j = pixelWidth / 2; j < width; j += pixelWidth) {
-
-            var imgData = ctx.getImageData(i, j, 1, 1);
-            var data = imgData.data;
-            var minRGB = 10000000;
-
-            for (var k = 0; k < rowCount; k++) {
-                var rDist = data[0] * data[0];
-                var gDist = data[1] * data[1];
-                var bDist = data[2] * data[2];
-
-
-                if ((rDist + gDist + bDist) < minRGB) {
-                    minRGB = rDist + gDist + bDist;
-                    rdArr[count] = rArr[k];
-                    gArr[count] = sArr[k];
-                    bArr[count] = lArr[k];
-                }
-            }
-            count++;
-        }
-    }
+//    for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
+//        for (var j = pixelWidth / 2; j < width; j += pixelWidth) {
+//
+//            var imgData = ctx.getImageData(i, j, 1, 1);
+//            var data = imgData.data;
+//            console.log(data[0]+":"+data[1]+":"+data[2]);
+//
+////            var minRGB = 10000000;
+////
+////            for (var k = 0; k < rowCount; k++) {
+////                var rDist = data[0] * data[0];
+////                var gDist = data[1] * data[1];
+////                var bDist = data[2] * data[2];
+////
+////
+////                if ((rDist + gDist + bDist) < minRGB) {
+////                    minRGB = rDist + gDist + bDist;
+////                    rdArr[count] = rArr[k];
+////                    gArr[count] = sArr[k];
+////                    bArr[count] = lArr[k];
+////                }
+////            }
+////            count++;
+//        }
+//    }
 }
