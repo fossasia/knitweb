@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>Knitting Web App</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="../lib/js/jquery.min.js"></script>
 
     <script src="../controller/pixelate.js"></script>
     <script src="../controller/editor.js"></script>
@@ -14,7 +13,6 @@
 
     <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
     <link rel="stylesheet" href="../lib/css/jquery.Jcrop.css" type="text/css"/>
-
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -24,16 +22,14 @@
 </h1>
 <h3></h3>
 
-<div ng-app="knitWebApp" ng-controller="knitPattrnCtrl">
+<div>
     <fieldset>
         <p id="status">Load a Pattern</p>
 
         <div id="progressbar"></div>
-        <input id="file" type="file" onchange="readURL(this);" ng-model="pattern"/>
+        <input id="file" type="file" onchange="readURL(this);" />
     </fieldset>
     <br>
-
-
     <div class="img-outer">
         <div id="img_inner" class="img-inner">
             <img id="img_loader" style="border:1px solid black; display: inline;width: 350px;height: 350px" src="#"/>
@@ -53,8 +49,6 @@
         </div>
         <div class="clear"></div>
     </div>
-
-
     <fieldset>
         <button onclick="init()">Generate Pattern</button>
         <br>
@@ -91,9 +85,9 @@
         <br>
         <br>
     </fieldset>
-
 </div>
 <script src="../controller/colorschema.js"></script>
+<script src="../controller/drawingtool.js"></script>
 </body>
 </html>
 

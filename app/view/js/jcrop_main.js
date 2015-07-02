@@ -4,6 +4,7 @@ var imageObj;
 var x, y, widthX, heightY;
 var angleInDegrees = 0;
 
+//update coordinate values for changing of cropping tool
 function updateCoords(c) {
     imageObj = document.getElementById('img_loader');
 
@@ -40,6 +41,7 @@ function crop() {
 
 var image;
 
+//drawing updated pattern in canvas
 function draw() {
     context.drawImage(imageObj, x, y, widthX, heightY, 0, 0, canvas.width, canvas.height);
     var dataUrl = canvas.toDataURL();
@@ -48,6 +50,7 @@ function draw() {
     image.style.display = 'none';
 }
 
+//method for rotating of pattern
 function rotate(degrees) {
     canvas = document.getElementById('previewCanvas');
     context = canvas.getContext('2d');
