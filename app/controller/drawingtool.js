@@ -107,6 +107,8 @@ layoutCanvas.onmousedown = function (e) {
 function colourChange() {
     var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
 
+    getColorBounds();
+
     if (isFreeHand) {
         pixelCtx.beginPath();
         for (var i = 0; i < list.length; i++) {
@@ -155,46 +157,60 @@ function colourChange() {
         }
     }
 
-    getColorBounds();
+
 }
 
 function getColorBounds(){
 
-    var pixelWidth = layoutCanvas.width / 100;
-    var pixelHeight = layoutCanvas.height / 100;
+    var pixelWidth = pixelCanvas.width / 100;
+    var pixelHeight = pixelCanvas.height / 100;
 
-    var height = layoutCanvas.height;
-    var width = layoutCanvas.width;
+    var height = pixelCanvas.height;
+    var width = pixelCanvas.width;
 
     var count = 0;
-    var imgData = ctx.getImageData(0, 0, layoutCanvas.width, layoutCanvas.height);
+    var imgData = ctx.getImageData(0, 0, pixelCanvas.width, pixelCanvas.height);
     var data = imgData.data;
     console.log("height: "+height+" width: "+width+" "+data.length/4);
+    var check =0;
 
-    //colour mapping logic for roundup the image colour values with available yarn colours.
-//    for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
-//        for (var j = pixelWidth / 2; j < width; j += pixelWidth) {
-//
-//            var imgData = ctx.getImageData(i, j, 1, 1);
-//            var data = imgData.data;
-//            console.log(data[0]+":"+data[1]+":"+data[2]);
-//
-////            var minRGB = 10000000;
-////
-////            for (var k = 0; k < rowCount; k++) {
-////                var rDist = data[0] * data[0];
-////                var gDist = data[1] * data[1];
-////                var bDist = data[2] * data[2];
-////
-////
-////                if ((rDist + gDist + bDist) < minRGB) {
-////                    minRGB = rDist + gDist + bDist;
-////                    rdArr[count] = rArr[k];
-////                    gArr[count] = sArr[k];
-////                    bArr[count] = lArr[k];
-////                }
-////            }
-////            count++;
-//        }
-//    }
+    //for (var i = 0; i < 100; i++) {
+    //    for (var j = 0; j < 100; j++) {
+    //        //console.log((i*100+j)*40);
+    //        //        data[(i*100+j)*40];
+    //        var pos = (i*100+j)*40;
+    //        if(pos%4==0)check++;
+    //        rdArr[count] = data[pos];
+    //        gArr[count] = data[pos+1];
+    //        bArr[count] = data[pos+2];
+    //        count++;
+    //    }
+    //}
+    //console.log("count:"+count+" check:"+check);
+    //console.log(" red:"+rdArr[9999]+" green:"+gArr[9999]+" blue:"+bArr[9999]);
+}
+
+function undo() {
+    var pixelCount = 0;
+    var pixelDistX = 10;
+    var pixelDistY = 10;
+
+    //clearing the canvas before draw
+    pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+    console.log(rdArr.length+" "+pixelCanvas.width);
+
+    //redrawing the image data in the canvas to get pixelated pattern
+    for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
+        for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
+            pixelCtx.fillStyle = 'rgba(' +
+                rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
+                bArr[pixelCount] + ',255' +
+                ')';
+
+            pixelCtx.lineWidth = 0.01;
+            pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
+            pixelCtx.fillRect(i, j, pixelDistX, pixelDistY);
+            pixelCount++;
+        }
+    }
 }

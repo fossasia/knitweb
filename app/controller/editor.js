@@ -66,6 +66,4 @@ $('#file').change(function (e) {
     e.target.value = '';
 });
 
-var blocks = document.getElementById('blocks');
-blocks.addEventListener('change', pixelate, false);
 

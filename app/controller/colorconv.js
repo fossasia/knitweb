@@ -25,6 +25,7 @@ function colourconv(start,end,size) {
             colours[key] = 1;
         }
     }
+
     sortedcolours = Object.keys(colours).sort(
         function (a, b) {
             return -(colours[a] - colours[b]);
