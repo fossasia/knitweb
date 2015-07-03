@@ -3,7 +3,7 @@ knitting web app frontend and backend
 
 knitting pattern editor
 
-## Pattern Generator Useage:
+## Pattern Generator Usage:
 
 1. Load a pattern using 'Browse'.
 2. Then tick 'crop' if the pattern wants to be cropped and then click 'Draw'. 
@@ -14,5 +14,3 @@ knitting pattern editor
 
 Status: In Progress.
 
-## Tnstalation Instructions:
-TODO
