@@ -171,23 +171,20 @@ function getColorBounds(){
     var count = 0;
     var imgData = ctx.getImageData(0, 0, pixelCanvas.width, pixelCanvas.height);
     var data = imgData.data;
-    console.log("height: "+height+" width: "+width+" "+data.length/4);
-    var check =0;
+    console.log("height: "+height+" width: "+width+" "+data.length);
+    var check = 0;
 
-    //for (var i = 0; i < 100; i++) {
-    //    for (var j = 0; j < 100; j++) {
-    //        //console.log((i*100+j)*40);
-    //        //        data[(i*100+j)*40];
-    //        var pos = (i*100+j)*40;
-    //        if(pos%4==0)check++;
-    //        rdArr[count] = data[pos];
-    //        gArr[count] = data[pos+1];
-    //        bArr[count] = data[pos+2];
-    //        count++;
-    //    }
-    //}
-    //console.log("count:"+count+" check:"+check);
-    //console.log(" red:"+rdArr[9999]+" green:"+gArr[9999]+" blue:"+bArr[9999]);
+
+    for(var i=0; i<100; i++){
+        for(var j=0; j<100; j++){
+            var pos = 8*(2000*(i+1)+2+5*j);
+            pixelCtx.fillStyle = 'rgba(' +
+                data[pos] + ',' + data[pos+1] + ',' +
+                data[pos+2] + ',255' +
+                ')';
+        }
+    }
+
 }
 
 function undo() {
