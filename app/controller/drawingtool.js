@@ -1,6 +1,7 @@
 var rect, startX, startY, endX, endY;
 var startPixelX, startPixelY, endPixelX, endPixelY, pixelWidth, pixelHeight, prevPixelX, prevPixelY;
 var temp, testX, testY;
+var imgAvgData = [];
 
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
@@ -81,7 +82,7 @@ layoutCanvas.onmousedown = function (e) {
     }
 
     document.onmouseup = function () {
-        document.onmousemove = null
+        document.onmousemove = null;
         startPixelX = Math.floor(startX / 10) * 10;
         startPixelY = Math.floor(startY / 10) * 10;
         endPixelX = Math.floor(endX / 10) * 10;
@@ -159,32 +160,103 @@ function colourChange() {
 
 
 }
-
-function getColorBounds(){
-
-    var pixelWidth = pixelCanvas.width / 100;
-    var pixelHeight = pixelCanvas.height / 100;
+var data;
+function getColorBounds() {
 
     var height = pixelCanvas.height;
     var width = pixelCanvas.width;
 
     var count = 0;
-    var imgData = ctx.getImageData(0, 0, pixelCanvas.width, pixelCanvas.height);
-    var data = imgData.data;
-    console.log("height: "+height+" width: "+width+" "+data.length);
+    var imgData = pixelCtx.getImageData(0, 0, pixelCanvas.width, pixelCanvas.height);
+    data = imgData.data;
+    console.log("height: " + height + " width: " + width + " " + data.length);
     var check = 0;
 
-
-    for(var i=0; i<100; i++){
-        for(var j=0; j<100; j++){
-            var pos = 8*(2000*(i+1)+2+5*j);
-            pixelCtx.fillStyle = 'rgba(' +
-                data[pos] + ',' + data[pos+1] + ',' +
-                data[pos+2] + ',255' +
-                ')';
+    for (var i = 0; i < 100; i++) {
+        for (var j = 0; j < 100; j++) {
+            var pos = 4000 * 10 * i + (4000 * 4) + 4 * 4 + 10 * j * 4;
+            //      console.log(pos);
+            //      console.log(data[pos]+" , "+data[pos+1]+" , "+data[pos+2]+" , "+data[pos+3]);
+            imgAvgData[100 * i + j] = (data[pos] + data[pos + 1] + data[pos + 2]) / 3;
+            //pixelCtx.fillStyle = 'rgba(' +
+            //    data[pos] + ',' + data[pos+1] + ',' +
+            //    data[pos+2] + ',255' +
+            //    ')';
         }
     }
 
+}
+var marker = [];
+
+function checkBounds() {
+
+    var colourArr = [];
+    var colourElement = [];
+    var tempColour = -1;
+
+
+    for (var i = startPixelY / 10; i < (startPixelY + pixelHeight) / 10; i++) {
+        for (var j = startPixelX / 10; j < (startPixelX + pixelWidth) / 10; j++) {
+            tempColour = imgAvgData[100 * i + j];
+            //if(imgAvgData[100*i+j]!=tempColour){
+            //
+            //    colourArr.push(i+","+j);
+            //
+            //
+            //} else{
+            //
+            //
+            //}
+            if (imgAvgData[100 * i + j + 1] == tempColour) {
+                colourElement[0] = tempColour;
+                for (var i = 0; i < colourArr.length; i++) {
+                    var tempArr = colourArr[i];
+                    if (tempArr[0] == tempColour) {
+                        colourArr.push(i + "," + j);
+                    }
+                }
+
+                arrTraverse(colourArr, tempColour);
+            }
+            if (imgAvgData[100 * i + j - 1] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+            if (imgAvgData[100 * (i - 1) + j + 1] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+            if (imgAvgData[100 * (i - 1) + j] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+            if (imgAvgData[100 * (i - 1) + j - 1] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+            if (imgAvgData[100 * (i + 1) + j + 1] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+            if (imgAvgData[100 * (i + 1) + j] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+            if (imgAvgData[100 * (i + 1) + j - 1] == tempColour) {
+                colourElement[0] = tempColour;
+                arrTraverse(colourArr,tempColour);
+            }
+        }
+    }
+}
+
+function arrTraverse(dataArr, colour) {
+    for (var i = 0; i < dataArr.length; i++) {
+        var tempArr = dataArr[i];
+        if (tempArr[0] == colour) {
+            marker.push(i + "," + j);
+        }
+    }
 }
 
 function undo() {
@@ -194,7 +266,7 @@ function undo() {
 
     //clearing the canvas before draw
     pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
-    console.log(rdArr.length+" "+pixelCanvas.width);
+    console.log(rdArr.length + " " + pixelCanvas.width);
 
     //redrawing the image data in the canvas to get pixelated pattern
     for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {

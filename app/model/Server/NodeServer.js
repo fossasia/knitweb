@@ -8,7 +8,7 @@ function handler(req, res){
     var content = '';
 
     if(req.method == "GET"){
-        content = '<html><body><h1>Server Component</h1></body></html>';
+        content = '<html><body><h1>--Server Component working--</h1></body></html>';
 
         res.setHeader('Content-Type', 'text/html');
         res.writeHead(200);
@@ -17,15 +17,18 @@ function handler(req, res){
         req.on('data', function(chunk) {
             var formdata = chunk.toString();
 
-            var a = eval(formdata.split("&")[0]);
-            var b = eval(formdata.split("&")[1]);
+            var userName = eval(formdata.split("&")[0]);
+            var password = eval(formdata.split("&")[1]);
 
-            var result = calc(a,b);
+            var result = validate(userName,password);
 
-            content = "<html><body><h1>Node Server</h1></body></html>";
+            content = result;
 
             res.setHeader('Content-Type', 'text/html');
             res.writeHead(200);
+            res.on('data',function(data){
+                console.log(data);
+            });
             res.end(content);
         });
 
@@ -36,8 +39,11 @@ function handler(req, res){
 
 };
 
-function calc(a,b){
-    return Number(a)+Number(b);;
+function validate(a,b){
+    if(a==='testUser'&& b==='test123'){
+        return true;
+    }
+    return false;
 }
 
 http.createServer(handler).listen(8000, function(err){
