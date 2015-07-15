@@ -1,55 +1,28 @@
 
-// Load the http module to create an http server.
-var http = require('http');
+// server.js
 
-// Create a function to handle every HTTP request
-function handler(req, res){
+var express    = require('express');
+var app        = express();
+var bodyParser = require('body-parser');
 
-    var content = '';
+// configure app to use bodyParser()
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-    if(req.method == "GET"){
-        content = '<html><body><h1>--Server Component working--</h1></body></html>';
+//setting port
+var port = process.env.PORT || 8080;
 
-        res.setHeader('Content-Type', 'text/html');
-        res.writeHead(200);
-        res.end(form);
-    } else if(req.method == 'POST'){
-        req.on('data', function(chunk) {
-            var formdata = chunk.toString();
+// get an instance of the express Router
+var router = express.Router();
 
-            var userName = eval(formdata.split("&")[0]);
-            var password = eval(formdata.split("&")[1]);
-
-            var result = validate(userName,password);
-
-            content = result;
-
-            res.setHeader('Content-Type', 'text/html');
-            res.writeHead(200);
-            res.on('data',function(data){
-                console.log(data);
-            });
-            res.end(content);
-        });
-
-    } else {
-        res.writeHead(200);
-        res.end();
-    };
-
-};
-
-function validate(a,b){
-    if(a==='testUser'&& b==='test123'){
-        return true;
-    }
-    return false;
-}
-
-http.createServer(handler).listen(8000, function(err){
-    if(err){
-        console.log('Error starting http server');
-    } else {
-        console.log("Server running at http://127.0.0.1:8000/ ");
-    };
+// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+router.get('/', function(req, res) {
+    var formdata = req.toString();
+    res.json({ message: 'successfully transferred the data' });
 });
+
+app.use('/api', router);
+
+//starting server
+app.listen(port);
+console.log('Magic happens on port ' + port);

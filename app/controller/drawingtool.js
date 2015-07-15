@@ -191,9 +191,8 @@ var marker = [];
 function checkBounds() {
 
     var colourArr = [];
-    var colourElement = [];
+    var colourElements = [];
     var tempColour = -1;
-
 
     for (var i = startPixelY / 10; i < (startPixelY + pixelHeight) / 10; i++) {
         for (var j = startPixelX / 10; j < (startPixelX + pixelWidth) / 10; j++) {
@@ -207,43 +206,54 @@ function checkBounds() {
             //
             //
             //}
+            for(var k=0;k<colourElements.length;k++){
+                var tempArr = colourElements[k];
+                if(tempArr[0]===tempColour){
+
+                }
+            }
+
             if (imgAvgData[100 * i + j + 1] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
+
                 for (var i = 0; i < colourArr.length; i++) {
                     var tempArr = colourArr[i];
-                    if (tempArr[0] == tempColour) {
-                        colourArr.push(i + "," + j);
+                    if(colourArr[0]!==tempColour){
+                        break;
                     }
-                }
 
+                }
+                if(colourArr.length===0){
+                    colourArr[0] = tempColour;
+                }
                 arrTraverse(colourArr, tempColour);
             }
             if (imgAvgData[100 * i + j - 1] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
             if (imgAvgData[100 * (i - 1) + j + 1] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
             if (imgAvgData[100 * (i - 1) + j] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
             if (imgAvgData[100 * (i - 1) + j - 1] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
             if (imgAvgData[100 * (i + 1) + j + 1] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
             if (imgAvgData[100 * (i + 1) + j] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
             if (imgAvgData[100 * (i + 1) + j - 1] == tempColour) {
-                colourElement[0] = tempColour;
+                colourElements[0] = tempColour;
                 arrTraverse(colourArr,tempColour);
             }
         }
