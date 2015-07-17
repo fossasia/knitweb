@@ -190,71 +190,74 @@ var marker = [];
 
 function checkBounds() {
 
-    var colourArr = [];
-    var colourElements = [];
-    var tempColour = -1;
+    var collection = [];
+    var colourList = [];
 
+    //traverse grid through selected region
     for (var i = startPixelY / 10; i < (startPixelY + pixelHeight) / 10; i++) {
         for (var j = startPixelX / 10; j < (startPixelX + pixelWidth) / 10; j++) {
-            tempColour = imgAvgData[100 * i + j];
-            //if(imgAvgData[100*i+j]!=tempColour){
-            //
-            //    colourArr.push(i+","+j);
-            //
-            //
-            //} else{
-            //
-            //
-            //}
-            for(var k=0;k<colourElements.length;k++){
-                var tempArr = colourElements[k];
-                if(tempArr[0]===tempColour){
 
+            var tempVal = imgAvgData[100*i+j];
+            var check = $.inArray(tempVal, colourList);
+
+            if(check!== -1){
+                colourList.push(tempVal);
+            }
+
+            var innerCheck=-1;
+            var kVal=-1, pos=-1;
+            for(var k=0;k < collection.length; k++){
+                var tempArray = collection[k];
+                innerCheck = $.inArray(100*i+j, tempArray);
+                if(innerCheck>-1){
+                    kVal = k;
+                    pos = innerCheck;
+                    break;
                 }
             }
 
-            if (imgAvgData[100 * i + j + 1] == tempColour) {
-                colourElements[0] = tempColour;
+            if(innerCheck == -1){
+                var newArr = [];
+                newArr[0] = tempVal;
+                newArr.push(100*i+j);
+                collection.push(newArr);
+                kVal = collection.length-1;
+                pos = 0;
+            }
 
-                for (var i = 0; i < colourArr.length; i++) {
-                    var tempArr = colourArr[i];
-                    if(colourArr[0]!==tempColour){
-                        break;
-                    }
+            //setting homogeneous neighbouring colour grid positions
 
-                }
-                if(colourArr.length===0){
-                    colourArr[0] = tempColour;
-                }
-                arrTraverse(colourArr, tempColour);
+            if((100*i+j-1)>=0 && (100*i+j-1)<10000 && imgAvgData[100*i+j-1]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*i+j-1);
             }
-            if (imgAvgData[100 * i + j - 1] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*i+j+1)>=0 && (100*i+j+1)<100 && imgAvgData[100*i+j+1]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*i+j+1);
             }
-            if (imgAvgData[100 * (i - 1) + j + 1] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*(i-1)+j-1)>=0 && (100*(i-1)+j-1)<10000 && imgAvgData[100*(i-1)+j-1]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*(i-1)+j-1);
             }
-            if (imgAvgData[100 * (i - 1) + j] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*(i-1)+j)>=0 && (100*(i-1)+j)<10000 && imgAvgData[100*(i-1)+j]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*(i-1)+j);
             }
-            if (imgAvgData[100 * (i - 1) + j - 1] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*(i-1)+j+1)>=0 && (100*(i-1)+j+1)<10000 && imgAvgData[100*(i-1)+j+1]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*(i-1)+j+1);
             }
-            if (imgAvgData[100 * (i + 1) + j + 1] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*(i+1)+j-1)>=0 && (100*(i+1)+j-1)<10000 && imgAvgData[100*(i+1)+j-1]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*(i+1)+j-1);
             }
-            if (imgAvgData[100 * (i + 1) + j] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*(i+1)+j)>=0 && (100*(i+1)+j)<10000 && imgAvgData[100*(i+1)+j]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*(i+1)+j);
             }
-            if (imgAvgData[100 * (i + 1) + j - 1] == tempColour) {
-                colourElements[0] = tempColour;
-                arrTraverse(colourArr,tempColour);
+            if((100*(i+1)+j+1)>=0 && (100*(i+1)+j+1)<10000 && imgAvgData[100*(i+1)+j+1]===tempVal){
+                var arr = collection[kVal];
+                arr.push(100*(i+1)+j+1);
             }
         }
     }
