@@ -63,7 +63,7 @@ layoutCanvas.onmousedown = function (e) {
                 layoutCtx.lineTo(endPixelX, prevPixelY);
                 imageDataArr[endPixelX / 10][prevPixelY / 10] = true;
             }
-            ;
+
 
             if (temp != (endPixelX + "," + endPixelY)) {
                 list[count++] = temp;
@@ -79,7 +79,7 @@ layoutCanvas.onmousedown = function (e) {
             prevPixelY = endPixelY;
         }
 
-    }
+    };
 
     document.onmouseup = function () {
         document.onmousemove = null;
@@ -103,12 +103,12 @@ layoutCanvas.onmousedown = function (e) {
         }
         //     pixelCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
     }
-}
+};
 
 function colourChange() {
     var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
 
-    getColorBounds();
+//    getColorBounds();
 
     if (isFreeHand) {
         pixelCtx.beginPath();
@@ -157,9 +157,8 @@ function colourChange() {
             }
         }
     }
-
-
 }
+
 var data;
 function getColorBounds() {
 
@@ -177,7 +176,7 @@ function getColorBounds() {
             var pos = 4000 * 10 * i + (4000 * 4) + 4 * 4 + 10 * j * 4;
             //      console.log(pos);
             //      console.log(data[pos]+" , "+data[pos+1]+" , "+data[pos+2]+" , "+data[pos+3]);
-            imgAvgData[100 * i + j] = (data[pos] + data[pos + 1] + data[pos + 2]) / 3;
+            imgAvgData[100 * i + j] = (data[pos] +","+ data[pos + 1] +","+ data[pos + 2]) ;
             //pixelCtx.fillStyle = 'rgba(' +
             //    data[pos] + ',' + data[pos+1] + ',' +
             //    data[pos+2] + ',255' +
@@ -189,13 +188,18 @@ function getColorBounds() {
 var marker = [];
 
 function checkBounds() {
+    getColorBounds();
 
     var collection = [];
     var colourList = [];
+    var startGridPosX = startPixelX / 10;
+    var startGridPosY = startPixelY / 10;
+    var endGridPosX = (startPixelX + pixelWidth) / 10;
+    var endGridPosY = (startPixelY + pixelHeight) / 10;
 
     //traverse grid through selected region
-    for (var i = startPixelY / 10; i < (startPixelY + pixelHeight) / 10; i++) {
-        for (var j = startPixelX / 10; j < (startPixelX + pixelWidth) / 10; j++) {
+    for (var i = startGridPosY; i < endGridPosY; i++) {
+        for (var j = startGridPosX; j < endGridPosX; j++) {
 
             var tempVal = imgAvgData[100*i+j];
             var check = $.inArray(tempVal, colourList);
@@ -226,49 +230,42 @@ function checkBounds() {
             }
 
             //setting homogeneous neighbouring colour grid positions
-
-            if((100*i+j-1)>=0 && (100*i+j-1)<10000 && imgAvgData[100*i+j-1]===tempVal){
-                var arr = collection[kVal];
+            var arr = collection[kVal];
+            if((j-1)>=startGridPosX && imgAvgData[100*i+j-1]===tempVal){
                 arr.push(100*i+j-1);
             }
-            if((100*i+j+1)>=0 && (100*i+j+1)<100 && imgAvgData[100*i+j+1]===tempVal){
-                var arr = collection[kVal];
+            if((j+1)<endGridPosX && imgAvgData[100*i+j+1]===tempVal){
                 arr.push(100*i+j+1);
             }
-            if((100*(i-1)+j-1)>=0 && (100*(i-1)+j-1)<10000 && imgAvgData[100*(i-1)+j-1]===tempVal){
-                var arr = collection[kVal];
+            if((j-1)>=startGridPosX && (i-1)>=startGridPosY && imgAvgData[100*(i-1)+j-1]===tempVal){
                 arr.push(100*(i-1)+j-1);
             }
-            if((100*(i-1)+j)>=0 && (100*(i-1)+j)<10000 && imgAvgData[100*(i-1)+j]===tempVal){
-                var arr = collection[kVal];
+            if((i-1)>=startGridPosY && imgAvgData[100*(i-1)+j]===tempVal){
                 arr.push(100*(i-1)+j);
             }
-            if((100*(i-1)+j+1)>=0 && (100*(i-1)+j+1)<10000 && imgAvgData[100*(i-1)+j+1]===tempVal){
-                var arr = collection[kVal];
+            if((i-1)>=startGridPosY && (j+1)<endGridPosX && imgAvgData[100*(i-1)+j+1]===tempVal){
                 arr.push(100*(i-1)+j+1);
             }
-            if((100*(i+1)+j-1)>=0 && (100*(i+1)+j-1)<10000 && imgAvgData[100*(i+1)+j-1]===tempVal){
-                var arr = collection[kVal];
+            if((j-1)>=startGridPosX && (i+1)<endGridPosY && imgAvgData[100*(i+1)+j-1]===tempVal){
                 arr.push(100*(i+1)+j-1);
             }
-            if((100*(i+1)+j)>=0 && (100*(i+1)+j)<10000 && imgAvgData[100*(i+1)+j]===tempVal){
-                var arr = collection[kVal];
+            if((i+1)<endGridPosY && imgAvgData[100*(i+1)+j]===tempVal){
                 arr.push(100*(i+1)+j);
             }
-            if((100*(i+1)+j+1)>=0 && (100*(i+1)+j+1)<10000 && imgAvgData[100*(i+1)+j+1]===tempVal){
-                var arr = collection[kVal];
+            if((i+1)<endGridPosY && (j+1)<endGridPosX && imgAvgData[100*(i+1)+j+1]===tempVal){
                 arr.push(100*(i+1)+j+1);
             }
+
         }
     }
-}
 
-function arrTraverse(dataArr, colour) {
-    for (var i = 0; i < dataArr.length; i++) {
-        var tempArr = dataArr[i];
-        if (tempArr[0] == colour) {
-            marker.push(i + "," + j);
+    for (var i = 0; i < collection.length; i++) {
+        var tempArray = collection[i].sort();
+        var resultString="colour value:"+tempArray[0]+" :";
+        for(var j = 1; j < tempArray.length;j++){
+            resultString+=","+tempArray[j];
         }
+        console.log(resultString);
     }
 }
 
