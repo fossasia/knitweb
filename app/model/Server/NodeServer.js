@@ -18,11 +18,11 @@ var router = express.Router();
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
     var formdata = req.toString();
-    res.json({ message: 'successfully transferred the data' });
+    res.json({ message: "data transferred successfully" });
 });
 
 app.use('/api', router);
 
 //starting server
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Api method exposed at port:' + port);
