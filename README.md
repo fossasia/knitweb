@@ -22,11 +22,9 @@ There are two kinds of drawing tools included inside the pattern grid.
 1. Square/Rectangular pattern drawing.
 2. Free hand pattern drawing.
 
-###1 Under Square/Rectangular pattern drawing user will be able to draw rectangular shapes
-###and add colours to the shape using colour pallette. 
+###1 Under Square/Rectangular pattern drawing user will be able to draw rectangular shapes and add colours to the shape using colour pallette. 
 
-###2 Under Free hand pattern drawing user will be able to draw using free hand and add colour
-###values to the shape drawn.
+###2 Under Free hand pattern drawing user will be able to draw using free hand and add colour values to the shape drawn.
 
 Note: These drawing tools are now used to edit the patterns that are loaded from a file.
 This can be improved such that user can draw a pattern from scratch using these tools that 
