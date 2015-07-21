@@ -2,6 +2,9 @@ var rect, startX, startY, endX, endY;
 var startPixelX, startPixelY, endPixelX, endPixelY, pixelWidth, pixelHeight, prevPixelX, prevPixelY;
 var temp, testX, testY;
 var imgAvgData = [];
+var collection = [];
+var isRegionized = false;
+
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
     var mousemove = false;
@@ -10,9 +13,11 @@ layoutCanvas.onmousedown = function (e) {
     rect = pixelCanvas.getBoundingClientRect();
     startX = e.clientX - rect.left;
     startY = e.clientY - rect.top;
+    if(!isRegionized)
     layoutCtx.clearRect(0, 0, 1000, 1000);
     prevPixelX = Math.floor(startX / 10) * 10;
     prevPixelY = Math.floor(startY / 10) * 10;
+
 //handling mouse dragging event for drawing tool
     document.onmousemove = function (e) {
         mousemove = true;
@@ -26,13 +31,16 @@ layoutCanvas.onmousedown = function (e) {
         pixelHeight = startPixelY - endPixelY;
         if (pixelHeight < 0)pixelHeight = -pixelHeight;
         if (pixelWidth < 0)pixelWidth = -pixelWidth;
+
 //using of free hand tool
         if (!isFreeHand) {
+            if(!isRegionized)
             layoutCtx.clearRect(0, 0, 1000, 1000);
             layoutCtx.strokeStyle = "rgba(255,0,0,255)";
             layoutCtx.lineWidth = 1;
             layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
         }
+
 //start from here
         if (isFreeHand) {
             layoutCtx.beginPath();
@@ -62,6 +70,7 @@ layoutCanvas.onmousedown = function (e) {
             prevPixelY = endPixelY;
         }
     };
+
     document.onmouseup = function () {
         document.onmousemove = null;
         startPixelX = Math.floor(startX / 10) * 10;
@@ -81,6 +90,24 @@ layoutCanvas.onmousedown = function (e) {
         }
 // pixelCtx.clearRect(startPixelX,startPixelY,pixelWidth,pixelHeight);
     }
+};
+
+layoutCanvas.onclick = function() {
+  if(isRegionized){
+      console.log(startPixelX/10+" "+startPixelY/10);
+      var colourVal = imgAvgData[100*startPixelY/10 + startPixelX/10];
+      console.log(100*startPixelY/10 + startPixelX/10);
+
+      for( var i=0; collection.length;i++){
+          var arr = collection[i];
+          if(arr[0]===colourVal){
+              var check = $.inArray(100*startPixelY/10 + startPixelX/10,arr);
+              if(check!==-1){
+                  showColourBounds(arr);
+              }
+          }
+      }
+  }
 };
 
 
@@ -158,7 +185,6 @@ function getColorBounds() {
 
 
 var marker = [];
-var collection = [];
 function checkBounds() {
     getColorBounds();
     var colourList = [];
@@ -238,46 +264,140 @@ function checkBounds() {
                 cpyArr.push(max);
             }
         }
-        //var resultString = "colour value1#:" + cpyArr[0] + " :";
-        //for (var j = 1; j < cpyArr.length; j++) {
-        //    resultString += "," + cpyArr[j];
-        //}
-        //console.log(resultString);
+        var resultString = "colour value1#:" + cpyArr[0] + " :";
+        for (var j = 1; j < cpyArr.length; j++) {
+            resultString += "," + cpyArr[j];
+        }
+        console.log(resultString);
 
  //       console.log(cpyArr.length);
         collection[i]=[];
         collection[i] = cpyArr;
 
-        showColourBounds();
-        var temp2 =[];
-        temp2 = collection[i];
-        var resultString = "colour value:" + temp2[0] + " :";
+        //var temp2 =[];
+        //temp2 = collection[i];
+        //var resultString = "colour value:" + temp2[0] + " :";
+        //
+        //for (var j = 1; j < temp2.length; j++) {
+        //    resultString += "," + temp2[j];
+        //}
+        //console.log(resultString);
+    }
+    setColourBounds();
+}
 
-        for (var j = 1; j < temp2.length; j++) {
-            resultString += "," + temp2[j];
+function removeDupColours() {
+
+    var colourArr = [];
+
+    for(var i=0;i<10000;i++){
+        colourArr[i]="";
+    }
+
+    for(var i=0; collection.length;i++){
+        var tempArr = collection[i];
+        for(var j=1;j<tempArr.length;j++){
+            colourArr[tempArr[j]]+=i+",";
         }
-        console.log(resultString);
+    }
+
+    for(var i=0; i<colourArr.length;i++){
+        var tempArr = colourArr[i].split(',');
+        if(tempArr.length>2){
+
+        }
+    }
+
+    function merge(){
+
     }
 }
 
-function showColourBounds(){
+function setColourBounds(){
+    for(var i=0; i<collection.length;i++){
+
+        var tempArr = collection[i];
+        var check;
+
+        //console.log("size"+tempArr.length);
+        layoutCtx.beginPath();
+        layoutCtx.moveTo((tempArr[1]%100)*10, Math.floor(tempArr[1]/100)*10);
+        for(var j=1; j<tempArr.length;j++){
+
+            check = $.inArray(tempArr[j]-100,tempArr);
+            if(check==-1){
+                layoutCtx.moveTo((tempArr[j]%100)*10, Math.floor(tempArr[j]/100)*10);
+                layoutCtx.lineTo((tempArr[j]%100)*10+10, Math.floor(tempArr[j]/100)*10);
+
+                var temp1 = ((tempArr[j]%100)*10+10);
+                var temp2 = (Math.floor(tempArr[j]/100)*10);
+                //console.log("--"+(temp1-10)+" and "+temp2+"--");
+                //console.log("--"+temp1+" and "+temp2+"--");
+                //console.log("check up:"+check);
+            }
+
+            check = $.inArray(tempArr[j]+1,tempArr);
+            if(check==-1){
+                layoutCtx.moveTo((tempArr[j]%100)*10+10, Math.floor(tempArr[j]/100)*10);
+                layoutCtx.lineTo((tempArr[j]%100)*10+10, Math.floor(tempArr[j]/100)*10+10);
+
+                var temp1 = ((tempArr[j]%100)*10+10);
+                var temp2 = (Math.floor(tempArr[j]/100)*10+10);
+                //console.log("--"+temp1+" and "+(temp2-10)+"--");
+                //console.log("--"+temp1+" and "+temp2+"--");
+                //console.log("check right:"+check);
+            }
+
+            check = $.inArray(tempArr[j]+100,tempArr);
+            if(check==-1){
+                layoutCtx.moveTo((tempArr[j]%100)*10+10, Math.floor(tempArr[j]/100)*10+10);
+                layoutCtx.lineTo((tempArr[j]%100)*10, Math.floor(tempArr[j]/100)*10+10);
+
+                var temp1=((tempArr[j]%100)*10);
+                var temp2 = (Math.floor(tempArr[j]/100)*10+10);
+                //console.log("--"+(temp1+10)+" and "+temp2+"--");
+                //console.log("--"+temp1+" and "+temp2+"--");
+                //console.log("check down:"+check);
+            }
+
+            check = $.inArray(tempArr[j]-1,tempArr);
+            if(check==-1){
+                layoutCtx.moveTo((tempArr[j]%100)*10, Math.floor(tempArr[j]/100)*10);
+                layoutCtx.lineTo((tempArr[j]%100)*10, Math.floor(tempArr[j]/100)*10+10);
+
+                var temp1=((tempArr[j]%100)*10);
+                var temp2 = (Math.floor(tempArr[j]/100)*10+10);
+                //console.log("--"+temp1+" and "+(temp2-10)+"--");
+                //console.log("--"+temp1+" and "+temp2+"--");
+                //console.log("check left:"+check);
+            }
+            layoutCtx.strokeStyle = "black";
+            layoutCtx.stroke();
+
+            isRegionized = true;
+
+        }
+    }
+}
+
+function showColourBounds(tempArr){
 
     var count = 255;
     for(var i=0; i<collection.length;i++){
 
-        var tempArr = collection[i];
+        //var tempArr = collection[i];
 
         for(var j=1; j<tempArr.length;j++){
             var posX = Math.floor(tempArr[j]/100)*10;
             var posY = (tempArr[j]%100)*10;
             //console.log(tempArr[j]+" : "+posX+" and "+ posY);
-            //pixelCtx.clearRect(posY,posX, 10, 10);
-            //pixelCtx.fillStyle ='rgba(' +
-            //    count + ',0,0,255' +
-            //    ')';
-            //pixelCtx.lineWidth = 0.1;
-            //pixelCtx.strokeRect(posY,posX, 10, 10);
-            //pixelCtx.fillRect(posY,posX, 10, 10);
+            pixelCtx.clearRect(posY,posX, 10, 10);
+            pixelCtx.fillStyle ='rgba(' +
+                count + ',0,0,255' +
+                ')';
+            pixelCtx.lineWidth = 0.1;
+            pixelCtx.strokeRect(posY,posX, 10, 10);
+            pixelCtx.fillRect(posY,posX, 10, 10);
         }
     }
 }
@@ -288,7 +408,7 @@ function undo() {
     var pixelDistY = 10;
 //clearing the canvas before draw
     pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
-    console.log(rdArr.length + " " + pixelCanvas.width);
+    //console.log(rdArr.length + " " + pixelCanvas.width);
 //redrawing the image data in the canvas to get pixelated pattern
     for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
         for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
