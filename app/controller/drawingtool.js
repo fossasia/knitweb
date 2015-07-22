@@ -179,7 +179,9 @@ function getColorBounds() {
 }
 
 // function for checking for colour boundaries
-function checkBounds() {
+function checkBounds(check) {
+    if (check.checked) {
+    isRegionized = true;
     getColorBounds()
     var colourList = [];
     collection = [];
@@ -273,6 +275,10 @@ function checkBounds() {
     }
     removeDupColours();
     showColourBounds();
+} else if(!check.checked) {
+        isRegionized = false;
+    }
+
 
 }
 
