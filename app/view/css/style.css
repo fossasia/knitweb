@@ -44,10 +44,27 @@
     padding: 20px;
 }
 
-#container{
-    position: relative;
+.panel {
+    float: left;
+    margin-left: 2%;
+    margin-top: 10px;
+    border: groove 1px lightgrey;
+    width: 200px;
+    height: 60px;
 }
 
-#canvas,#layoutCanvas{
+.canvas {
+    border:1px solid grey;
+    margin-left: 10px;
+    float: left;
+}
+
+#container{
+    position: relative;
+    float: left;
+    width:1000px;height:1000px;
+}
+
+#canvas,#layoutCanvas,#gridCanvas{
     position: absolute;
 }

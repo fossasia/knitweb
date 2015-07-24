@@ -46,6 +46,42 @@ function getDeviceType(){
     });
 }
 
+function getAvailablePorts(){
+    var isSet = false;
+    var parsedObj;
+
+    $.ajax({
+        url: 'http://localhost:8000/api',
+        type: 'GET',
+        dataType: 'jsonp',
+        jsonp: "callback",
+        jsonpCallback: 'callback',
+        crossDomain: true,
+        success: function (json) {
+            isSet = true;
+            var obj = JSON.stringify(json);
+            parsedObj = JSON.parse(obj);
+            console.log(parsedObj);
+            var portList = document.getElementById("port_list");
+            var option = document.createElement("option");
+            option.text = parsedObj.message;
+            portList.add(option);
+        },
+        error: function (msg) {
+
+            console.log(msg);
+        }
+    });
+
+
+    //window.setTimeout(function(){alertFunc(isSet)}, 30);
+}
+
+function alertFunc(bool) {
+    if(bool)
+    alert("port details retrieved");
+}
+
 
 
 

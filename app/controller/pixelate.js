@@ -10,7 +10,6 @@ function pixelate() {
     var canvas = document.getElementById('canvas2');
     var ctx = canvas.getContext('2d');
 
- //   var blocks = document.getElementById('blocks');
     var img = document.getElementById("previewCanvas");
 
     //adjust canvas size
@@ -26,8 +25,6 @@ function pixelate() {
     ctx.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height);
 
 }
-
-//blocks.addEventListener('change', pixelate, false);
 
 window.requestAnimationFrame = (function () {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {

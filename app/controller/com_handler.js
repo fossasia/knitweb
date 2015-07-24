@@ -1,0 +1,5 @@
+
+
+function refreshPorts() {
+    getAvailablePorts();
+}
