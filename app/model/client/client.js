@@ -51,30 +51,52 @@ function getAvailablePorts(){
     var parsedObj;
 
     $.ajax({
-        url: 'http://localhost:8000/api',
+        url: 'http://localhost:8000/v1/get_ports',
         type: 'GET',
         dataType: 'jsonp',
         jsonp: "callback",
-        jsonpCallback: 'callback',
+        jsonpCallback: 'availablePorts',
         crossDomain: true,
         success: function (json) {
             isSet = true;
             var obj = JSON.stringify(json);
             parsedObj = JSON.parse(obj);
-            console.log(parsedObj);
             var portList = document.getElementById("port_list");
             var option = document.createElement("option");
             option.text = parsedObj.message;
             portList.add(option);
         },
         error: function (msg) {
-
             console.log(msg);
         }
     });
 
 
     //window.setTimeout(function(){alertFunc(isSet)}, 30);
+}
+
+function getMachineType(){
+    var parsedObj;
+    $.ajax({
+        url: 'http://localhost:8000/v1/get_machine_type',
+        type: 'GET',
+        dataType: 'jsonp',
+        jsonp: "callback",
+        jsonpCallback: 'machineType',
+        crossDomain: true,
+        success: function (json) {
+            isSet = true;
+            var obj = JSON.stringify(json);
+            parsedObj = JSON.parse(obj);
+            var portList = document.getElementById("machine_list");
+            var option = document.createElement("option");
+            option.text = parsedObj.message;
+            portList.add(option);
+        },
+        error: function (msg) {
+            console.log(msg);
+        }
+    });
 }
 
 function alertFunc(bool) {
