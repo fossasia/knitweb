@@ -7,3 +7,7 @@ function refreshPorts() {
 function updateMachineType(){
     getMachineType();
 }
+
+function sendImgData(imgData){
+    sendImageData(imgData);
+}

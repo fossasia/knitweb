@@ -20,15 +20,22 @@ function authenticate() {
 
 function sendImageData(imgData) {
 
+    var parsedResponse;
+
     $.ajax({
-        url: 'http://127.0.0.1:8000/send',
+        url: 'http://localhost:8000/v1/setImageData',
         type: 'POST',
-        data: {imgData:imgData},
-        success: function (status) {
-            alert(status);
+        data:{imgData:imgData},
+        dataType: 'jsonp',
+        jsonpCallback: 'setImageData',
+        crossDomain: true,
+        success: function (json) {
+            isSet = true;
+            var res = JSON.stringify(json);
+            parsedResponse = JSON.parse(res);
         },
-        error: function (msg) {
-            alert(msg);
+        error: function (err) {
+            console.log(err);
         }
     });
 }
@@ -40,8 +47,8 @@ function getDeviceType(){
         success: function (res) {
             deviceType = res;
         },
-        error: function (msg) {
-            alert(msg);
+        error: function (err) {
+            alert(err);
         }
     });
 }
@@ -66,8 +73,8 @@ function getAvailablePorts(){
             option.text = parsedObj.message;
             portList.add(option);
         },
-        error: function (msg) {
-            console.log(msg);
+        error: function (err) {
+            console.log(err);
         }
     });
 
@@ -93,8 +100,8 @@ function getMachineType(){
             option.text = parsedObj.message;
             portList.add(option);
         },
-        error: function (msg) {
-            console.log(msg);
+        error: function (err) {
+            console.log(err);
         }
     });
 }
