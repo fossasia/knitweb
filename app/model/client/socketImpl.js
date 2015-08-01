@@ -7,12 +7,13 @@ function WebSocketTest()
 
         connection.onopen = function() {
             // Web Socket is connected, send data using send()
-            ws.send("Message to send");
+            connection.send("Message to send");
             console.log("Message sent");
         };
 
         connection.onmessage = function (evt) {
             var received_msg = evt.data;
+            decode(received_msg);
             console.log(received_msg);
         };
 
@@ -30,11 +31,13 @@ function WebSocketTest()
         // The browser doesn't support WebSocket
         alert("WebSocket NOT supported by your Browser!");
     }
+}
 
-    // Sending String
-    connection.send('your message');
 
-// Sending canvas ImageData as ArrayBuffer
+function sendImageData(){
+    var connection = new WebSocket("ws://localhost:8888/sendImgData",['json']);
+
+    // Sending canvas ImageData as ArrayBuffer
     var img = pixelCtx.getImageData(0, 0, 1000, 1000);
     var binary = new Uint8Array(img.data.length);
     for (var i = 0; i < img.data.length; i++) {
@@ -42,7 +45,17 @@ function WebSocketTest()
     }
     connection.send(binary.buffer);
 
-// Sending file as Blob
+    // Sending file as Blob
     var file = document.querySelector('input[type="file"]').files[0];
     connection.send(file);
+}
+
+function decode (msg){
+    var parsedObj = JSON.parse(msg);
+
+    if(parsedObj.message[0].messageType=="progress"){
+        var value = parsedObj.message[0].value;
+        console.log("progress value: "+value);
+    }
+
 }

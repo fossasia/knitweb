@@ -162,13 +162,8 @@ function colourChange() {
 
 var data;
 function getColorBounds() {
-    var height = pixelCanvas.height;
-    var width = pixelCanvas.width;
-    var count = 0;
     var imgData = pixelCtx.getImageData(0, 0, pixelCanvas.width, pixelCanvas.height);
     data = imgData.data;
-    //console.log("height: " + height + " width: " + width + " " + data.length);
-    var check = 0;
     for (var i = 0; i < 100; i++) {
         for (var j = 0; j < 100; j++) {
             var pos = 4000 * 10 * i + (4000 * 4) + 4 * 4 + 10 * j * 4;
@@ -182,7 +177,7 @@ function getColorBounds() {
 function checkBounds(check) {
     if (check.checked) {
     isRegionized = true;
-    getColorBounds()
+    getColorBounds();
     var colourList = [];
     collection = [];
     var startGridPosX = startPixelX / 10;
@@ -276,10 +271,8 @@ function checkBounds(check) {
     removeDupColours();
     showColourBounds();
 } else if(!check.checked) {
-        isRegionized = false;
+        isRegionized =false;
     }
-
-
 }
 
 //function for removing overlapping regions returned by the process
@@ -324,7 +317,6 @@ function removeDupColours() {
         }
     }
 
-
     for (var i = 0; i < pairs.length; i++) {
 
         var pos = pairs[i].split(',');
@@ -335,7 +327,6 @@ function removeDupColours() {
         collection[pos[1]].push(-1);
         collection[pos[0]] = [];
         collection[pos[0]] = mergedArr;
-        //console.log(mergedArr);
 
     }
 
@@ -347,7 +338,7 @@ function removeDupColours() {
             instanceArr.push(tempArray);
         }
     }
-    collection = [];
+  //  collection = [];
     collection = instanceArr;
 }
 
@@ -407,7 +398,7 @@ function showColourBounds() {
                 layoutCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
 
             }
-            layoutCtx.strokeStyle = "black";
+            layoutCtx.strokeStyle = "rgba(0,0,0,255)";
             layoutCtx.stroke();
 
             isRegionized = true;
@@ -420,8 +411,6 @@ function showColourRegions(tempArr) {
 
     var count = 255;
     for (var i = 0; i < collection.length; i++) {
-
-        //var tempArr = collection[i];
 
         for (var j = 1; j < tempArr.length; j++) {
             var posX = Math.floor(tempArr[j] / 100) * 10;
@@ -444,7 +433,7 @@ function undo() {
     var pixelDistY = 10;
 //clearing the canvas before draw
     pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
-    //console.log(rdArr.length + " " + pixelCanvas.width);
+
 //redrawing the image data in the canvas to get pixelated pattern
     for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
         for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
