@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Knitting Web App</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<h1>
+    <center>Welcome to Knitting Web App</center>
+</h1>
+
+<div>
+    <fieldset>
+        <p id="status">Load a Pattern</p>
+
+        <div id="progressbar"></div>
+        <input id="file" type="file" />
+    </fieldset>
+    <br>
+    <div class="img-outer">
+        <div id="img_inner" class="img-inner">
+            <img id="img_loader" src="#"/>
+            <img id="test" src="#" style="display: none"/>
+        </div>
+        <div id="preview" class="preview-box">
+            <canvas id="previewCanvas" width="350" height="350" style="border: solid 1px grey"></canvas>
+            <input id="cropCheck" type="checkbox">Crop Enable</input>
+            <button>Crop</button>
+            <button id="rotateLeftBtn">Rotate<-</button>
+            <button id="rotateRightBtn">Rotate-></button>
+        </div>
+        <div class="right-to-img-loader">
+            <button id="addBtn">Add Yarn Colour</button>
+            <table id="previewTable">
+            </table>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <fieldset>
+        <button >Generate Pattern</button>
+        <br>
+        <p>Preview of the pattern</p>
+
+        <div>
+            <div>
+                <div id="container" style="float: left;">
+                    <canvas id="canvas" class="canvas" width=1000 height=1000></canvas>
+                    <canvas id="gridCanvas" class="canvas" width="1000" height="1000"></canvas>
+                    <canvas id="layoutCanvas" class="canvas" width="1000" height="1000"></canvas>
+                </div>
+                <div style="float: left;margin-left: 2%">
+                    <div id="picker1"></div>
+                    <button>Add</button>
+                    <button>Delete</button>
+                    <button>Undo</button>
+                    <!--<button onclick="checkBounds()">test</button>-->
+                </div>
+                <br>
+                <div class="panel">
+                    columns: <input id="widthInput" class="input-params" type="text" value="100"></br>
+                    rows: <input id="heightInput" class="input-params" type="text" value="100">
+                </div>
+                <div class="panel">
+                    <input type="checkbox">Show Colour Regions
+                </div>
+                <br>
+                <div class="panel">
+                    <input type="radio" name="areaTool" id="freeHandSelect">Free Hand<br>
+                    <input type="radio" name="areaTool" id="squareSelect" checked="checked">Square
+                </div>
+                <div class="panel">
+                    <select id="port_list"></select>
+                    <button>Refresh Ports</button>
+                </div>
+                <div class="panel">
+                    <select id="machine_list"></select>
+                    <button>Machine Type</button>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            <canvas id="canvas2" width=1000 height=1000 style="display: none"></canvas>
+        </div>
+        <div style="display: none">
+            <button style="display: inline">Pixelate</button>
+            <button>Clear</button>
+            <br>
+        </div>
+        <br>
+        <br>
+    </fieldset>
+</div>
+</body>
+</html>

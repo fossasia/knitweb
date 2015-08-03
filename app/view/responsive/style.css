@@ -1,0 +1,97 @@
+.color-box {
+    float:left;
+    width:50px;
+    height:30px;
+    margin:5px;
+    border: 1px solid white;
+}
+
+#img_loader {
+    border:1px solid black;
+    display: inline;
+    width: 350px;
+    height: 350px;
+}
+
+#test {
+    width: 350px;
+    height: 350px;
+    display: none;
+}
+
+.preview-box {
+    height: 350px;
+    width: 350px;
+    float: left;
+    margin-left: 50px;
+}
+
+.right-to-img-loader {
+    height: 350px;
+    display: block;
+    float: left;
+    margin-left: 50px;
+    background-color: beige;
+}
+
+.clear {
+    clear: both;
+}
+
+.img-inner {
+    width: 350px;
+    height: 350px;
+    display: block;
+    float: left;
+    border: solid 1px gray;
+}
+
+.img-outer {
+    width: auto;
+    height: 350px;
+    margin: 30px;
+    padding: 20px;
+}
+
+.panel {
+    float: left;
+    margin-left: 2%;
+    margin-top: 10px;
+    border: groove 1px lightgrey;
+    width: 200px;
+    height: 60px;
+}
+
+.canvas {
+    border:1px solid grey;
+    float: left;
+}
+
+.input-params{
+    width: 40px;
+}
+
+#container{
+    position: relative;
+    float: left;
+    width:1000px;height:1000px;
+}
+
+#canvas,#layoutCanvas,#gridCanvas{
+    position: absolute;
+}
+
+@media (max-width: 1200px) {
+
+    #container{
+        position: relative;
+        float: left;
+        width:100%;
+        height:auto;
+    }
+
+    .canvas {
+        width: 100%;
+        height: auto;
+    }
+}
