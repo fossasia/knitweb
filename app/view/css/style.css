@@ -68,6 +68,10 @@
     float: left;
 }
 
+.input-params{
+    width: 40px;
+}
+
 #container{
     position: relative;
     float: left;

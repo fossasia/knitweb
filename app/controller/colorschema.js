@@ -8,20 +8,19 @@ var bArr = [];
 var imageDataArr = [];
 var imageArr = [];
 var list;
-
 var rowCount;
 var isFreeHand = false;
 
 window.onload = function () {
-    for (var i = 0; i <= 100; i++) {
+    for (var i = 0; i <= numOfColumns; i++) {
         imageDataArr[i] = [];
         imageArr[i] = [];
-        for (var j = 0; j <= 100; j++) {
+        for (var j = 0; j <= numOfRows; j++) {
             imageDataArr[i][j] = false;
             imageArr[i][j] = false;
         }
     }
-}
+};
 
 window.addEventListener('load', function (ev) {
     rowCount = 0;
@@ -31,7 +30,6 @@ var canvas = document.getElementById("canvas2");
 var pixelCanvas = document.getElementById("canvas");
 var pixelCtx = pixelCanvas.getContext("2d");
 var ctx = canvas.getContext("2d");
-
 var layoutCanvas = document.getElementById("layoutCanvas");
 var layoutCtx = layoutCanvas.getContext("2d");
 
@@ -47,16 +45,14 @@ $('#addBtn').colpick({
         lArr[rowCount] = rgb.b;
         addButtonClick(hex);
         var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-
     }
-})
+});
 
 $('#picker1').colpick({
     flat: true,
     layout: 'hex',
     submit: 0
 });
-
 
 $('.color-box').colpick({
     colorScheme: 'dark',
@@ -66,7 +62,7 @@ $('.color-box').colpick({
         $(el).css('background', '#' + hex);
         $(el).colpickHide();
     }
-})
+});
 
 //deleting a single pixel selected
 function pixelDel() {
@@ -85,7 +81,6 @@ function rgbToHsl(r, g, b) {
     var max = Math.max(r, g, b),
         min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
-
     if (max == min) {
         h = s = 0; // achromatic
     } else {
@@ -104,7 +99,6 @@ function rgbToHsl(r, g, b) {
         }
         h /= 6;
     }
-
     return ({
         h: h,
         s: s,
@@ -114,16 +108,13 @@ function rgbToHsl(r, g, b) {
 
 //add colour to the pattern selected from colour pallette
 function addButtonClick(hex) {
-
     rowCount++;
     var tableRef = document.getElementById('previewTable');
     var newRow = tableRef.insertRow(tableRef.rows.length);
     var newCell = newRow.insertCell(0);
-
     newCell.setAttribute('class', "color-box");
     newCell.setAttribute('style', "border: solid 1px black;background-color:#" + hex);
     newCell.appendChild(newCell);
-
 }
 
 function clear() {
@@ -135,22 +126,19 @@ function clear() {
 //pixelating algo function
 function getColourValues() {
 
-    var pixelWidth = canvas.width / 100;
-    var pixelHeight = canvas.height / 100;
-
+    var pixelWidth = canvas.width / numOfColumns;
+    var pixelHeight = canvas.height / numOfRows;
     var height = canvas.height;
     var width = canvas.width;
-
     var count = 0;
+    console.log(pixelWidth+" "+pixelHeight);
 
-    //colour mapping logic for roundup the image colour values with available yarn colours.
+//colour mapping logic for roundup the image colour values with available yarn colours.
     for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
         for (var j = pixelWidth / 2; j < width; j += pixelWidth) {
-
             var imgData = ctx.getImageData(i, j, 1, 1);
             var data = imgData.data;
             var minRGB = 10000000;
-
             for (var k = 0; k < rowCount; k++) {
                 var rDist = rArr[k] * rArr[k] - data[0] * data[0];
                 var gDist = sArr[k] * sArr[k] - data[1] * data[1];
@@ -158,7 +146,6 @@ function getColourValues() {
                 if (rDist < 0)rDist = -rDist;
                 if (gDist < 0)gDist = -gDist;
                 if (bDist < 0)bDist = -bDist;
-
                 if ((rDist + gDist + bDist) < minRGB) {
                     minRGB = rDist + gDist + bDist;
                     rdArr[count] = rArr[k];
@@ -169,23 +156,20 @@ function getColourValues() {
             count++;
         }
     }
-
     var pixelCount = 0;
-    var pixelDistX = 10;
-    var pixelDistY = 10;
+    var pixelDistX = pixelCanvas.width / numOfColumns;
+    var pixelDistY = pixelCanvas.height / numOfRows;
 
-    //clearing the canvas before draw
+//clearing the canvas before draw
     pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
-
-    //redrawing the image data in the canvas to get pixelated pattern
+//redrawing the image data in the canvas to get pixelated pattern
     for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
         for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
             pixelCtx.fillStyle = 'rgba(' +
                 rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
                 bArr[pixelCount] + ',255' +
                 ')';
-
-            pixelCtx.lineWidth = 0.01;
+            pixelCtx.lineWidth = 0.1;
             pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
             pixelCtx.fillRect(i, j, pixelDistX, pixelDistY);
             pixelCount++;

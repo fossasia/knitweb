@@ -14,25 +14,18 @@ function readURL(input) {
                 .height(350);
             var canvas = document.getElementById('previewCanvas');
             var context = canvas.getContext('2d');
-            setTimeout(function(){context.drawImage(img_loader, 0, 0, canvas.width, canvas.height);},100);
+            setTimeout(function(){context.drawImage(img_loader, 0, 0, canvas.width, canvas.height);crop();},100);
 
 
-        }
+        };
         reader.readAsDataURL(input.files[0]);
     }
 
-    var blocks = document.getElementById('blocks');
-    blocks.addEventListener('change', pixelate, false);
 }
 
 $("#file").change(function () {
     readURL(this);
 });
-
-
-function getURL() {
-    return url;
-}
 
 function file_select_handler(to_upload) {
     var progressbar = $('#progressbar');

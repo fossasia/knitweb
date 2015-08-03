@@ -5,6 +5,9 @@ var imgAvgData = [];
 var collection = [];
 var isRegionized = false;
 
+var gridCanvas = document.getElementById("gridCanvas");
+var gridCtx = gridCanvas.getContext("2d");
+
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
     var mousemove = false;
@@ -14,7 +17,7 @@ layoutCanvas.onmousedown = function (e) {
     startX = e.clientX - rect.left;
     startY = e.clientY - rect.top;
     if (!isRegionized)
-        layoutCtx.clearRect(0, 0, 1000, 1000);
+        gridCtx.clearRect(0, 0, 1000, 1000);
     prevPixelX = Math.floor(startX / 10) * 10;
     prevPixelY = Math.floor(startY / 10) * 10;
 
@@ -40,7 +43,6 @@ layoutCanvas.onmousedown = function (e) {
             layoutCtx.lineWidth = 1;
             layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
         }
-
 //start from here
         if (isFreeHand) {
             layoutCtx.beginPath();
@@ -98,12 +100,14 @@ layoutCanvas.onclick = function () {
         var colourVal = imgAvgData[100 * startPixelY / 10 + startPixelX / 10];
         console.log(100 * startPixelY / 10 + startPixelX / 10);
 
-        for (var i = 0; collection.length; i++) {
+        for (var i = 0; i< collection.length; i++) {
             var arr = collection[i];
+            //console.log(i);
             if (arr[0] === colourVal) {
                 var check = $.inArray(100 * startPixelY / 10 + startPixelX / 10, arr);
                 if (check !== -1) {
                     showColourRegions(arr);
+                    console.log("got here");
                 }
             }
         }
@@ -176,102 +180,101 @@ function getColorBounds() {
 // function for checking for colour boundaries
 function checkBounds(check) {
     if (check.checked) {
-    isRegionized = true;
-    getColorBounds();
-    var colourList = [];
-    collection = [];
-    var startGridPosX = startPixelX / 10;
-    var startGridPosY = startPixelY / 10;
-    var endGridPosX = (startPixelX + pixelWidth) / 10;
-    var endGridPosY = (startPixelY + pixelHeight) / 10;
+        isRegionized = true;
+        getColorBounds();
+        var colourList = [];
+        collection = [];
+        var startGridPosX = startPixelX / 10;
+        var startGridPosY = startPixelY / 10;
+        var endGridPosX = (startPixelX + pixelWidth) / 10;
+        var endGridPosY = (startPixelY + pixelHeight) / 10;
 //traverse grid through selected region
-    for (var i = startGridPosY; i < endGridPosY; i++) {
-        for (var j = startGridPosX; j < endGridPosX; j++) {
+        for (var i = startGridPosY; i < endGridPosY; i++) {
+            for (var j = startGridPosX; j < endGridPosX; j++) {
 
-            var tempVal = imgAvgData[100 * i + j];
-            var check = $.inArray(tempVal, colourList);
-            if (check !== -1) {
-                colourList.push(tempVal);
-            }
-            var innerCheck = -1;
-            var kVal = -1, pos = -1;
-            for (var k = 0; k < collection.length; k++) {
-                var tempArray = collection[k];
-                innerCheck = $.inArray(100 * i + j, tempArray);
-                if (innerCheck > -1) {
-                    kVal = k;
-                    pos = innerCheck;
-                    break;
+                var tempVal = imgAvgData[100 * i + j];
+                var check = $.inArray(tempVal, colourList);
+                if (check !== -1) {
+                    colourList.push(tempVal);
+                }
+                var innerCheck = -1;
+                var kVal = -1, pos = -1;
+                for (var k = 0; k < collection.length; k++) {
+                    var tempArray = collection[k];
+                    innerCheck = $.inArray(100 * i + j, tempArray);
+                    if (innerCheck > -1) {
+                        kVal = k;
+                        pos = innerCheck;
+                        break;
+                    }
+                }
+                if (innerCheck == -1) {
+                    var newArr = [];
+                    newArr[0] = tempVal;
+                    newArr.push(100 * i + j);
+                    collection.push(newArr);
+                    kVal = collection.length - 1;
+                    pos = 0;
+                }
+//setting homogeneous neighbouring colour grid positions
+                var arr = collection[kVal];
+                if ((j - 1) >= startGridPosX && imgAvgData[100 * i + j - 1] === tempVal) {
+                    arr.push(100 * i + j - 1);
+                }
+                if ((j + 1) < endGridPosX && imgAvgData[100 * i + j + 1] === tempVal) {
+                    arr.push(100 * i + j + 1);
+                }
+                if ((j - 1) >= startGridPosX && (i - 1) >= startGridPosY && imgAvgData[100 * (i - 1) + j - 1] === tempVal) {
+                    arr.push(100 * (i - 1) + j - 1);
+                }
+                if ((i - 1) >= startGridPosY && imgAvgData[100 * (i - 1) + j] === tempVal) {
+                    arr.push(100 * (i - 1) + j);
+                }
+                if ((i - 1) >= startGridPosY && (j + 1) < endGridPosX && imgAvgData[100 * (i - 1) + j + 1] === tempVal) {
+                    arr.push(100 * (i - 1) + j + 1);
+                }
+                if ((j - 1) >= startGridPosX && (i + 1) < endGridPosY && imgAvgData[100 * (i + 1) + j - 1] === tempVal) {
+                    arr.push(100 * (i + 1) + j - 1);
+                }
+                if ((i + 1) < endGridPosY && imgAvgData[100 * (i + 1) + j] === tempVal) {
+                    arr.push(100 * (i + 1) + j);
+                }
+                if ((i + 1) < endGridPosY && (j + 1) < endGridPosX && imgAvgData[100 * (i + 1) + j + 1] === tempVal) {
+                    arr.push(100 * (i + 1) + j + 1);
                 }
             }
-            if (innerCheck == -1) {
-                var newArr = [];
-                newArr[0] = tempVal;
-                newArr.push(100 * i + j);
-                collection.push(newArr);
-                kVal = collection.length - 1;
-                pos = 0;
-            }
-//setting homogeneous neighbouring colour grid positions
-            var arr = collection[kVal];
-            if ((j - 1) >= startGridPosX && imgAvgData[100 * i + j - 1] === tempVal) {
-                arr.push(100 * i + j - 1);
-            }
-            if ((j + 1) < endGridPosX && imgAvgData[100 * i + j + 1] === tempVal) {
-                arr.push(100 * i + j + 1);
-            }
-            if ((j - 1) >= startGridPosX && (i - 1) >= startGridPosY && imgAvgData[100 * (i - 1) + j - 1] === tempVal) {
-                arr.push(100 * (i - 1) + j - 1);
-            }
-            if ((i - 1) >= startGridPosY && imgAvgData[100 * (i - 1) + j] === tempVal) {
-                arr.push(100 * (i - 1) + j);
-            }
-            if ((i - 1) >= startGridPosY && (j + 1) < endGridPosX && imgAvgData[100 * (i - 1) + j + 1] === tempVal) {
-                arr.push(100 * (i - 1) + j + 1);
-            }
-            if ((j - 1) >= startGridPosX && (i + 1) < endGridPosY && imgAvgData[100 * (i + 1) + j - 1] === tempVal) {
-                arr.push(100 * (i + 1) + j - 1);
-            }
-            if ((i + 1) < endGridPosY && imgAvgData[100 * (i + 1) + j] === tempVal) {
-                arr.push(100 * (i + 1) + j);
-            }
-            if ((i + 1) < endGridPosY && (j + 1) < endGridPosX && imgAvgData[100 * (i + 1) + j + 1] === tempVal) {
-                arr.push(100 * (i + 1) + j + 1);
-            }
         }
-    }
-    //sorting colour list values according to their respective positions
-    for (var i = 0; i < collection.length; i++) {
+        //sorting colour list values according to their respective positions
+        for (var i = 0; i < collection.length; i++) {
 
-        var tempArray = collection[i];
-        var dupArr = tempArray.slice(1, tempArray.length);
-        dupArr = dupArr.sort(function (a, b) {
-            return a - b
-        });
+            var tempArray = collection[i];
+            var dupArr = tempArray.slice(1, tempArray.length);
+            dupArr = dupArr.sort(function (a, b) {
+                return a - b
+            });
 
-        var max = -1;
-        var cpyArr = [];
-        cpyArr[0] = tempArray[0];
-        for (var j = 0; j < dupArr.length; j++) {
-            if (max < dupArr[j]) {
-                max = dupArr[j];
-                cpyArr.push(max);
+            var max = -1;
+            var cpyArr = [];
+            cpyArr[0] = tempArray[0];
+            for (var j = 0; j < dupArr.length; j++) {
+                if (max < dupArr[j]) {
+                    max = dupArr[j];
+                    cpyArr.push(max);
+                }
             }
+            //var resultString = "colour value1#:" + cpyArr[0] + " :";
+            //for (var j = 1; j < cpyArr.length; j++) {
+            //    resultString += "," + cpyArr[j];
+            //}
+            //console.log(resultString);
+
+            collection[i] = [];
+            collection[i] = cpyArr;
         }
-        //var resultString = "colour value1#:" + cpyArr[0] + " :";
-        //for (var j = 1; j < cpyArr.length; j++) {
-        //    resultString += "," + cpyArr[j];
-        //}
-        //console.log(resultString);
-
-        collection[i] = [];
-        collection[i] = cpyArr;
-
-    }
-    removeDupColours();
-    showColourBounds();
-} else if(!check.checked) {
-        isRegionized =false;
+        removeDupColours();
+        showColourBounds();
+    } else if (!check.checked) {
+        isRegionized = false;
     }
 }
 
@@ -287,7 +290,7 @@ function removeDupColours() {
 
     for (var i = 0; i < collection.length; i++) {
         var tempArray = collection[i];
-        var dupArr = tempArray.slice(1, tempArray.length-1);
+        var dupArr = tempArray.slice(1, tempArray.length - 1);
         dupArr = dupArr.sort(function (a, b) {
             return a - b
         });
@@ -310,7 +313,7 @@ function removeDupColours() {
             }
             //       console.log(result);
 
-            if (!resultStr.contains(result)) {
+            if (resultStr.indexOf(result) == -1) {
                 pairs.push(result);
             }
             resultStr += result;
@@ -338,7 +341,7 @@ function removeDupColours() {
             instanceArr.push(tempArray);
         }
     }
-  //  collection = [];
+    //  collection = [];
     collection = instanceArr;
 }
 
@@ -365,41 +368,42 @@ function merge(a, b) {
 
 //function for visualizing of colour boundaries
 function showColourBounds() {
+
+
     for (var i = 0; i < collection.length; i++) {
 
         var tempArr = collection[i];
         var check;
 
-        layoutCtx.beginPath();
-        layoutCtx.moveTo((tempArr[1] % 100) * 10, Math.floor(tempArr[1] / 100) * 10);
+        gridCtx.beginPath();
+        gridCtx.moveTo((tempArr[1] % 100) * 10, Math.floor(tempArr[1] / 100) * 10);
         for (var j = 1; j < tempArr.length; j++) {
 
             check = $.inArray(tempArr[j] - 100, tempArr);
             if (check == -1) {
-                layoutCtx.moveTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10);
-                layoutCtx.lineTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10);
+                gridCtx.moveTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10);
+                gridCtx.lineTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10);
             }
 
             check = $.inArray(tempArr[j] + 1, tempArr);
             if (check == -1) {
-                layoutCtx.moveTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10);
-                layoutCtx.lineTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10 + 10);
+                gridCtx.moveTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10);
+                gridCtx.lineTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10 + 10);
             }
 
             check = $.inArray(tempArr[j] + 100, tempArr);
             if (check == -1) {
-                layoutCtx.moveTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10 + 10);
-                layoutCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
+                gridCtx.moveTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10 + 10);
+                gridCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
             }
 
             check = $.inArray(tempArr[j] - 1, tempArr);
             if (check == -1) {
-                layoutCtx.moveTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10);
-                layoutCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
-
+                gridCtx.moveTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10);
+                gridCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
             }
-            layoutCtx.strokeStyle = "rgba(0,0,0,255)";
-            layoutCtx.stroke();
+            gridCtx.strokeStyle = "rgba(0,0,0,255)";
+            gridCtx.stroke();
 
             isRegionized = true;
         }

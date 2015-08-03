@@ -40,8 +40,8 @@
         </div>
         <div id="preview" class="preview-box">
             <canvas id="previewCanvas" width="350" height="350" style="border: solid 1px grey"></canvas>
-            <input id="cropCheck" type="checkbox" onclick="crop()">Crop</input>
-            <button onclick="draw()">Draw</button>
+            <input id="cropCheck" type="checkbox" onclick="crop()">Crop Enable</input>
+            <button onclick="draw()">Crop</button>
             <button id="rotateLeftBtn" onclick="rotate(-90)">Rotate<-</button>
             <button id="rotateRightBtn" onclick="rotate(90)">Rotate-></button>
         </div>
@@ -73,6 +73,10 @@
                 </div>
                 <br>
                 <div class="panel">
+                    columns: <input id="widthInput" class="input-params" type="text" value="100"></br>
+                    rows: <input id="heightInput" class="input-params" type="text" value="100">
+                </div>
+                <div class="panel">
                     <input type="checkbox" onclick="checkBounds(this)">Show Colour Regions
                 </div>
                 <br>
@@ -90,7 +94,7 @@
                 </div>
                 <div style="clear:both;"></div>
             </div>
-            <canvas id="canvas2" width=400 height=400 style="display: none"></canvas>
+            <canvas id="canvas2" width=1000 height=1000 style="display: none"></canvas>
         </div>
         <div style="display: none">
             <button onclick="getColourValues()" style="display: inline">Pixelate</button>
