@@ -1,27 +1,30 @@
-function WebSocketTest()
-{
+function WebSocketTest() {
     if ("WebSocket" in window) {
         alert("WebSocket is supported by your Browser!");
 
-        var connection = new WebSocket("ws://localhost:8888/getProgess",['json']);
+        //create a connection for web socket
+        var connection = new WebSocket("ws://localhost:8888/getProgess", ['json']);
 
-        connection.onopen = function() {
+        //event for opening connection with the web socket
+        connection.onopen = function () {
             // Web Socket is connected, send data using send()
             connection.send("Message to send");
             console.log("Message sent");
         };
 
+        //event for getting json response from the web socket
         connection.onmessage = function (evt) {
             var received_msg = evt.data;
             decode(received_msg);
             console.log(received_msg);
         };
 
-        connection.onerror = function(err){
+        //event for getting error messages from web socket
+        connection.onerror = function (err) {
             console.log(err);
         }
 
-        connection.onclose = function() {
+        connection.onclose = function () {
             // websocket is closed.
             console.log("connection closed")
         };
@@ -34,8 +37,8 @@ function WebSocketTest()
 }
 
 
-function sendImageData(){
-    var connection = new WebSocket("ws://localhost:8888/sendImgData",['json']);
+function sendImageData() {
+    var connection = new WebSocket("ws://localhost:8888/sendImgData", ['json']);
 
     // Sending canvas ImageData as ArrayBuffer
     var img = pixelCtx.getImageData(0, 0, 1000, 1000);
@@ -50,12 +53,12 @@ function sendImageData(){
     connection.send(file);
 }
 
-function decode (msg){
+function decode(msg) {
     var parsedObj = JSON.parse(msg);
 
-    if(parsedObj.message[0].messageType=="progress"){
+    if (parsedObj.message[0].messageType == "progress") {
         var value = parsedObj.message[0].value;
-        console.log("progress value: "+value);
+        console.log("progress value: " + value);
     }
 
 }
