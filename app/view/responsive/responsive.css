@@ -1,0 +1,334 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Arial;
+	color: #333333;
+}
+
+.clear {
+	clear: both;
+}
+
+.left {
+	float: left;
+}
+
+.left:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.right {
+	float: right;
+}
+
+.right:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+
+/* Start Heading */
+#heading {
+	width: 100%;
+	padding: 16px 0;
+	background-color: #333333;
+	box-shadow: 0px 0px 8px;
+	position: fixed;
+	top: 0;
+	z-index: 1000;
+}
+
+#heading h1 {
+	width: 80%;
+	margin: 0 10%;
+	color: #dddddd;
+}
+/* End Heading */
+
+/* Start Wrapper */
+#wrapper {
+	width: 80%;
+	margin: 96px 10%;
+}
+/* End Wrapper */
+
+/* Start Upload File */
+#load-file {
+	padding: 16px;
+	border-radius: 4px 4px 0 0;
+	border: 1px solid #cccccc;
+	background-color: #eeeeee;
+}
+
+#load-file p#status {
+	padding: 8px 0;
+}
+/* End Upload File */
+
+/* Start Preview */
+#row-preview {
+	height: auto;
+	margin: 0;
+	padding: 16px;
+	background-color: #eeeeee;
+	border: 1px solid #cccccc;
+	border-top-color: #ffffff;
+}
+
+#row-preview #img_inner {
+	width: calc(42% - 2px);
+	margin: 0;
+	margin-right: 3%;
+	float: left;
+	background-image: url("placeholder.png");
+	background-size: 100% auto;
+	border: 1px solid #999999;
+	position: relative;
+}
+
+#row-preview #img_inner #img_loader {
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+#row-preview #img_inner #loader-controller-group {
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - 16px);
+	height: auto;
+	padding: 8px;
+	background-color: rgba(0,0,0,0.5);
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#row-preview #img_inner #loader-controller-group label {
+	color: #eeeeee;
+	line-height: 24px;
+}
+
+#row-preview #img_inner #loader-controller-group button {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 12px;
+	width: 24px;
+	height: 24px;
+}
+
+
+#row-preview #img_inner #loader-controller-group button:hover {
+	box-shadow: 0 0 8px #00FFFF !important;
+}
+
+#row-preview #img_inner #loader-controller-group button:focus {
+	outline: 0;
+	box-shadow: 0 0 8px #8FD8D8;
+}
+
+#row-preview #img_inner #loader-controller-group button img {
+	height: 24px;
+	width: 24px;
+}
+
+#row-preview #preview {
+	width: calc(42% - 2px);
+	margin: 0;
+	margin-right: 3%;
+	float: left;
+	border: 1px solid #999999;
+	position: relative;
+}
+
+#row-preview #preview canvas#previewCanvas {
+	width: 100%;
+	height: 100%;
+}
+
+#row-preview #preview #preview-controller-group {
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - 16px);
+	height: auto;
+	padding: 8px;
+	background-color: rgba(0,0,0,0.5);
+}
+
+#row-preview #preview #preview-controller-group button {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 12px;
+	width: 24px;
+	height: 24px;
+}
+
+#row-preview #preview #preview-controller-group button:hover {
+	box-shadow: 0 0 8px #00FFFF !important;
+}
+
+#row-preview #preview #preview-controller-group button:focus {
+	outline: 0;
+	box-shadow: 0 0 8px #8FD8D8;
+}
+
+#row-preview #preview #preview-controller-group button img {
+	height: 24px;
+	width: 24px;
+}
+
+#row-preview #yarn-colors {
+	width: calc(10% - 2px);
+	margin: 0;
+	float: left;
+	background-color: transparent;
+	border: 1px solid #999999;
+}
+
+#row-preview #yarn-colors button {
+	width: 80%;
+	margin: 10% 10% 4px 10%;
+}
+
+/*********************************
+	fix Vertical scroll of table
+**********************************/
+
+#row-preview #yarn-colors #previewTable {
+	margin: 0 10% 10% 10%;
+	width: 80%;
+	border: none;
+}
+
+#row-preview #yarn-colors #previewTable tbody {
+	width: 100%;
+}
+
+#row-preview #yarn-colors #previewTable tr {
+	width: 100%;
+}
+
+#row-preview #yarn-colors #previewTable td {
+	border-radius: 4px;
+	width: 100%;
+	display: block;
+	height: 24px;
+	margin: 2px 0;
+}
+/* End Preview */
+
+/* Start Generator */
+#generator {
+	height: auto;
+	margin: 0;
+	padding: 16px;
+	background-color: #eeeeee;
+	border: 1px solid #cccccc;
+	border-top-color: #ffffff;
+	text-align: center;
+}
+
+#generator button {
+	padding: 4px 8px;
+}
+/* End Generator */
+
+/* Start Generated */
+#row-generated {
+	height: auto;
+	margin: 0;
+	padding: 16px;
+	background-color: #eeeeee;
+	border: 1px solid #cccccc;
+	border-top-color: #ffffff;
+	position: relative;
+}
+
+#row-generated h3 {
+	padding: 16px 0;
+}
+
+#row-generated #container {
+	width: 60%;
+	margin: 0;
+	margin-right: 3%;
+	float: left;
+	position: relative;
+	display: block;
+}
+
+#row-generated #canvas,
+#row-generated #layoutCanvas,
+#row-generated #gridCanvas {
+    position: absolute;
+    border: none;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+	border: 1px solid #999999;
+	float: left;
+}
+
+#row-generated #controller-group-a {
+	width: 37%;
+	padding-bottom: 16px;
+	float: left;
+	border-bottom: 1px solid #aaaaaa;
+	border-top: none;
+}
+
+#row-generated #controller-group-a #picker1 {
+	/******************************
+	  Add color picker styles here
+	 ******************************/
+}
+
+#row-generated #controller-group-a button {
+	padding: 4px 8px;
+}
+
+#row-generated .panel {
+	padding: 16px 0;
+	width: 37%;
+	float: left;
+	border-bottom: 1px solid #aaaaaa;
+	border-top: 1px solid #ffffff;
+} 
+
+#row-generated .panel .input-group {
+	width: 100%;
+}
+
+#row-generated .panel .input-group .text-input-group {
+	width: 100%;
+	padding: 4px 0;
+}
+
+#row-generated .panel .input-group .text-input-group label {
+	width: calc(25% - 8px);
+	text-align: right;
+	display: block;
+	float: left;
+	padding: 4px;
+}
+
+#row-generated .panel .input-group .text-input-group input[type="text"] {
+	width: calc(75% - 12px);
+	float: left;
+	padding: 4px;
+}
+
+#row-generated .panel .input-group .text-input-group select, 
+#row-generated .panel .input-group .text-input-group button {
+	padding: 4px;
+}
+/* End Generated */

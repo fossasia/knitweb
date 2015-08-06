@@ -2,93 +2,203 @@
 <html>
 <head>
     <title>Knitting Web App</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <link rel="stylesheet" type="text/css" href="responsive.css">
+
+    <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
-<h1>
-    <center>Welcome to Knitting Web App</center>
-</h1>
-
-<div>
-    <fieldset>
-        <p id="status">Load a Pattern</p>
-
-        <div id="progressbar"></div>
-        <input id="file" type="file" />
-    </fieldset>
-    <br>
-    <div class="img-outer">
-        <div id="img_inner" class="img-inner">
-            <img id="img_loader" src="#"/>
-            <img id="test" src="#" style="display: none"/>
-        </div>
-        <div id="preview" class="preview-box">
-            <canvas id="previewCanvas" width="350" height="350" style="border: solid 1px grey"></canvas>
-            <input id="cropCheck" type="checkbox">Crop Enable</input>
-            <button>Crop</button>
-            <button id="rotateLeftBtn">Rotate<-</button>
-            <button id="rotateRightBtn">Rotate-></button>
-        </div>
-        <div class="right-to-img-loader">
-            <button id="addBtn">Add Yarn Colour</button>
-            <table id="previewTable">
-            </table>
-        </div>
-        <div class="clear"></div>
+    <div id="heading">
+        <h1>Welcome to Knitting Web App</h1>
     </div>
-    <fieldset>
-        <button >Generate Pattern</button>
-        <br>
-        <p>Preview of the pattern</p>
 
-        <div>
-            <div>
-                <div id="container" style="float: left;">
-                    <canvas id="canvas" class="canvas" width=1000 height=1000></canvas>
-                    <canvas id="gridCanvas" class="canvas" width="1000" height="1000"></canvas>
-                    <canvas id="layoutCanvas" class="canvas" width="1000" height="1000"></canvas>
+    <div id="wrapper">
+
+        <fieldset id="load-file">
+            <p id="status">Load a pattern</p>
+            <input id="file" type="file" />
+        </fieldset>
+
+        <div id="row-preview" class="img-outer">
+            <div id="img_inner" class="img-inner">
+                <img id="img_loader" src="#"/>
+                <img id="test" src="#" style="display: none" />
+
+                <div id="loader-controller-group">
+                    <label>
+                        <input id="cropCheck" type="checkbox">
+                        &nbsp;Enable cropping
+                    </label>
+                    <div class="right">
+                        <button title="Crop"><img src="crop.png"></button>
+                    </div>
                 </div>
-                <div style="float: left;margin-left: 2%">
-                    <div id="picker1"></div>
-                    <button>Add</button>
-                    <button>Delete</button>
-                    <button>Undo</button>
-                    <!--<button onclick="checkBounds()">test</button>-->
-                </div>
-                <br>
-                <div class="panel">
-                    columns: <input id="widthInput" class="input-params" type="text" value="100"></br>
-                    rows: <input id="heightInput" class="input-params" type="text" value="100">
-                </div>
-                <div class="panel">
-                    <input type="checkbox">Show Colour Regions
-                </div>
-                <br>
-                <div class="panel">
-                    <input type="radio" name="areaTool" id="freeHandSelect">Free Hand<br>
-                    <input type="radio" name="areaTool" id="squareSelect" checked="checked">Square
-                </div>
-                <div class="panel">
-                    <select id="port_list"></select>
-                    <button>Refresh Ports</button>
-                </div>
-                <div class="panel">
-                    <select id="machine_list"></select>
-                    <button>Machine Type</button>
-                </div>
-                <div style="clear:both;"></div>
             </div>
-            <canvas id="canvas2" width=1000 height=1000 style="display: none"></canvas>
+
+            <div id="preview" class="preview-box">
+                <canvas id="previewCanvas"></canvas>
+
+                <div id="preview-controller-group">
+                    <div class="right">
+                        <button id="rotateLeftBtn" title="Rotate left"><img src="rotate-acc.png"></button>
+                        <button id="rotateRightBtn" title="Rotate right"><img src="rotate-cc.png"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="yarn-colors" class="right-to-img-loader">
+                <button id="addBtn">Add Yarn Colour</button>
+                <table id="previewTable" cellspacing="0" cellpadding="0"></table>
+            </div>
+
+            <div class="clear"></div>
         </div>
-        <div style="display: none">
-            <button style="display: inline">Pixelate</button>
-            <button>Clear</button>
-            <br>
+
+        <div id="generator">
+            <button>Generate Pattern</button>
         </div>
-        <br>
-        <br>
-    </fieldset>
-</div>
+
+        <fieldset id="row-generated">
+            <h3>Pattern preview</h3>
+
+            <div>
+                <div>
+                    <div id="container">
+                        <canvas id="canvas" class="canvas"></canvas>
+                        <canvas id="gridCanvas" class="canvas"></canvas>
+                        <canvas id="layoutCanvas" class="canvas"></canvas>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div id="controller-group-a" class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <div id="picker1"></div>
+                            </div>
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <button>Add</button>
+                                <button>Delete</button>
+                                <button>Undo</button>
+                            </div>
+                        </div>
+                        <!--<button onclick="checkBounds()">test</button>-->
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>columns:&nbsp;</label>
+                                <input id="widthInput" class="input-params" type="text" value="100">
+                                <div class="clear"></div>
+                            </div>
+                            
+                            <div class="text-input-group">
+                                <label>rows:&nbsp;</label>
+                                <input id="heightInput" class="input-params" type="text" value="100">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <input type="checkbox">&nbsp;Show Colour Regions
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <input type="radio" name="areaTool" id="freeHandSelect">&nbsp;Free Hand
+                            </div>
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <input type="radio" name="areaTool" id="squareSelect" checked="checked">&nbsp;Square
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <select id="port_list"></select>&nbsp;
+                                <button>Refresh Ports</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <select id="machine_list"></select>&nbsp;
+                                <button>Machine Type</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <canvas id="canvas2" width=1000 height=1000 style="display: none"></canvas>
+            </div>
+        </fieldset>
+    </div>
+
+    <script type="text/javascript">
+        $("#img_inner").height($("#img_inner").width());
+        $("#preview").height($("#preview").width());
+        $("#yarn-colors").height($("#preview").width());
+
+        $("#container").height($("#container").width());
+        // $("#canvas").height($("#canvas").width());
+        // $("#layoutCanvas").height($("#layoutCanvas").width());
+        // $("#gridCanvas").height($("#gridCanvas").width());
+
+        calibrateColorsTable();
+
+        $(window).resize(function() {
+            $("#img_inner").height($("#img_inner").width());
+            $("#preview").height($("#preview").width());
+            $("#yarn-colors").height($("#preview").width());
+
+            $("#container").height($("#container").width());
+            // $("#canvas").height($("#canvas").width());
+            // $("#layoutCanvas").height($("#layoutCanvas").width());
+            // $("#gridCanvas").height($("#gridCanvas").width());
+
+            calibrateColorsTable();
+        });
+
+        $(document).ready(function() {
+
+        });
+
+        function calibrateColorsTable() {
+            // calibrate colors table size
+            var containerHeight  = parseInt($("#yarn-colors").height());
+            var btnHeight        = parseInt($("#addBtn").height());
+            var btnMarginTop     = parseInt($("#addBtn").css('margin-top').replace("px", ""));
+            var btnMarginBottm   = parseInt($("#addBtn").css('margin-bottom').replace("px", ""));
+            var btnBorderTop     = parseInt($("#addBtn").css('border-top-width').replace("px", ""));
+            var btnBorderBottom  = parseInt($("#addBtn").css('border-bottom-width').replace("px", ""));
+            var btnPaddingTop    = parseInt($("#addBtn").css('padding-top').replace("px", ""));
+            var btnPaddingBottom = parseInt($("#addBtn").css('padding-bottom').replace("px", ""));
+
+            var table_height = containerHeight - (btnHeight + btnMarginTop*2 + btnMarginBottm + btnBorderTop*2 + btnBorderBottom + btnPaddingTop*2 + btnPaddingBottom);
+            console.log(table_height);
+            $("#previewTable").height(table_height);
+        }
+
+    </script>
 </body>
 </html>
