@@ -15,12 +15,15 @@ function WebSocketTest() {
         //event for getting json response from the web socket
         connection.onmessage = function (evt) {
             var received_msg = evt.data;
-            decode(received_msg);
-            console.log(received_msg);
+            decoded_msg = decode(received_msg);
+            console.log("decoded message");
+            console.log(decoded_msg);
+            process_message(connection, decoded_msg);
         };
 
         //event for getting error messages from web socket
         connection.onerror = function (err) {
+            console.log("Error:");
             console.log(err);
         }
 
@@ -34,6 +37,12 @@ function WebSocketTest() {
         // The browser doesn't support WebSocket
         alert("WebSocket NOT supported by your Browser!");
     }
+}
+
+
+/** Processes a decoded json message from the WebSocket */
+function process_message(ws, msg){
+
 }
 
 
@@ -60,5 +69,5 @@ function decode(msg) {
         var value = parsedObj.message[0].value;
         console.log("progress value: " + value);
     }
-
+    return parsedObj;
 }
