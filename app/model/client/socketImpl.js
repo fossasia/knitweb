@@ -3,7 +3,7 @@ function WebSocketTest() {
         alert("WebSocket is supported by your Browser!");
 
         //create a connection for web socket
-        var connection = new WebSocket("ws://localhost:8888/getProgess", ['json']);
+        var connection = new WebSocket("ws://localhost:8888/v1/knitting_socket", ['json']);
 
         //event for opening connection with the web socket
         connection.onopen = function () {
