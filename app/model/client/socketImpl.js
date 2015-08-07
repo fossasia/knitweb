@@ -8,8 +8,8 @@ function WebSocketTest() {
         //event for opening connection with the web socket
         connection.onopen = function () {
             // Web Socket is connected, send data using send()
-            connection.send("Message to send");
-            console.log("Message sent");
+            connection.send(JSON.stringify({"status":"connected"});
+            console.log("Initial Connection");
         };
 
         //event for getting json response from the web socket
