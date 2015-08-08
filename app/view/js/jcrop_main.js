@@ -7,6 +7,7 @@ var angleInDegrees = 0;
 //update coordinate values for changing of cropping tool
 function updateCoords(c) {
     imageObj = document.getElementById('img_loader');
+    console.log(imageObj.width+" "+imageObj.height);
     x = c.x / 350 * imageObj.width;
     y = c.y / 350 * imageObj.height;
     widthX = c.w / 350 * imageObj.width;

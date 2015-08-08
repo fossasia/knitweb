@@ -12,6 +12,9 @@ var rowCount;
 var isFreeHand = false;
 
 window.onload = function () {
+    //console.log("executed"+numOfColumns);
+    numOfColumns = document.getElementById("widthInput").value;
+    numOfRows = document.getElementById("heightInput").value;
     for (var i = 0; i <= numOfColumns; i++) {
         imageDataArr[i] = [];
         imageArr[i] = [];
@@ -131,7 +134,6 @@ function getColourValues() {
     var height = canvas.height;
     var width = canvas.width;
     var count = 0;
-    console.log(pixelWidth+" "+pixelHeight);
 
 //colour mapping logic for roundup the image colour values with available yarn colours.
     for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
@@ -156,22 +158,36 @@ function getColourValues() {
             count++;
         }
     }
+    console.log("count:"+count);
+    var container = document.getElementById('container');
+
+
     var pixelCount = 0;
-    var pixelDistX = pixelCanvas.width / numOfColumns;
-    var pixelDistY = pixelCanvas.height / numOfRows;
+    var pixelDistX = Math.floor(container.offsetWidth)/ numOfColumns;
+    var pixelDistY = Math.floor(container.offsetHeight)/ numOfRows;
+    var containerWidth = Math.floor(container.offsetWidth);
+    var containerHeight = Math.floor(container.offsetWidth);
+    pixelCanvas.width = containerWidth;
+    pixelCanvas.height = containerHeight;
+    layoutCanvas.width = containerWidth;
+    layoutCanvas.height = containerHeight;
+    gridCanvas.width = containerWidth;
+    gridCanvas.height = containerHeight;
+
 
 //clearing the canvas before draw
-    pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
+    pixelCtx.clearRect(0, 0, containerWidth, containerHeight);
+
 //redrawing the image data in the canvas to get pixelated pattern
-    for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
-        for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
+    for (var i = 0; i < numOfColumns; i++) {
+        for (var j = 0; j < numOfRows; j++) {
             pixelCtx.fillStyle = 'rgba(' +
                 rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
                 bArr[pixelCount] + ',255' +
                 ')';
             pixelCtx.lineWidth = 0.1;
-            pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
-            pixelCtx.fillRect(i, j, pixelDistX, pixelDistY);
+            pixelCtx.strokeRect(i*pixelDistX, j*pixelDistY, pixelDistX, pixelDistY);
+            pixelCtx.fillRect(i*pixelDistX, j*pixelDistY, pixelDistX, pixelDistY);
             pixelCount++;
         }
     }

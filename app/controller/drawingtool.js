@@ -4,32 +4,40 @@ var temp, testX, testY;
 var imgAvgData = [];
 var collection = [];
 var isRegionized = false;
+var cellWidth,cellHeight;
 
 var gridCanvas = document.getElementById("gridCanvas");
 var gridCtx = gridCanvas.getContext("2d");
 
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
+    layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
+
     var mousemove = false;
     var count = 0;
     list = [];
     rect = pixelCanvas.getBoundingClientRect();
     startX = e.clientX - rect.left;
     startY = e.clientY - rect.top;
+    //console.log(startX+" and "+startY);
     if (!isRegionized)
-        gridCtx.clearRect(0, 0, 1000, 1000);
-    prevPixelX = Math.floor(startX / 10) * 10;
-    prevPixelY = Math.floor(startY / 10) * 10;
+        gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+    cellWidth = pixelCanvas.width/numOfColumns;
+    cellHeight = pixelCanvas.height/numOfRows;
+    prevPixelX = Math.floor(startX / cellWidth) * cellWidth;
+    prevPixelY = Math.floor(startY / cellHeight) * cellHeight;
+
+    //console.log(prevPixelX+" and "+prevPixelY);
 
 //handling mouse dragging event for drawing tool
     document.onmousemove = function (e) {
         mousemove = true;
         endX = e.clientX - rect.left;
         endY = e.clientY - rect.top;
-        startPixelX = Math.floor(startX / 10) * 10;
-        startPixelY = Math.floor(startY / 10) * 10;
-        endPixelX = Math.floor(endX / 10) * 10;
-        endPixelY = Math.floor(endY / 10) * 10;
+        startPixelX = Math.floor(startX / cellWidth) * cellWidth;
+        startPixelY = Math.floor(startY / cellHeight) * cellHeight;
+        endPixelX = Math.floor(endX / cellWidth) * cellWidth;
+        endPixelY = Math.floor(endY / cellHeight) * cellHeight;
         pixelWidth = startPixelX - endPixelX;
         pixelHeight = startPixelY - endPixelY;
         if (pixelHeight < 0)pixelHeight = -pixelHeight;
@@ -38,34 +46,37 @@ layoutCanvas.onmousedown = function (e) {
 //using of free hand tool
         if (!isFreeHand) {
             if (!isRegionized)
-                layoutCtx.clearRect(0, 0, 1000, 1000);
+                layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
             layoutCtx.strokeStyle = "rgba(255,0,0,255)";
             layoutCtx.lineWidth = 1;
             layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
         }
 //start from here
         if (isFreeHand) {
+            console.log(cellWidth+" "+cellHeight);
+
             layoutCtx.beginPath();
             if (temp != (prevPixelX + "," + prevPixelY)) {
                 temp = prevPixelX + "," + prevPixelY;
             }
             layoutCtx.moveTo(prevPixelX, prevPixelY);
             layoutCtx.lineTo(prevPixelX, prevPixelY);
-            imageDataArr[prevPixelX / 10][prevPixelY / 10] = true;
+            console.log(imageDataArr[1]);
+            imageDataArr[Math.floor(prevPixelX / cellWidth)][Math.floor(prevPixelY / cellHeight)] = true;
             if (prevPixelX != endPixelX && prevPixelY != endPixelY) {
                 if (temp != (endPixelX + "," + prevPixelY)) {
                     list[count++] = temp;
                     temp = endPixelX + "," + prevPixelY;
                 }
                 layoutCtx.lineTo(endPixelX, prevPixelY);
-                imageDataArr[endPixelX / 10][prevPixelY / 10] = true;
+                imageDataArr[Math.floor(endPixelX / cellWidth)][Math.floor(prevPixelY / cellHeight)] = true;
             }
             if (temp != (endPixelX + "," + endPixelY)) {
                 list[count++] = temp;
                 temp = endPixelX + "," + endPixelY;
             }
             layoutCtx.lineTo(endPixelX, endPixelY);
-            imageDataArr[endPixelX / 10][endPixelY / 10] = true;
+            imageDataArr[Math.floor(endPixelX / cellWidth)][Math.floor(endPixelY / cellHeight)] = true;
             layoutCtx.strokeStyle = "rgba(255,0,0,255)";
             layoutCtx.stroke();
             prevPixelX = endPixelX;
@@ -75,10 +86,10 @@ layoutCanvas.onmousedown = function (e) {
 
     document.onmouseup = function () {
         document.onmousemove = null;
-        startPixelX = Math.floor(startX / 10) * 10;
-        startPixelY = Math.floor(startY / 10) * 10;
-        endPixelX = Math.floor(endX / 10) * 10;
-        endPixelY = Math.floor(endY / 10) * 10;
+        startPixelX = Math.floor(startX / cellWidth) * cellWidth;
+        startPixelY = Math.floor(startY / cellHeight) * cellWidth;
+        endPixelX = Math.floor(endX / cellWidth) * cellWidth;
+        endPixelY = Math.floor(endY / cellHeight) * cellHeight;
         pixelWidth = startPixelX - endPixelX;
         pixelHeight = startPixelY - endPixelY;
         if (pixelHeight < 0)pixelHeight = -pixelHeight;
@@ -131,33 +142,33 @@ function colourChange() {
         pixelCtx.closePath();
         pixelCtx.fillStyle = style;
         pixelCtx.fill();
-        for (var i = 0; i < 1000; i += 10) {
-            for (var j = 0; j < 1000; j += 10) {
+        for (var i = 0; i < pixelCanvas.width; i += cellWidth) {
+            for (var j = 0; j < pixelCanvas.height; j += cellHeight) {
                 pixelCtx.strokeStyle = "0,0,0,255";
                 pixelCtx.lineWidth = 0.01;
-                pixelCtx.strokeRect(i, j, 10, 10);
+                pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
             }
         }
     }
     else if (!isFreeHand) {
-        for (var i = startPixelX; i < startPixelX + pixelWidth; i += 10) {
-            for (var j = startPixelY; j < startPixelY + pixelHeight; j += 10) {
-                pixelCtx.clearRect(i, j, 10, 10);
+        for (var i = startPixelX; i < startPixelX + pixelWidth; i += cellWidth) {
+            for (var j = startPixelY; j < startPixelY + pixelHeight; j += cellHeight) {
+                pixelCtx.clearRect(i, j, cellWidth, cellHeight);
                 pixelCtx.fillStyle = style;
                 pixelCtx.lineWidth = 0.2;
-                pixelCtx.strokeRect(i, j, 10, 10);
-                pixelCtx.fillRect(i, j, 10, 10);
+                pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
+                pixelCtx.fillRect(i, j, cellWidth, cellHeight);
             }
         }
     }
-    for (var i = 0; i < 100; i++) {
-        for (var j = 0; j < 100; j++) {
+    for (var i = 0; i < numOfRows; i++) {
+        for (var j = 0; j < numOfColumns; j++) {
             if (imageArr[i][j]) {
-                pixelCtx.clearRect(i * 10, j * 10, 10, 10);
+                pixelCtx.clearRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 pixelCtx.fillStyle = style;
                 pixelCtx.lineWidth = 0.2;
-                pixelCtx.strokeRect(i * 10, j * 10, 10, 10);
-                pixelCtx.fillRect(i * 10, j * 10, 10, 10);
+                pixelCtx.strokeRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                pixelCtx.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
             }
         }
     }
@@ -168,12 +179,16 @@ var data;
 function getColorBounds() {
     var imgData = pixelCtx.getImageData(0, 0, pixelCanvas.width, pixelCanvas.height);
     data = imgData.data;
-    for (var i = 0; i < 100; i++) {
-        for (var j = 0; j < 100; j++) {
-            var pos = 4000 * 10 * i + (4000 * 4) + 4 * 4 + 10 * j * 4;
 
-            imgAvgData[100 * i + j] = (data[pos] + "," + data[pos + 1] + "," + data[pos + 2]);
+    for (var i = 0; i < numOfRows; i++) {
+        var result ="";
+        for (var j = 0; j < numOfColumns; j++) {
+            var pos = (Math.floor(cellHeight)*pixelCanvas.width * 4)* i + (Math.floor(cellHeight/2)*pixelCanvas.width * 4) + Math.floor(cellWidth/2) * 4 + Math.floor(cellWidth) * j * 4;
+            //console.log("position:"+pos);
+            imgAvgData[numOfRows * i + j] = (rdArr[numOfColumns * j + i] + "," + gArr[numOfColumns * j + i] + "," + bArr[numOfColumns * j + i]);
+            result+=imgAvgData[numOfRows * i + j]+" ";
         }
+        console.log(result);
     }
 }
 
@@ -184,15 +199,15 @@ function checkBounds(check) {
         getColorBounds();
         var colourList = [];
         collection = [];
-        var startGridPosX = startPixelX / 10;
-        var startGridPosY = startPixelY / 10;
-        var endGridPosX = (startPixelX + pixelWidth) / 10;
-        var endGridPosY = (startPixelY + pixelHeight) / 10;
+        var startGridPosX = startPixelX / cellWidth;
+        var startGridPosY = startPixelY / cellHeight;
+        var endGridPosX = (startPixelX + pixelWidth) / cellWidth;
+        var endGridPosY = (startPixelY + pixelHeight) / cellHeight;
 //traverse grid through selected region
         for (var i = startGridPosY; i < endGridPosY; i++) {
             for (var j = startGridPosX; j < endGridPosX; j++) {
 
-                var tempVal = imgAvgData[100 * i + j];
+                var tempVal = imgAvgData[numOfRows * i + j];
                 var check = $.inArray(tempVal, colourList);
                 if (check !== -1) {
                     colourList.push(tempVal);
@@ -201,7 +216,7 @@ function checkBounds(check) {
                 var kVal = -1, pos = -1;
                 for (var k = 0; k < collection.length; k++) {
                     var tempArray = collection[k];
-                    innerCheck = $.inArray(100 * i + j, tempArray);
+                    innerCheck = $.inArray(numOfRows * i + j, tempArray);
                     if (innerCheck > -1) {
                         kVal = k;
                         pos = innerCheck;
@@ -211,36 +226,36 @@ function checkBounds(check) {
                 if (innerCheck == -1) {
                     var newArr = [];
                     newArr[0] = tempVal;
-                    newArr.push(100 * i + j);
+                    newArr.push(numOfRows * i + j);
                     collection.push(newArr);
                     kVal = collection.length - 1;
                     pos = 0;
                 }
 //setting homogeneous neighbouring colour grid positions
                 var arr = collection[kVal];
-                if ((j - 1) >= startGridPosX && imgAvgData[100 * i + j - 1] === tempVal) {
-                    arr.push(100 * i + j - 1);
+                if ((j - 1) >= startGridPosX && imgAvgData[numOfRows * i + j - 1] === tempVal) {
+                    arr.push(numOfRows * i + j - 1);
                 }
-                if ((j + 1) < endGridPosX && imgAvgData[100 * i + j + 1] === tempVal) {
-                    arr.push(100 * i + j + 1);
+                if ((j + 1) < endGridPosX && imgAvgData[numOfRows * i + j + 1] === tempVal) {
+                    arr.push(numOfRows * i + j + 1);
                 }
-                if ((j - 1) >= startGridPosX && (i - 1) >= startGridPosY && imgAvgData[100 * (i - 1) + j - 1] === tempVal) {
-                    arr.push(100 * (i - 1) + j - 1);
+                if ((j - 1) >= startGridPosX && (i - 1) >= startGridPosY && imgAvgData[numOfRows * (i - 1) + j - 1] === tempVal) {
+                    arr.push(numOfRows * (i - 1) + j - 1);
                 }
-                if ((i - 1) >= startGridPosY && imgAvgData[100 * (i - 1) + j] === tempVal) {
-                    arr.push(100 * (i - 1) + j);
+                if ((i - 1) >= startGridPosY && imgAvgData[numOfRows * (i - 1) + j] === tempVal) {
+                    arr.push(numOfRows * (i - 1) + j);
                 }
-                if ((i - 1) >= startGridPosY && (j + 1) < endGridPosX && imgAvgData[100 * (i - 1) + j + 1] === tempVal) {
-                    arr.push(100 * (i - 1) + j + 1);
+                if ((i - 1) >= startGridPosY && (j + 1) < endGridPosX && imgAvgData[numOfRows * (i - 1) + j + 1] === tempVal) {
+                    arr.push(numOfRows * (i - 1) + j + 1);
                 }
-                if ((j - 1) >= startGridPosX && (i + 1) < endGridPosY && imgAvgData[100 * (i + 1) + j - 1] === tempVal) {
-                    arr.push(100 * (i + 1) + j - 1);
+                if ((j - 1) >= startGridPosX && (i + 1) < endGridPosY && imgAvgData[numOfRows * (i + 1) + j - 1] === tempVal) {
+                    arr.push(numOfRows * (i + 1) + j - 1);
                 }
-                if ((i + 1) < endGridPosY && imgAvgData[100 * (i + 1) + j] === tempVal) {
-                    arr.push(100 * (i + 1) + j);
+                if ((i + 1) < endGridPosY && imgAvgData[numOfRows * (i + 1) + j] === tempVal) {
+                    arr.push(numOfRows * (i + 1) + j);
                 }
-                if ((i + 1) < endGridPosY && (j + 1) < endGridPosX && imgAvgData[100 * (i + 1) + j + 1] === tempVal) {
-                    arr.push(100 * (i + 1) + j + 1);
+                if ((i + 1) < endGridPosY && (j + 1) < endGridPosX && imgAvgData[numOfRows * (i + 1) + j + 1] === tempVal) {
+                    arr.push(numOfRows * (i + 1) + j + 1);
                 }
             }
         }
@@ -284,7 +299,7 @@ function removeDupColours() {
     // console.log(collection.length);
     var colourArr = [];
 
-    for (var i = 0; i < 10000; i++) {
+    for (var i = 0; i < numOfColumns*numOfRows; i++) {
         colourArr[i] = "";
     }
 
@@ -369,44 +384,54 @@ function merge(a, b) {
 //function for visualizing of colour boundaries
 function showColourBounds() {
 
-
     for (var i = 0; i < collection.length; i++) {
 
         var tempArr = collection[i];
         var check;
 
+        //console.log(Math.floor((tempArr[1] % numOfColumns) * cellWidth)+" and "+Math.floor(tempArr[1] / numOfRows * cellHeight));
+
         gridCtx.beginPath();
-        gridCtx.moveTo((tempArr[1] % 100) * 10, Math.floor(tempArr[1] / 100) * 10);
+        gridCtx.moveTo(Math.floor((tempArr[1] % numOfColumns) * cellWidth),Math.floor(tempArr[1] / numOfRows * cellHeight));
+
+        var result = tempArr[0]+": ";
         for (var j = 1; j < tempArr.length; j++) {
 
-            check = $.inArray(tempArr[j] - 100, tempArr);
+            result+=tempArr[j]+",";
+
+            check = $.inArray(tempArr[j] - numOfColumns, tempArr);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10);
-                gridCtx.lineTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10);
+                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth), Math.floor(tempArr[j] / numOfRows * cellHeight));
+                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth, Math.floor(tempArr[j] / numOfRows * cellHeight));
+                console.log((tempArr[j] % numOfColumns) * cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight));
             }
 
             check = $.inArray(tempArr[j] + 1, tempArr);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10);
-                gridCtx.lineTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10 + 10);
+                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth, Math.floor(tempArr[j] / numOfRows * cellHeight));
+                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth, Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
 
-            check = $.inArray(tempArr[j] + 100, tempArr);
+            check = $.inArray(tempArr[j] + numOfColumns, tempArr);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % 100) * 10 + 10, Math.floor(tempArr[j] / 100) * 10 + 10);
-                gridCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
+                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth, Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth), Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
 
             check = $.inArray(tempArr[j] - 1, tempArr);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10);
-                gridCtx.lineTo((tempArr[j] % 100) * 10, Math.floor(tempArr[j] / 100) * 10 + 10);
+                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth), Math.floor(tempArr[j] / numOfRows * cellHeight));
+                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth), Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
             gridCtx.strokeStyle = "rgba(0,0,0,255)";
             gridCtx.stroke();
 
             isRegionized = true;
         }
+        //console.log(result);
     }
 }
 
@@ -433,21 +458,20 @@ function showColourRegions(tempArr) {
 
 function undo() {
     var pixelCount = 0;
-    var pixelDistX = 10;
-    var pixelDistY = 10;
+
 //clearing the canvas before draw
     pixelCtx.clearRect(0, 0, pixelCanvas.width, pixelCanvas.height);
 
 //redrawing the image data in the canvas to get pixelated pattern
-    for (var i = 0; i < pixelCanvas.width; i += pixelDistX) {
-        for (var j = 0; j < pixelCanvas.height; j += pixelDistY) {
+    for (var i = 0; i < pixelCanvas.width; i += cellWidth) {
+        for (var j = 0; j < pixelCanvas.height; j += cellHeight) {
             pixelCtx.fillStyle = 'rgba(' +
                 rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
                 bArr[pixelCount] + ',255' +
                 ')';
             pixelCtx.lineWidth = 0.01;
-            pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
-            pixelCtx.fillRect(i, j, pixelDistX, pixelDistY);
+            pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
+            pixelCtx.fillRect(i, j, cellWidth, cellHeight);
             pixelCount++;
         }
     }

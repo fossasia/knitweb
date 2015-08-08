@@ -2,7 +2,11 @@ var url;
 
 function readURL(input) {
 
+    console.log("got here");
+
     var img_loader = document.getElementById('img_loader');
+    img_loader.style.display = "block";
+    var imgDiv = document.getElementById('img_inner');
 
     if (input.files && input.files[0]) {
         var reader = new FileReader();

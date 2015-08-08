@@ -13,8 +13,8 @@ function pixelate() {
     numOfRows = document.getElementById("heightInput").value;
 
 //adjust canvas size
-    canvas.height = img.height;
-    canvas.width = img.width;
+//    canvas.height = img.height;
+//    canvas.width = img.width;
     w = numOfColumns;
     h = numOfRows;
     ctx.drawImage(img, 0, 0, w, h);
