@@ -25,7 +25,7 @@ function sendImageData(imgData) {
     $.ajax({
         url: 'http://localhost:8000/v1/setImageData',
         type: 'POST',
-        data:{imgData:imgData},
+        data: {imgData: imgData},
         dataType: 'jsonp',
         jsonpCallback: 'setImageData',
         crossDomain: true,
@@ -40,7 +40,7 @@ function sendImageData(imgData) {
     });
 }
 
-function getDeviceType(){
+function getDeviceType() {
     $.ajax({
         url: 'http://127.0.0.1:8000/device',
         type: 'GET',
@@ -53,7 +53,7 @@ function getDeviceType(){
     });
 }
 
-function getAvailablePorts(){
+function getAvailablePorts() {
     var isSet = false;
     var parsedObj;
 
@@ -82,7 +82,7 @@ function getAvailablePorts(){
     //window.setTimeout(function(){alertFunc(isSet)}, 30);
 }
 
-function getMachineType(){
+function getMachineType() {
     var parsedObj;
     $.ajax({
         url: 'http://localhost:8000/v1/get_machine_type',
@@ -107,8 +107,8 @@ function getMachineType(){
 }
 
 function alertFunc(bool) {
-    if(bool)
-    alert("port details retrieved");
+    if (bool)
+        alert("port details retrieved");
 }
 
 

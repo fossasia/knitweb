@@ -13,14 +13,18 @@ function readURL(input) {
         url = input.files[0];
 
         reader.onload = function (e) {
+
+            var w = $('#img_inner').width();
+            var h = $('#img_inner').height()-$('#loader-controller-group').height();
+            console.log("height:"+ h);
             $('#img_loader').attr('src', e.target.result)
-                .width(350)
-                .height(350);
+                .width(w)
+                .height(h);
             var canvas = document.getElementById('previewCanvas');
             var context = canvas.getContext('2d');
+            canvas.width = $('#preview').width();
+            canvas.height = $('#preview').height();
             setTimeout(function(){context.drawImage(img_loader, 0, 0, canvas.width, canvas.height);crop();},100);
-
-
         };
         reader.readAsDataURL(input.files[0]);
     }

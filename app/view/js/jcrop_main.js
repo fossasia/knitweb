@@ -8,10 +8,13 @@ var angleInDegrees = 0;
 function updateCoords(c) {
     imageObj = document.getElementById('img_loader');
     console.log(imageObj.width+" "+imageObj.height);
-    x = c.x / 350 * imageObj.width;
-    y = c.y / 350 * imageObj.height;
-    widthX = c.w / 350 * imageObj.width;
-    heightY = c.h / 350 * imageObj.height;
+    var w = $('#img_inner').width();
+    var h = $('#img_inner').height()-$('#loader-controller-group').height();
+
+    x = c.x / w * imageObj.width;
+    y = c.y / h * imageObj.height;
+    widthX = c.w / w * imageObj.width;
+    heightY = c.h / h * imageObj.height;
     canvas = document.getElementById('previewCanvas');
     context = canvas.getContext('2d');
 };
@@ -32,6 +35,7 @@ function crop() {
     else if(!checkBox.checked && cropRef!=null){
         imageObj = document.getElementById('img_loader');
         canvas = document.getElementById('previewCanvas');
+        console.log("preview w:"+canvas.width+" , "+canvas.height);
         context = canvas.getContext('2d');
         cropRef.destroy();
         context.drawImage(imageObj, 0, 0,canvas.width, canvas.height);

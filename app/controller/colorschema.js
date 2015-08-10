@@ -129,11 +129,15 @@ function clear() {
 //pixelating algo function
 function getColourValues() {
 
+    var canvas = document.getElementById('canvas2');
+    var ctx = canvas.getContext("2d");
     var pixelWidth = canvas.width / numOfColumns;
     var pixelHeight = canvas.height / numOfRows;
     var height = canvas.height;
     var width = canvas.width;
     var count = 0;
+
+    console.log(height+" :: "+width);
 
 //colour mapping logic for roundup the image colour values with available yarn colours.
     for (var i = pixelHeight / 2; i < height; i += pixelHeight) {
@@ -161,7 +165,6 @@ function getColourValues() {
     console.log("count:"+count);
     var container = document.getElementById('container');
 
-
     var pixelCount = 0;
     var pixelDistX = Math.floor(container.offsetWidth)/ numOfColumns;
     var pixelDistY = Math.floor(container.offsetHeight)/ numOfRows;
@@ -173,6 +176,9 @@ function getColourValues() {
     layoutCanvas.height = containerHeight;
     gridCanvas.width = containerWidth;
     gridCanvas.height = containerHeight;
+
+
+    console.log(pixelDistX+" ::: "+pixelDistY);
 
 
 //clearing the canvas before draw
