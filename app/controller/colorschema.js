@@ -177,9 +177,7 @@ function getColourValues() {
     gridCanvas.width = containerWidth;
     gridCanvas.height = containerHeight;
 
-
     console.log(pixelDistX+" ::: "+pixelDistY);
-
 
 //clearing the canvas before draw
     pixelCtx.clearRect(0, 0, containerWidth, containerHeight);

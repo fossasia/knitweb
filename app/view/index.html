@@ -76,6 +76,7 @@
                     <canvas id="layoutCanvas" class="canvas"></canvas>
                     <div class="clear"></div>
                 </div>
+
                 <div id="controller-group-a" class="panel">
                     <div class="input-group">
                         <div class="text-input-group">
@@ -122,10 +123,12 @@
                         <div class="text-input-group">
                             <label>&nbsp;</label>
                             <input type="radio" name="areaTool" id="freeHandSelect" onclick="selectTool(true)">&nbsp;Free Hand
+                            <!--<div class="clear"></div>-->
                         </div>
                         <div class="text-input-group">
                             <label>&nbsp;</label>
                             <input type="radio" name="areaTool" id="squareSelect" checked="checked" onclick="selectTool(false)">&nbsp;Square
+                            <!--<div class="clear"></div>-->
                         </div>
                     </div>
 
@@ -150,14 +153,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="panel">
+                    <div class="input-group">
+                        <div class="text-input-group">
+                            <label>&nbsp;</label>
+                            <button onclick="loadPattern()">Knit</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="clear"></div>
-
             </div>
-
         </div>
     </fieldset>
 </div>
-<canvas id="canvas2" width=1000 height=1000 style=""></canvas>
+
+<!-- This section should go into a separate page and responsiveness should be added"-->
+<div>
+    <div id="simulator-canvas-div">
+        <canvas id="simulatorCanvas" width="700px" height="500px" style="border:1px solid #000000; margin-left: 50px;"></canvas>
+    </div>
+    <div>
+        <button onclick="updateHead()">Test</button>
+    </div>
+</div>
+
+<canvas id="canvas2" width=1000 height=1000 style="display: none"></canvas>
 <script type="text/javascript">
     $("#img_inner").height($("#img_inner").width());
     $("#preview").height($("#preview").width());
@@ -207,6 +227,7 @@
 
 <script src="../controller/colorschema.js"></script>
 <script src="../controller/drawingtool.js"></script>
+<script src="../controller/knitSimulatorHandler.js"></script>
 </body>
 </html>
 

@@ -269,7 +269,8 @@
 
 #row-generated #canvas,
 #row-generated #layoutCanvas,
-#row-generated #gridCanvas {
+#row-generated #gridCanvas,
+#row-generated #simulatorCanvas{
     position: absolute;
     border: none;
     width: calc(100% - 2px);
