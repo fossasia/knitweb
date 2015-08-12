@@ -170,10 +170,17 @@
 <!-- This section should go into a separate page and responsiveness should be added"-->
 <div>
     <div id="simulator-canvas-div">
-        <canvas id="simulatorCanvas" width="700px" height="500px" style="border:1px solid #000000; margin-left: 50px;"></canvas>
+        <canvas id="simulatorCanvas"></canvas>
+        <canvas id="pointerCanvas"></canvas>
     </div>
-    <div>
-        <button onclick="updateHead()">Test</button>
+    <div id="tool-box">
+        <button onclick="updateHead()">Test Knit</button>
+    </div>
+    <div id="stitching-progress-panel" style="float: right">
+        <label>Column:</label>
+        <label id="column-num"><br/></label>
+        <label>Row:</label>
+        <label id="row-num"></label>
     </div>
 </div>
 

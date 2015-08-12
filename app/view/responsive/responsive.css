@@ -50,8 +50,8 @@
 
 /* Start Wrapper */
 #wrapper {
-	width: 80%;
-	margin: 96px 10%;
+	width: 90%;
+	margin: 96px 5%;
 }
 /* End Wrapper */
 
@@ -269,8 +269,7 @@
 
 #row-generated #canvas,
 #row-generated #layoutCanvas,
-#row-generated #gridCanvas,
-#row-generated #simulatorCanvas{
+#row-generated #gridCanvas{
     position: absolute;
     border: none;
     width: calc(100% - 2px);
@@ -332,4 +331,26 @@
 #row-generated .panel .input-group .text-input-group button {
 	padding: 4px;
 }
+
 /* End Generated */
+
+/*simulator styling*/
+
+#simulator-canvas-div {
+    display: inline;
+    float: left;
+    position: relative;
+}
+
+#simulatorCanvas, #pointerCanvas {
+    position: absolute;
+    width:500px;
+    height:500px;
+    border:1px solid #000000;
+    margin-left: 50px;
+}
+
+#tool-box {
+    margin: 20px;
+    float: right;
+}

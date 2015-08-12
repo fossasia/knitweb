@@ -23,6 +23,8 @@ window.onload = function () {
             imageArr[i][j] = false;
         }
     }
+
+    layoutCanvas.style.cursor = "se-resize";
 };
 
 window.addEventListener('load', function (ev) {
@@ -47,7 +49,6 @@ $('#addBtn').colpick({
         sArr[rowCount] = rgb.g;
         lArr[rowCount] = rgb.b;
         addButtonClick(hex);
-        var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
     }
 });
 
@@ -76,37 +77,6 @@ function pixelDel() {
 function init() {
     pixelate();
     getColourValues();
-}
-
-// converting rgb values to hsl values
-function rgbToHsl(r, g, b) {
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b),
-        min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
-    if (max == min) {
-        h = s = 0; // achromatic
-    } else {
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r:
-                h = (g - b) / d + (g < b ? 6 : 0);
-                break;
-            case g:
-                h = (b - r) / d + 2;
-                break;
-            case b:
-                h = (r - g) / d + 4;
-                break;
-        }
-        h /= 6;
-    }
-    return ({
-        h: h,
-        s: s,
-        l: l
-    });
 }
 
 //add colour to the pattern selected from colour pallette
@@ -162,9 +132,8 @@ function getColourValues() {
             count++;
         }
     }
-    console.log("count:"+count);
-    var container = document.getElementById('container');
 
+    var container = document.getElementById('container');
     var pixelCount = 0;
     var pixelDistX = Math.floor(container.offsetWidth)/ numOfColumns;
     var pixelDistY = Math.floor(container.offsetHeight)/ numOfRows;
@@ -200,7 +169,9 @@ function getColourValues() {
 function selectTool(s) {
     if (s) {
         isFreeHand = true;
+        layoutCanvas.style.cursor = "pointer";
     } else {
         isFreeHand = false;
+        layoutCanvas.style.cursor = "se-resize";
     }
 }

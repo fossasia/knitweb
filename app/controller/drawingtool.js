@@ -3,7 +3,7 @@ var startPixelX, startPixelY, endPixelX, endPixelY, pixelWidth, pixelHeight, pre
 var temp, testX, testY;
 var imgAvgData = [];
 var collection = [];
-var isRegionized = false;
+var isRegionized = false,colourPickerEnabled = false;
 var cellWidth,cellHeight;
 
 var gridCanvas = document.getElementById("gridCanvas");
@@ -121,11 +121,14 @@ layoutCanvas.onclick = function () {
                 }
             }
         }
+    } else if (!isRegionized){
+
     }
 };
 
 
 function colourChange() {
+    colourPickerEnabled=!colourPickerEnabled;
     var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
 // getColorBounds();
     if (isFreeHand) {
@@ -194,6 +197,7 @@ function getColorBounds() {
 // function for checking for colour boundaries
 function checkBounds(check) {
     if (check.checked) {
+        layoutCanvas.style.cursor = "crosshair";
         isRegionized = true;
         getColorBounds();
         var colourList = [];
@@ -290,6 +294,7 @@ function checkBounds(check) {
         showColourBounds();
     } else if (!check.checked) {
         isRegionized = false;
+        gridCtx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
     }
 }
 
@@ -454,9 +459,7 @@ function showColourRegions(tempArr) {
             var posY = (tempArr[j] % numOfRows) * cellHeight;
             //console.log(tempArr[j]+" : "+posX+" and "+ posY);
             pixelCtx.clearRect(posY, posX, cellWidth, cellHeight);
-            pixelCtx.fillStyle = 'rgba(' +
-                count + ',0,0,255' +
-                ')';
+            pixelCtx.fillStyle = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
             pixelCtx.lineWidth = 0.1;
             pixelCtx.strokeRect(posY, posX, cellWidth, cellHeight);
             pixelCtx.fillRect(posY, posX, cellWidth, cellHeight);

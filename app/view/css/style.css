@@ -81,3 +81,14 @@
 #canvas,#layoutCanvas,#gridCanvas{
     position: absolute;
 }
+
+#simulator-canvas-div {
+    width: 700px;
+    height: 500px;
+    border: solid 1px;
+}
+
+#simulatorCanvas {
+    margin-left: 50px;
+
+}
