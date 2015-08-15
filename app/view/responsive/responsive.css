@@ -41,10 +41,6 @@ nav{
 	height:30px;
 }
 
-.wrapper1 {
-	height: 100%;
-	background: #263729;
-}
 
 /* Start Heading */
 #heading {
@@ -68,8 +64,21 @@ nav{
 #wrapper {
 	width: 90%;
 	margin: 96px 5%;
+	position: relative;
+	left:0;
+	float:left;
+	clear:both;
 }
 /* End Wrapper */
+
+#simulator-page {
+	min-width:100%;
+	position: relative;
+	right:-105%;
+	float:left;
+	clear:both;
+}
+
 
 /* Start Upload File */
 #load-file {

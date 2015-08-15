@@ -23,166 +23,169 @@
     <h1>Knitting Web App</h1>
 </div>
 
-
-<div id="wrapper">
-    <fieldset id="load-file">
-        <p id="status">Load a Pattern</p>
-        <input id="file" type="file" onchange="readURL(this);" />
-    </fieldset>
-    <div id="row-preview" class="img-outer">
-        <div id="img_inner" class="img-inner">
-            <img id="img_loader" src="#"/>
-            <img id="test" src="#" style="display: none"/>
-            <div id="loader-controller-group">
-                <label>
-                    <input id="cropCheck" onclick="crop()" type="checkbox">
-                    &nbsp;Enable cropping
-                </label>
-                <div class="right">
-                    <button title="Crop" onclick="draw()"><img src="responsive/crop.png"></button>
+<div id="outer-wrapper">
+    <div id="wrapper" class="page">
+        <fieldset id="load-file">
+            <p id="status">Load a Pattern</p>
+            <input id="file" type="file" onchange="readURL(this);" />
+        </fieldset>
+        <div id="row-preview" class="img-outer">
+            <div id="img_inner" class="img-inner">
+                <img id="img_loader" src="#"/>
+                <img id="test" src="#" style="display: none"/>
+                <div id="loader-controller-group">
+                    <label>
+                        <input id="cropCheck" onclick="crop()" type="checkbox">
+                        &nbsp;Enable cropping
+                    </label>
+                    <div class="right">
+                        <button title="Crop" onclick="draw()"><img src="responsive/crop.png"></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="preview" class="preview-box">
-            <canvas id="previewCanvas"></canvas>
+            <div id="preview" class="preview-box">
+                <canvas id="previewCanvas"></canvas>
 
-            <div id="preview-controller-group">
-                <div class="right">
-                    <button id="rotateLeftBtn" title="Rotate left" onclick="rotate(-90)"><img src="responsive/rotate-acc.png"></button>
-                    <button id="rotateRightBtn" title="Rotate right" onclick="rotate(90)"><img src="responsive/rotate-cc.png"></button>
+                <div id="preview-controller-group">
+                    <div class="right">
+                        <button id="rotateLeftBtn" title="Rotate left" onclick="rotate(-90)"><img src="responsive/rotate-acc.png"></button>
+                        <button id="rotateRightBtn" title="Rotate right" onclick="rotate(90)"><img src="responsive/rotate-cc.png"></button>
+                    </div>
                 </div>
             </div>
+
+            <div id="yarn-colors" class="right-to-img-loader">
+                <button id="addBtn">Add Yarn Colour</button>
+                <table id="previewTable" cellspacing="0" cellpadding="0"></table>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <div id="generator">
+            <button onclick="init()">Generate Pattern</button>
         </div>
 
-        <div id="yarn-colors" class="right-to-img-loader">
-            <button id="addBtn">Add Yarn Colour</button>
-            <table id="previewTable" cellspacing="0" cellpadding="0"></table>
-        </div>
+        <fieldset id="row-generated">
+            <h3>Pattern Preview</h3>
 
-        <div class="clear"></div>
-    </div>
-    <div id="generator">
-        <button onclick="init()">Generate Pattern</button>
-    </div>
-
-    <fieldset id="row-generated">
-        <h3>Pattern Preview</h3>
-
-        <div>
             <div>
-                <div id="container">
-                    <canvas id="canvas" class="canvas"></canvas>
-                    <canvas id="gridCanvas" class="canvas"></canvas>
-                    <canvas id="layoutCanvas" class="canvas"></canvas>
+                <div>
+                    <div id="container">
+                        <canvas id="canvas" class="canvas"></canvas>
+                        <canvas id="gridCanvas" class="canvas"></canvas>
+                        <canvas id="layoutCanvas" class="canvas"></canvas>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div id="controller-group-a" class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <div id="picker1"></div>
+                            </div>
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <button onclick="colourChange()">Add</button>
+                                <button onclick="pixelDel()">Delete</button>
+                                <button onclick="undo()">Reset</button>
+                            </div>
+                        </div>
+                        <!--<button onclick="checkBounds()">test</button>-->
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>columns:&nbsp;</label>
+                                <input id="widthInput" class="input-params" type="text" value="100">
+                                <div class="clear"></div>
+                            </div>
+
+                            <div class="text-input-group">
+                                <label>rows:&nbsp;</label>
+                                <input id="heightInput" class="input-params" type="text" value="100">
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <input type="checkbox" onclick="checkBounds(this)">&nbsp;Show Colour Regions
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <input type="radio" name="areaTool" id="freeHandSelect" onclick="selectTool(true)">&nbsp;Free Hand
+                                <!--<div class="clear"></div>-->
+                            </div>
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <input type="radio" name="areaTool" id="squareSelect" checked="checked" onclick="selectTool(false)">&nbsp;Square
+                                <!--<div class="clear"></div>-->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <select id="port_list"></select>&nbsp;
+                                <button onclick="refreshPorts()">Refresh Ports</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <select id="machine_list"></select>&nbsp;
+                                <button onclick="updateMachineType()">Machine Type</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="input-group">
+                            <div class="text-input-group">
+                                <label>&nbsp;</label>
+                                <button onclick="loadPattern()">Knit</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clear"></div>
                 </div>
-
-                <div id="controller-group-a" class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <div id="picker1"></div>
-                        </div>
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <button onclick="colourChange()">Add</button>
-                            <button onclick="pixelDel()">Delete</button>
-                            <button onclick="undo()">Reset</button>
-                        </div>
-                    </div>
-                    <!--<button onclick="checkBounds()">test</button>-->
-                </div>
-
-                <div class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>columns:&nbsp;</label>
-                            <input id="widthInput" class="input-params" type="text" value="100">
-                            <div class="clear"></div>
-                        </div>
-
-                        <div class="text-input-group">
-                            <label>rows:&nbsp;</label>
-                            <input id="heightInput" class="input-params" type="text" value="100">
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <input type="checkbox" onclick="checkBounds(this)">&nbsp;Show Colour Regions
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <input type="radio" name="areaTool" id="freeHandSelect" onclick="selectTool(true)">&nbsp;Free Hand
-                            <!--<div class="clear"></div>-->
-                        </div>
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <input type="radio" name="areaTool" id="squareSelect" checked="checked" onclick="selectTool(false)">&nbsp;Square
-                            <!--<div class="clear"></div>-->
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <select id="port_list"></select>&nbsp;
-                            <button onclick="refreshPorts()">Refresh Ports</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <select id="machine_list"></select>&nbsp;
-                            <button onclick="updateMachineType()">Machine Type</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="input-group">
-                        <div class="text-input-group">
-                            <label>&nbsp;</label>
-                            <button onclick="loadPattern()">Knit</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
             </div>
+        </fieldset>
+    </div>
+
+    <!-- This section should go into a separate page and responsiveness should be added"-->
+    <div id="simulator-page" class="page" >
+        <div id="simulator-canvas-div">
+            <canvas id="simulatorCanvas"></canvas>
+            <canvas id="pointerCanvas"></canvas>
         </div>
-    </fieldset>
+        <div id="tool-box">
+            <button onclick="updateHead()">Test Knit</button>
+        </div>
+        <div id="stitching-progress-panel" style="float: right">
+            <label>Column:</label>
+            <label id="column-num"><br/></label>
+            <label>Row:</label>
+            <label id="row-num"></label>
+        </div>
+    </div>
+
 </div>
 
-<!-- This section should go into a separate page and responsiveness should be added"-->
-<div>
-    <div id="simulator-canvas-div">
-        <canvas id="simulatorCanvas"></canvas>
-        <canvas id="pointerCanvas"></canvas>
-    </div>
-    <div id="tool-box">
-        <button onclick="updateHead()">Test Knit</button>
-    </div>
-    <div id="stitching-progress-panel" style="float: right">
-        <label>Column:</label>
-        <label id="column-num"><br/></label>
-        <label>Row:</label>
-        <label id="row-num"></label>
-    </div>
-</div>
 
 <canvas id="canvas2" width=1000 height=1000 style="display: none"></canvas>
 <script type="text/javascript">
