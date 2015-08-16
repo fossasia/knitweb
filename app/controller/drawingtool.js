@@ -53,7 +53,6 @@ layoutCanvas.onmousedown = function (e) {
         }
 //start from here
         if (isFreeHand) {
-            console.log(cellWidth+" "+cellHeight);
 
             layoutCtx.beginPath();
             if (temp != (prevPixelX + "," + prevPixelY)) {
@@ -61,7 +60,6 @@ layoutCanvas.onmousedown = function (e) {
             }
             layoutCtx.moveTo(prevPixelX, prevPixelY);
             layoutCtx.lineTo(prevPixelX, prevPixelY);
-            console.log(imageDataArr[1]);
             imageDataArr[Math.floor(prevPixelX / cellWidth)][Math.floor(prevPixelY / cellHeight)] = true;
             if (prevPixelX != endPixelX && prevPixelY != endPixelY) {
                 if (temp != (endPixelX + "," + prevPixelY)) {
@@ -395,7 +393,7 @@ function showColourBounds() {
 
         //console.log(Math.floor((tempArr[1] % numOfColumns) * cellWidth)+" and "+Math.floor(tempArr[1] / numOfRows * cellHeight));
         gridCtx.beginPath();
-        gridCtx.moveTo(Math.floor((tempArr[1] % numOfColumns) * cellWidth),Math.floor(tempArr[1] / numOfRows * cellHeight));
+        gridCtx.moveTo(Math.floor((tempArr[1] % numOfColumns) * pixelDistX),Math.floor(tempArr[1] / numOfRows * pixelDistY));
 
         var result = tempArr[0]+": ";
         for (var j = 1; j < tempArr.length; j++) {
@@ -405,38 +403,38 @@ function showColourBounds() {
             check = $.inArray(tempArr[j] - numOfColumns, tempArr);
             console.log("i th pos: "+(tempArr[j] % numOfColumns)+ "j th pos: "+parseInt(tempArr[j] / numOfRows));
             if (check == -1) {
-                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth),
-                    Math.floor(tempArr[j] / numOfRows * cellHeight));
-                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth+ cellWidth) ,
-                    Math.floor(tempArr[j] / numOfRows * cellHeight));
+                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
+                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistY ,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
                 //console.log((tempArr[j] % numOfColumns) * cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight));
             }
 
             check = $.inArray(tempArr[j] + 1, tempArr);
             //console.log("i th pos: "+(tempArr[j] % numOfColumns)+ "j th pos: "+tempArr[j] / numOfRows * cellHeight);
             if (check == -1) {
-                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth+ cellWidth) ,
-                    Math.floor(tempArr[j] / numOfRows * cellHeight));
-                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth+ cellWidth) ,
-                    Math.floor(tempArr[j] / numOfRows * cellHeight+ cellHeight));
+                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
+                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY+ pixelDistY));
                 //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
 
             check = $.inArray(tempArr[j] + parseInt(numOfColumns), tempArr);
             if (check == -1) {
-                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth+cellWidth),
-                    Math.floor(tempArr[j] / numOfRows * cellHeight + cellHeight));
-                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth),
-                    Math.floor(tempArr[j] / numOfRows * cellHeight + cellHeight));
+                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+pixelDistX,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
+                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
                 //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
 
             check = $.inArray(tempArr[j] - 1, tempArr);
             if (check == -1) {
-                gridCtx.moveTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth),
-                    Math.floor(tempArr[j] / numOfRows * cellHeight));
-                gridCtx.lineTo(Math.floor((tempArr[j] % numOfColumns) * cellWidth),
-                    Math.floor(tempArr[j] / numOfRows * cellHeight + cellHeight));
+                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
+                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
+                    Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
                 //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
             gridCtx.strokeStyle = "rgba(0,0,0,255)";
@@ -444,7 +442,7 @@ function showColourBounds() {
 
             isRegionized = true;
         }
-        console.log(result);
+        //console.log(result);
     }
 }
 

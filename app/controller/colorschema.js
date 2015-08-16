@@ -1,18 +1,8 @@
-var arr = [];
-var sArr = [];
-var lArr = [];
-var rArr = [];
-var rdArr = [];
-var gArr = [];
-var bArr = [];
-var imageDataArr = [];
-var imageArr = [];
-var list;
-var rowCount;
-var isFreeHand = false;
+var arr = [], sArr = [], lArr = [], rArr = [], rdArr = [], gArr = [], bArr = [], imageDataArr = [], imageArr = [];
+var list,rowCount,isFreeHand = false;
 
 window.onload = function () {
-    //console.log("executed"+numOfColumns);
+
     numOfColumns = document.getElementById("widthInput").value;
     numOfRows = document.getElementById("heightInput").value;
     for (var i = 0; i <= numOfColumns; i++) {
@@ -34,7 +24,6 @@ window.addEventListener('load', function (ev) {
 var canvas = document.getElementById("canvas2");
 var pixelCanvas = document.getElementById("canvas");
 var pixelCtx = pixelCanvas.getContext("2d");
-var ctx = canvas.getContext("2d");
 var layoutCanvas = document.getElementById("layoutCanvas");
 var layoutCtx = layoutCanvas.getContext("2d");
 
@@ -96,6 +85,8 @@ function clear() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+var pixelDistX, pixelDistY;
+
 //pixelating algo function
 function getColourValues() {
 
@@ -134,9 +125,8 @@ function getColourValues() {
     }
 
     var container = document.getElementById('container');
-    var pixelCount = 0;
-    var pixelDistX = Math.floor(container.offsetWidth)/ numOfColumns;
-    var pixelDistY = Math.floor(container.offsetHeight)/ numOfRows;
+    pixelDistX = Math.floor(container.offsetWidth)/ numOfColumns;
+    pixelDistY = Math.floor(container.offsetHeight)/ numOfRows;
     var containerWidth = Math.floor(container.offsetWidth);
     var containerHeight = Math.floor(container.offsetWidth);
     pixelCanvas.width = containerWidth;
@@ -150,20 +140,47 @@ function getColourValues() {
 
 //clearing the canvas before draw
     pixelCtx.clearRect(0, 0, containerWidth, containerHeight);
+    preLoadPattern();
 
 //redrawing the image data in the canvas to get pixelated pattern
-    for (var i = 0; i < numOfColumns; i++) {
-        for (var j = 0; j < numOfRows; j++) {
-            pixelCtx.fillStyle = 'rgba(' +
-                rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
-                bArr[pixelCount] + ',255' +
-                ')';
-            pixelCtx.lineWidth = 0.1;
-            pixelCtx.strokeRect(i*pixelDistX, j*pixelDistY, pixelDistX, pixelDistY);
-            pixelCtx.fillRect(i*pixelDistX, j*pixelDistY, pixelDistX, pixelDistY);
-            pixelCount++;
+    for (var i = 0; i < containerWidth; i+=pixelDistX) {
+        for (var j = 0; j < containerHeight; j+=pixelDistY) {
+            //pixelCtx.fillStyle = 'rgba(' +
+            //    rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
+            //    bArr[pixelCount] + ',255' +
+            //    ')';
+            pixelCtx.lineWidth = 0.2;
+            pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
+            //pixelCtx.fillRect(i, j, pixelDistX, pixelDistY);
+            //console.log(i+" and "+j);
+            //pixelCount++;
         }
     }
+}
+
+function preLoadPattern() {
+    var canvas = document.getElementById('canvas2');
+    var ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    var count = 0;
+    var pixelDistX = canvas.width / numOfColumns;
+    var pixelDistY = canvas.height / numOfRows;
+
+//redrawing the image data in the canvas to get pixelated pattern
+    for (var i = 0; i < canvas.width; i += pixelDistX) {
+        for (var j = 0; j < canvas.height; j += pixelDistY) {
+            ctx.fillStyle = 'rgba(' +
+                rdArr[count] + ',' + gArr[count] + ',' +
+                bArr[count] + ',255' +
+                ')';
+            //        pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
+            ctx.fillRect(i, j, pixelDistX, pixelDistY);
+            count++;
+        }
+    }
+    pixelCtx.drawImage(canvas,0,0,pixelCanvas.width,pixelCanvas.height);
 }
 
 function selectTool(s) {
