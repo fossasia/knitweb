@@ -5,6 +5,12 @@
 	color: #333333;
 }
 
+html, body {
+	height: 100%;
+	margin: 0;
+	overflow-x:hidden;
+	position:relative;
+}
 .clear {
 	clear: both;
 }
@@ -27,6 +33,12 @@
 	content: "";
 	display: block;
 	clear: both;
+}
+
+nav{
+	position:absolute;
+	top:0; left:0;
+	height:30px;
 }
 
 
@@ -52,8 +64,21 @@
 #wrapper {
 	width: 90%;
 	margin: 96px 5%;
+	position: relative;
+	left:0;
+	float:left;
+	clear:both;
 }
 /* End Wrapper */
+
+#simulator-page {
+	min-width:100%;
+	position: relative;
+	right:-105%;
+	float:left;
+	clear:both;
+}
+
 
 /* Start Upload File */
 #load-file {

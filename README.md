@@ -12,8 +12,13 @@ knitting pattern editor
 
 ## Offline Pattern Generation:
 
+####On Linux
 1. Go to /knitweb/offline_app directory.
 2. run the run.sh file typing sh run.sh
+
+####On Windows
+1. Go to /knitweb/offline_app directory.
+2. run the run.bat
 
 ## Drawing tools usage
 

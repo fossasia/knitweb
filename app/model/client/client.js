@@ -58,19 +58,18 @@ function getAvailablePorts() {
     var parsedObj;
 
     $.ajax({
-        url: 'http://localhost:8000/v1/get_ports',
+        url: 'http://localhost:5000/v1/get_ports',
         type: 'GET',
-        dataType: 'jsonp',
-        jsonp: "callback",
-        jsonpCallback: 'availablePorts',
+        dataType: 'json',
         crossDomain: true,
         success: function (json) {
             isSet = true;
             var obj = JSON.stringify(json);
             parsedObj = JSON.parse(obj);
+            console.log(parsedObj);
             var portList = document.getElementById("port_list");
             var option = document.createElement("option");
-            option.text = parsedObj.message;
+            option.text = parsedObj.test;
             portList.add(option);
         },
         error: function (err) {

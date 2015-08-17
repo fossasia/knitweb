@@ -1,16 +1,26 @@
-var pos;
-var simulatorCanvas = document.getElementById('simulatorCanvas');
-var pointerCanvas = document.getElementById('pointerCanvas');
-var simulatorCtx = simulatorCanvas.getContext("2d");
-var pointorCtx = pointerCanvas.getContext("2d");
+var pos,simulatorCanvas,pointerCanvas,simulatorCtx,pointorCtx;
 
-simulatorCanvas.width = simulatorCtx.canvas.clientWidth;
-simulatorCanvas.height= simulatorCtx.canvas.clientHeight;
-pointerCanvas.width = pointorCtx.canvas.clientWidth;
-pointerCanvas.height = pointorCtx.canvas.clientHeight;
+window.onload = function () {
+
+    var simulatorCanvas = document.getElementById('simulatorCanvas');
+    var pointerCanvas = document.getElementById('pointerCanvas');
+    var simulatorCtx = simulatorCanvas.getContext("2d");
+    var pointorCtx = pointerCanvas.getContext("2d");
+
+    simulatorCanvas.width = simulatorCtx.canvas.clientWidth;
+    simulatorCanvas.height= simulatorCtx.canvas.clientHeight;
+    pointerCanvas.width = pointorCtx.canvas.clientWidth;
+    pointerCanvas.height = pointorCtx.canvas.clientHeight;
+}
 
 function loadPattern() {
+
     pos = 0;
+    loadSimulationPage();
+}
+
+function load () {
+    var pixelCanvas = document.getElementById("canvas");
     simulatorCtx.drawImage(pixelCanvas, 0, 0, simulatorCanvas.width, simulatorCanvas.height);
     pointorCtx.clearRect(0,0,pointerCanvas.width,pointerCanvas.height);
     document.getElementById('column-num').innerHTML = "<br/>";
