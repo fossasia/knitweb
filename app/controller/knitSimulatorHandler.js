@@ -1,30 +1,33 @@
-var pos,simulatorCanvas,pointerCanvas,simulatorCtx,pointorCtx;
+var pos
+var simulatorCanvas = document.getElementById('simulatorCanvas');
+var pointerCanvas = document.getElementById('pointerCanvas');
+var simulatorCtx = simulatorCanvas.getContext("2d");
+var pointorCtx = pointerCanvas.getContext("2d");
 
-window.onload = function () {
 
-    var simulatorCanvas = document.getElementById('simulatorCanvas');
-    var pointerCanvas = document.getElementById('pointerCanvas');
-    var simulatorCtx = simulatorCanvas.getContext("2d");
-    var pointorCtx = pointerCanvas.getContext("2d");
-
-    simulatorCanvas.width = simulatorCtx.canvas.clientWidth;
-    simulatorCanvas.height= simulatorCtx.canvas.clientHeight;
-    pointerCanvas.width = pointorCtx.canvas.clientWidth;
-    pointerCanvas.height = pointorCtx.canvas.clientHeight;
-}
 
 function loadPattern() {
 
     pos = 0;
     loadSimulationPage();
-}
+    simulatorCanvas.width = simulatorCtx.canvas.clientWidth;
+    simulatorCanvas.height= simulatorCtx.canvas.clientHeight;
+    pointerCanvas.width = pointorCtx.canvas.clientWidth;
+    pointerCanvas.height = pointorCtx.canvas.clientHeight;
 
-function load () {
     var pixelCanvas = document.getElementById("canvas");
-    simulatorCtx.drawImage(pixelCanvas, 0, 0, simulatorCanvas.width, simulatorCanvas.height);
+    simulatorCtx.drawImage(pixelCanvas, 0, 0, 500, 500);
     pointorCtx.clearRect(0,0,pointerCanvas.width,pointerCanvas.height);
     document.getElementById('column-num').innerHTML = "<br/>";
     document.getElementById('row-num').innerHTML = "";
+
+    var margin = parseInt(simulatorCanvas.height+20)+'px';
+    document.getElementById('back-nav-btn').style.marginTop = margin;
+}
+
+function loadPttrn () {
+
+
 }
 
 function updateHead (){

@@ -3,7 +3,7 @@ var isFirefox = typeof InstallTrigger !== 'undefined';
 var isChrome = !!window.chrome && !isOpera;  
 
 function loadSimulationPage(){
-	
+
 	document.getElementById('content').style.display='none';
 	document.getElementById('simulator').style.display='block';
 	window.scrollTo(0,0);

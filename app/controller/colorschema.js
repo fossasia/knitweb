@@ -76,7 +76,7 @@ function addButtonClick(hex) {
     var newCell = newRow.insertCell(0);
     newCell.setAttribute('class', "color-box");
     newCell.setAttribute('style', "border: solid 1px black;background-color:#" + hex);
-    newCell.appendChild(newCell);
+
 }
 
 function clear() {
@@ -149,8 +149,8 @@ function getColourValues() {
             //    rdArr[pixelCount] + ',' + gArr[pixelCount] + ',' +
             //    bArr[pixelCount] + ',255' +
             //    ')';
-            pixelCtx.lineWidth = 0.2;
-            pixelCtx.strokeRect(i, j, pixelDistX, pixelDistY);
+            gridCtx.lineWidth = 0.2;
+            gridCtx.strokeRect(i, j, pixelDistX, pixelDistY);
             //pixelCtx.fillRect(i, j, pixelDistX, pixelDistY);
             //console.log(i+" and "+j);
             //pixelCount++;

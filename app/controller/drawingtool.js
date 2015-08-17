@@ -8,9 +8,12 @@ var cellWidth,cellHeight;
 
 var gridCanvas = document.getElementById("gridCanvas");
 var gridCtx = gridCanvas.getContext("2d");
+var bufferCanvas = document.getElementById("canvas2");
+var bufferCtx = bufferCanvas.getContext("2d");
 
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
+    if(!isRegionized)
     layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
 
     var mousemove = false;
@@ -21,7 +24,7 @@ layoutCanvas.onmousedown = function (e) {
     startY = e.clientY - rect.top;
     //console.log(startX+" and "+startY);
     if (!isRegionized)
-        gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+        //gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
     cellWidth = pixelCanvas.width/numOfColumns;
     cellHeight = pixelCanvas.height/numOfRows;
     prevPixelX = Math.floor(startX / cellWidth) * cellWidth;
@@ -47,9 +50,11 @@ layoutCanvas.onmousedown = function (e) {
         if (!isFreeHand) {
             if (!isRegionized)
                 layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
-            layoutCtx.strokeStyle = "rgba(255,0,0,255)";
-            layoutCtx.lineWidth = 1;
-            layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
+
+                layoutCtx.strokeStyle = "rgba(255,0,0,255)";
+                layoutCtx.lineWidth = 1;
+                layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
+
         }
 //start from here
         if (isFreeHand) {
@@ -151,15 +156,20 @@ function colourChange() {
         }
     }
     else if (!isFreeHand) {
-        for (var i = startPixelX; i < startPixelX + pixelWidth; i += cellWidth) {
-            for (var j = startPixelY; j < startPixelY + pixelHeight; j += cellHeight) {
-                pixelCtx.clearRect(i, j, cellWidth, cellHeight);
-                pixelCtx.fillStyle = style;
-                pixelCtx.lineWidth = 0.2;
-                pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
-                pixelCtx.fillRect(i, j, cellWidth, cellHeight);
-            }
-        }
+        //for (var i = startPixelX; i < startPixelX + pixelWidth; i += cellWidth) {
+        //    for (var j = startPixelY; j < startPixelY + pixelHeight; j += cellHeight) {
+        //        pixelCtx.clearRect(i, j, cellWidth, cellHeight);
+        //        pixelCtx.fillStyle = style;
+        //        pixelCtx.lineWidth = 0.2;
+        //        pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
+        //        pixelCtx.fillRect(i, j, cellWidth, cellHeight);
+        //    }
+        //}
+
+        pixelCtx.fillStyle = style;
+        pixelCtx.clearRect(startPixelX, startPixelY,pixelWidth, pixelHeight);
+        pixelCtx.fillRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
+
     }
     for (var i = 0; i < numOfRows; i++) {
         for (var j = 0; j < numOfColumns; j++) {
@@ -292,7 +302,8 @@ function checkBounds(check) {
         showColourBounds();
     } else if (!check.checked) {
         isRegionized = false;
-        gridCtx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
+        //gridCtx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
+        layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
     }
 }
 
@@ -392,8 +403,8 @@ function showColourBounds() {
         var check;
 
         //console.log(Math.floor((tempArr[1] % numOfColumns) * cellWidth)+" and "+Math.floor(tempArr[1] / numOfRows * cellHeight));
-        gridCtx.beginPath();
-        gridCtx.moveTo(Math.floor((tempArr[1] % numOfColumns) * pixelDistX),Math.floor(tempArr[1] / numOfRows * pixelDistY));
+        layoutCtx.beginPath();
+        layoutCtx.moveTo(Math.floor((tempArr[1] % numOfColumns) * pixelDistX),Math.floor(tempArr[1] / numOfRows * pixelDistY));
 
         var result = tempArr[0]+": ";
         for (var j = 1; j < tempArr.length; j++) {
@@ -403,9 +414,9 @@ function showColourBounds() {
             check = $.inArray(tempArr[j] - numOfColumns, tempArr);
             console.log("i th pos: "+(tempArr[j] % numOfColumns)+ "j th pos: "+parseInt(tempArr[j] / numOfRows));
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
+                layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY));
-                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistY ,
+                layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistY ,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY));
                 //console.log((tempArr[j] % numOfColumns) * cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight));
             }
@@ -413,32 +424,32 @@ function showColourBounds() {
             check = $.inArray(tempArr[j] + 1, tempArr);
             //console.log("i th pos: "+(tempArr[j] % numOfColumns)+ "j th pos: "+tempArr[j] / numOfRows * cellHeight);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
+                layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY));
-                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
+                layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY+ pixelDistY));
                 //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
 
             check = $.inArray(tempArr[j] + parseInt(numOfColumns), tempArr);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+pixelDistX,
+                layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+pixelDistX,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
-                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
+                layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
                 //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
 
             check = $.inArray(tempArr[j] - 1, tempArr);
             if (check == -1) {
-                gridCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
+                layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY));
-                gridCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
+                layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
                     Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
                 //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
             }
-            gridCtx.strokeStyle = "rgba(0,0,0,255)";
-            gridCtx.stroke();
+            layoutCtx.strokeStyle = "rgba(0,0,0,255)";
+            layoutCtx.stroke();
 
             isRegionized = true;
         }

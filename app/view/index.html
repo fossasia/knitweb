@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Knitting Web App</title>
-    <script src="../lib/js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="../controller/pixelate.js"></script>
     <script src="../controller/editor.js"></script>
     <script src="../model/client/client.js"></script>
@@ -12,18 +12,38 @@
     <script src="../lib/js/jquery.Jcrop.js"></script>
     <script src="../lib/js/jquery.Jcrop.min.js"></script>
     <script src="js/jcrop_main.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
     <link rel="stylesheet" href="../lib/css/jquery.Jcrop.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="responsive/responsive.css">
+
 </head>
 
 <body>
-<div id="heading">
-    <h1>Knitting Web App</h1>
-</div>
 
 <div id="outer-wrapper">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Knitting Web Application</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">File<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Open Project</a></li>
+                            <li><a href="#">Save Pattern</a></li>
+                            <li><a href="#">Import Pattern</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Edit</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div id="wrapper" class="page">
         <div id="content">
             <fieldset id="load-file">
@@ -180,14 +200,14 @@
 
         <div id="simulator" style='display:none'>
             <h1 style='margin-top:65px;margin-left:20px'>Knitting Simulator</h1>
-            <button style='width:80%;margin-top:20px;margin-left:20px' onClick='loadContentPage()'>Back</button>
-            <div id="simulator-canvas-section" style="margin-top: 10px">
+
+            <div id="simulator-canvas-section" style="margin: 10px">
                 <div id="simulator-canvas-div">
                     <canvas id="simulatorCanvas"></canvas>
                     <canvas id="pointerCanvas"></canvas>
                 </div>
                 <div id="tool-box">
-                    <button onclick="load()">Load</button>
+                    <button onclick="updateHead()">Load</button>
                 </div>
                 <div id="stitching-progress-panel" style="float: right">
                     <label>Column:</label>
@@ -195,6 +215,9 @@
                     <label>Row:</label>
                     <label id="row-num"></label>
                 </div>
+            </div>
+            <div style="margin-top: 10px">
+                <button id="back-nav-btn" style='width:20%;margin-left:20px;float: left' onClick='loadContentPage()'>Back</button>
             </div>
         </div>
 
