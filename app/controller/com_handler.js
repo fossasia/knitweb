@@ -11,3 +11,7 @@ function updateMachineType(){
 function sendImgData(imgData){
     sendImageData(imgData);
 }
+
+function initKnitJob(){
+    createKnitJob();
+}

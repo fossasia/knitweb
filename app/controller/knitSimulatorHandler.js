@@ -1,4 +1,4 @@
-var pos
+var pos;
 var simulatorCanvas = document.getElementById('simulatorCanvas');
 var pointerCanvas = document.getElementById('pointerCanvas');
 var simulatorCtx = simulatorCanvas.getContext("2d");
@@ -8,8 +8,11 @@ var pointorCtx = pointerCanvas.getContext("2d");
 
 function loadPattern() {
 
+    var pixelCanvas = document.getElementById("canvas");
     pos = 0;
+    bufferCtx.drawImage(pixelCanvas,0,0,bufferCanvas.width,bufferCanvas.height);
     loadSimulationPage();
+    initKnitJob();
     simulatorCanvas.width = simulatorCtx.canvas.clientWidth;
     simulatorCanvas.height= simulatorCtx.canvas.clientHeight;
     pointerCanvas.width = pointorCtx.canvas.clientWidth;
@@ -23,6 +26,7 @@ function loadPattern() {
 
     var margin = parseInt(simulatorCanvas.height+20)+'px';
     document.getElementById('back-nav-btn').style.marginTop = margin;
+
 }
 
 function loadPttrn () {
