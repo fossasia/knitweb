@@ -1,1 +1,1 @@
-./electron/electron ../../knitweb
+electron ../../knitweb
