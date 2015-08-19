@@ -1,1 +1,1 @@
-.\electron-win\electron.exe ..\..\knitweb
+electron.exe ..\..\knitweb
