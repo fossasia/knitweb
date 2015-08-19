@@ -1,0 +1,23 @@
+{
+    "#Common": "....",
+
+    "#Headings": "..",
+    "label.heading.name": "Name",
+
+    "#Menu Links": "..",
+    
+    "#Anchors": "..",
+    
+    "#Inputs": "..",
+    "label.input.name": "Name",
+    
+    "#Buttons": "..",
+    "label.button.knit": "Knit",
+    
+    "#Misc Labels": "..",
+    "label.createdby": "Created by",
+    "label.createdon": "Created on",
+	
+    "#Enumeration & Error Messages": "..",
+    "label.error": "Error"
+}
