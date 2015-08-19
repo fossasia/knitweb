@@ -304,7 +304,7 @@ nav{
 }
 
 #row-generated #controller-group-a {
-	width: 37%;
+	width: 100%;
 	padding-bottom: 16px;
 	float: left;
 	border-bottom: 1px solid #aaaaaa;
@@ -323,8 +323,8 @@ nav{
 
 #row-generated .panel {
 	padding: 16px 0;
-	width: 37%;
-	float: left;
+	width: 100%;
+	/*float: left;*/
 	border-bottom: 1px solid #aaaaaa;
 	border-top: 1px solid #ffffff;
 } 
@@ -360,6 +360,11 @@ nav{
 /* End Generated */
 
 /*simulator styling*/
+
+#control-panel {
+	float: left;
+	width:35%;
+}
 
 #simulator-canvas-div {
     display: inline;

@@ -1,58 +1,5 @@
-var isAuthenticated = false;
 var deviceType;
 var knit_job_id;
-
-function authenticate() {
-
-    $.ajax({
-        url: 'http://127.0.0.1:8000/login',
-        type: 'POST',
-        data: 'user_name=test_user&password=test123',
-        success: function () {
-            isAuthenticated = true;
-            alert('authentication successful');
-        },
-        error: function () {
-            isAuthenticated = false;
-            alert('authentication failed')
-        }
-    });
-}
-
-function sendImageData(imgData) {
-
-    var parsedResponse;
-
-    $.ajax({
-        url: 'http://localhost:8000/v1/setImageData',
-        type: 'POST',
-        data: {imgData: imgData},
-        dataType: 'jsonp',
-        jsonpCallback: 'setImageData',
-        crossDomain: true,
-        success: function (json) {
-            isSet = true;
-            var res = JSON.stringify(json);
-            parsedResponse = JSON.parse(res);
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    });
-}
-
-function getDeviceType() {
-    $.ajax({
-        url: 'http://127.0.0.1:8000/device',
-        type: 'GET',
-        success: function (res) {
-            deviceType = res;
-        },
-        error: function (err) {
-            alert(err);
-        }
-    });
-}
 
 
 // function for getting available ports for knit job communication
@@ -83,40 +30,90 @@ function getAvailablePorts() {
     //window.setTimeout(function(){alertFunc(isSet)}, 30);
 }
 
-function createKnitJob () {
-    var form = document.createElement("form");
 
-    var i = document.createElement("input"); //input element, text
-    i.setAttribute('type',"text");
-    i.setAttribute('name',"plugin_id");
+//method for creating knitting job at the backend
+ function createKnitJob(plugin_id,port) {
 
-    var s = document.createElement("input"); //input element, Submit button
-    s.setAttribute('type',"text");
-    s.setAttribute('value',"port");
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "//"+location.host + "/v1/create_job/",
+        data: {
+            "plugin_id": plugin_id,
+            "port": port
+        },
+        success: function(data){
+            console.log("Created knitting job:");
+            console.log(data);
+            knit_job_id = data["job_id"];
+        }
+    });
+    return knit_job_id;
+};
 
-    form.appendChild(i);
-    form.appendChild(s);
 
-    var formData = $(form).serializeArray();
-    var url = "http://localhost:5000/v1/create_job/";
-    $.post(url, formData).done(function (data) {
+//function for initializing knitting job
+function initKnitJob(job_id) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "//"+location.host + "/v1/init_job/" + job_id,
+        data: {
+            /* No data should be needed for job init. */
+        },
+        success: function(data){
+            console.log("Inited knitting job:")
+            console.log(data);
+        }
+    });
+};
 
-        var obj = JSON.stringify(data);
-        var parsedObj = JSON.parse(obj);
-        knit_job_id = parsedObj.job_id;
+
+//function for configuring knitting by sending image data
+function configKnitJob(job_id, image_data, colors, file_url){
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "//"+location.host + "/v1/configure_job/" + job_id,
+        data: { "knitpat_dict":
+            JSON.stringify({
+                "colors": colors,
+                "file_url":file_url,
+                "image_data": image_data
+            })},
+        success: function(data){
+            console.log("Configured knitting job:")
+            console.log(data);
+        }
     });
 }
 
+function knitJob(job_id){
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "//"+location.host + "/v1/knit_job/" + job_id,
+        data: {
+            /* No data should be needed */
+        },
+        success: function(data){
+            console.log("Knitting knitting job:")
+            console.log(data);
+        }
+    });
+}
 
+function alertFunc(bool) {
+    if (bool)
+        alert("port details retrieved");
+}
 
 function getMachineType() {
     var parsedObj;
     $.ajax({
         url: 'http://localhost:8000/v1/get_machine_type',
         type: 'GET',
-        dataType: 'jsonp',
-        jsonp: "callback",
-        jsonpCallback: 'machineType',
+        dataType: 'json',
         crossDomain: true,
         success: function (json) {
             isSet = true;
@@ -133,33 +130,16 @@ function getMachineType() {
     });
 }
 
-function initializeKnit() {
-    var url = 'http://localhost:5000/v1/init_job'+knit_job_id;
 
+function getDeviceType() {
     $.ajax({
-        url: url,
+        url: 'http://127.0.0.1:8000/device',
         type: 'GET',
-        dataType: 'json',
-        crossDomain: true,
-        success: function (json) {
-            var obj = JSON.stringify(json);
-            var parsedObj = JSON.parse(obj);
-            console.log(parsedObj);
+        success: function (res) {
+            deviceType = res;
         },
         error: function (err) {
-            console.log(err);
+            alert(err);
         }
     });
 }
-
-function alertFunc(bool) {
-    if (bool)
-        alert("port details retrieved");
-}
-
-
-
-
-
-
-

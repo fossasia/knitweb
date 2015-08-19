@@ -12,7 +12,7 @@ function loadPattern() {
     pos = 0;
     bufferCtx.drawImage(pixelCanvas,0,0,bufferCanvas.width,bufferCanvas.height);
     loadSimulationPage();
-    initKnitJob();
+
     simulatorCanvas.width = simulatorCtx.canvas.clientWidth;
     simulatorCanvas.height= simulatorCtx.canvas.clientHeight;
     pointerCanvas.width = pointorCtx.canvas.clientWidth;
@@ -26,14 +26,11 @@ function loadPattern() {
 
     var margin = parseInt(simulatorCanvas.height+20)+'px';
     document.getElementById('back-nav-btn').style.marginTop = margin;
+    createJob();
 
 }
 
-function loadPttrn () {
-
-
-}
-
+//knitting simulation of the knitting head position
 function updateHead (){
 
     var simulateDistX = simulatorCanvas.width/parseInt(numOfColumns);
