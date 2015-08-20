@@ -150,21 +150,12 @@ function colourChange() {
         for (var i = 0; i < pixelCanvas.width; i += cellWidth) {
             for (var j = 0; j < pixelCanvas.height; j += cellHeight) {
                 pixelCtx.strokeStyle = "0,0,0,255";
-                pixelCtx.lineWidth = 0.01;
-                pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
+                //pixelCtx.lineWidth = 0.01;
+                //pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
             }
         }
     }
     else if (!isFreeHand) {
-        //for (var i = startPixelX; i < startPixelX + pixelWidth; i += cellWidth) {
-        //    for (var j = startPixelY; j < startPixelY + pixelHeight; j += cellHeight) {
-        //        pixelCtx.clearRect(i, j, cellWidth, cellHeight);
-        //        pixelCtx.fillStyle = style;
-        //        pixelCtx.lineWidth = 0.2;
-        //        pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
-        //        pixelCtx.fillRect(i, j, cellWidth, cellHeight);
-        //    }
-        //}
 
         pixelCtx.fillStyle = style;
         pixelCtx.clearRect(startPixelX, startPixelY,pixelWidth, pixelHeight);
@@ -176,8 +167,8 @@ function colourChange() {
             if (imageArr[i][j]) {
                 pixelCtx.clearRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 pixelCtx.fillStyle = style;
-                pixelCtx.lineWidth = 0.2;
-                pixelCtx.strokeRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                //pixelCtx.lineWidth = 0.2;
+                //pixelCtx.strokeRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 pixelCtx.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
             }
         }
@@ -470,7 +461,6 @@ function showColourRegions(tempArr) {
             pixelCtx.clearRect(posY, posX, cellWidth, cellHeight);
             pixelCtx.fillStyle = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
             pixelCtx.lineWidth = 0.1;
-            pixelCtx.strokeRect(posY, posX, cellWidth, cellHeight);
             pixelCtx.fillRect(posY, posX, cellWidth, cellHeight);
         }
     }
@@ -490,7 +480,6 @@ function undo() {
                 bArr[pixelCount] + ',255' +
                 ')';
             pixelCtx.lineWidth = 0.01;
-            pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
             pixelCtx.fillRect(i, j, cellWidth, cellHeight);
             pixelCount++;
         }

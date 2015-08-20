@@ -180,11 +180,12 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
                                     <label>&nbsp;</label>
-                                    <button onclick="loadPattern()" style="width:50%">Configure</button>
+                                    <button onclick="loadPattern()" style="width:50%">Proceed Knitting</button>
                                 </div>
                             </div>
                         </div>
@@ -193,32 +194,107 @@
                     </div>
                 </div>
             </fieldset>
-
         </div>
 
-        <div id="simulator" style='display:none'>
-            <h1 style='margin-top:65px;margin-left:20px'>Knitting Simulator</h1>
+        <fieldset id="row-generated-simulator">
+            <div id="simulator" style='display:none'>
+                <h1 style='margin-top:5px;margin-left:20px'>Knitting Simulator</h1>
 
-            <div id="simulator-canvas-section" style="margin: 10px">
-                <div id="simulator-canvas-div">
-                    <canvas id="simulatorCanvas"></canvas>
-                    <canvas id="pointerCanvas"></canvas>
+                <div id="simulator-canvas-section" style="margin: 10px">
+                    <div id="simulator-canvas-div">
+                        <canvas id="simulatorCanvas"></canvas>
+                        <canvas id="pointerCanvas"></canvas>
+                    </div>
+                    <div id="simulator-panel">
+                        <div class="panel">
+                            <div class="input-group">
+                                <div class="text-input-group">
+                                    <label>Column:</label>
+                                    <input id="column-num" class="input-params" type="text" value="0" readonly="readonly" >
+
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div class="text-input-group">
+                                    <label>Row:</label>
+                                    <input id="row-num" class="input-params" type="text" value="0" readonly="readonly" >
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="input-group">
+                                <div class="text-input-group">
+                                    <label>Colors:&nbsp;</label>
+                                    <input id="colour-count" class="input-params" type="text" value="2" readonly="readonly" >
+
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div class="text-input-group">
+                                    <label>Start Line:&nbsp;</label>
+                                    <input id="start-line" class="input-params" type="text" value="0">
+
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="input-group">
+                                <div class="text-input-group">
+                                    <label>&nbsp;</label>
+                                    <input type="checkbox" onclick="">&nbsp;Infinite Repeat
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="input-group">
+                                <div class="text-input-group">
+                                    <label>Start Needle:&nbsp;</label>
+                                    <input id="start-needle" class="input-params" type="text" value="0" >
+
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div class="text-input-group">
+                                    <label>Stop Needle:&nbsp;</label>
+                                    <input id="stop-needle" class="input-params" type="text" value="0">
+
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="input-group">
+                                <div class="text-input-group">
+                                    <label>&nbsp;</label>
+                                    <button id="configure-btn" type="button" class="btn btn-default" onclick="configureKnit()" style="width:60%">Configure</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="input-group">
+                                <div class="text-input-group">
+                                    <label>&nbsp;</label>
+                                    <button id="start-btn" type="button" class="btn btn-default" disabled="disabled" onclick="startKnit()" style="width:20%">Start</button>
+                                    <button id="pause-btn" type="button" class="btn btn-default" disabled="disabled" onclick="updateHead()" style="width:20%">Pause</button>
+                                    <button id="stop-btn" type="button" class="btn btn-default" disabled="disabled" onclick="updateHead()" style="width:20%">Stop</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="tool-box">
-                    <button onclick="configureKnit()">Start Knitting</button>
-                </div>
-                <div id="stitching-progress-panel" style="float: right">
-                    <label>Column:</label>
-                    <label id="column-num"><br/></label>
-                    <label>Row:</label>
-                    <label id="row-num"></label>
+
+                <div style="margin-top: 10px">
+                    <button type="button" class="btn btn-primary" id="back-nav-btn" style='width:20%;margin-left:20px;float: left' onClick='loadContentPage()'>Back to Editor</button>
                 </div>
             </div>
-            <div style="margin-top: 10px">
-                <button id="back-nav-btn" style='width:20%;margin-left:20px;float: left' onClick='loadContentPage()'>Back</button>
-            </div>
-        </div>
-
+        </fieldset>
     </div>
 
 </div>
@@ -265,6 +341,7 @@
         console.log(table_height);
         $("#previewTable").height(table_height);
     }
+
 
 </script>
 

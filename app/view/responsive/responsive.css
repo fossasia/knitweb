@@ -361,26 +361,87 @@ nav{
 
 /*simulator styling*/
 
+#row-generated-simulator .panel {
+	padding: 16px 0;
+	width: 100%;
+	/*float: left;*/
+	border-bottom: 1px solid #aaaaaa;
+	border-top: 1px solid #ffffff;
+}
+
+#row-generated-simulator .panel .input-group {
+	width: 100%;
+}
+
+#row-generated-simulator .panel .input-group .text-input-group {
+	width: 100%;
+	padding: 4px 0;
+}
+
+#row-generated-simulator .panel .input-group .text-input-group label {
+	width: calc(30% - 8px);
+	text-align: right;
+	display: block;
+	float: left;
+	padding: 4px;
+}
+
+#row-generated-simulator .panel .input-group .text-input-group input[type="text"] {
+	width: calc(70% - 12px);
+	float: left;
+	padding: 4px;
+}
+
+#row-generated-simulator .panel .input-group .text-input-group select,
+#row-generated-simulator .panel .input-group .text-input-group button {
+	padding: 4px;
+}
+
+#row-generated-simulator {
+	height: auto;
+	width:100%;
+	margin: 0;
+	padding: 16px;
+	background-color: #eeeeee;
+	border: 1px solid #cccccc;
+	border-top-color: #ffffff;
+	position: relative;
+}
+#row-generated-simulator #simulator {
+	width: 100%;
+}
+
+#row-generated #simulator-canvas-section {
+	width: 100%;
+}
+#row-generated-simulator #simulator-canvas-div{
+	width: 60%;
+	height: 600px;
+	margin: 0;
+	margin-right: 3%;
+	float: left;
+	position: relative;
+	display: block;
+}
+
+
+#row-generated-simulator #simulatorCanvas,
+#row-generated-simulator #pointerCanvas{
+	position: absolute;
+	border: none;
+	width: calc(100% - 2px);
+	height: 600px;
+	border: 1px solid #999999;
+	float: left;
+}
+
 #control-panel {
 	float: left;
 	width:35%;
 }
 
-#simulator-canvas-div {
-    display: inline;
-    float: left;
-    position: relative;
+#simulator-panel {
+	float: left;
+	width:35%;
 }
 
-#simulatorCanvas, #pointerCanvas {
-    position: absolute;
-    width:500px;
-    height:500px;
-    border:1px solid #000000;
-    margin-left: 50px;
-}
-
-#tool-box {
-    margin: 20px;
-    float: right;
-}

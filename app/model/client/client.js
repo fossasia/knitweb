@@ -2,13 +2,27 @@ var deviceType;
 var knit_job_id;
 
 
+//getting asynchronous messages from the knitlib server
+if ("WebSocket" in window) {
+
+    var ws = new WebSocket("ws://" + location.host + "/v1/knitting_socket");
+    ws.onmessage = function (evt) {
+        var received_msg = evt.data;
+        console.log(received_msg);
+    };
+
+    ws.onopen = function () {
+        ws.send("hello");
+    };
+}
+
 // function for getting available ports for knit job communication
 function getAvailablePorts() {
     var isSet = false;
     var parsedObj;
 
     $.ajax({
-        url: 'http://localhost:5000/v1/get_ports',
+        url: "//"+location.host +"/v1/get_ports",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
@@ -29,7 +43,6 @@ function getAvailablePorts() {
 
     //window.setTimeout(function(){alertFunc(isSet)}, 30);
 }
-
 
 //method for creating knitting job at the backend
  function createKnitJob(plugin_id,port) {
@@ -62,7 +75,8 @@ function initKnitJob(job_id) {
             /* No data should be needed for job init. */
         },
         success: function(data){
-            console.log("Inited knitting job:")
+            knit_status = true;
+            console.log("Initiated knitting job:")
             console.log(data);
         }
     });
@@ -103,15 +117,10 @@ function knitJob(job_id){
     });
 }
 
-function alertFunc(bool) {
-    if (bool)
-        alert("port details retrieved");
-}
-
 function getMachineType() {
     var parsedObj;
     $.ajax({
-        url: 'http://localhost:8000/v1/get_machine_type',
+        url: "//"+location.host +"/v1/get_machine_type",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
