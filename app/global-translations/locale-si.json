@@ -1,0 +1,57 @@
+{
+    "#Common": "....",
+
+	
+    "#Headings": "..",
+    "label.heading.knittingwebapplication": "වියන වෙබ් යෙදවුම",
+	"label.heading.generatedpattern": "නිපැදවූ මෝස්තරය",
+	"label.heading.patternpreview": "මෝස්තරය පෙන්වීම",
+	"label.heading.loadapattern": "මෝස්තරයක් ගෙන්වීම",
+
+	
+    "#Menu Links": "..",
+	"label.menu.file": "ලිපි ගොනුව",
+	"label.menu.file.openproject": "ව්‍යාපෘතිය විවෘත කිරීම",
+	"label.menu.file.saveproject": "ව්‍යාපෘතිය සුරකින්න",
+	"label.menu.file.importpattern": "මෝස්තරයක් ගෙන්වීම",
+	"label.menu.edit": "සංස්කරණය කරන්න",
+	"label.menu.help": "උදවු",
+	"label.menu.help.aboutsoftware": "මෘදුකාංගය ගැන",
+    
+	
+    "#Anchors": "..",
+    
+	
+    "#Inputs": "..",
+    "label.input.port": "කවුළුව: ",
+	"label.input.machine": "යන්ත්‍රය: ",
+	"label.input.columns": "සිරස් පේළිය: ",
+	"label.input.rows": "තිරස් පේළිය: ",
+    
+	
+    "#Buttons": "..",
+    "label.button.knit": "ගොතන්න",
+	"label.button.configure": "හැඩගැස්වන්න",
+	"label.button.choosefile": "ලිපි ගොනුව තෝරන්න ",
+	"label.button.addyarncolour": "නූල් සඳහා වර්ණ එකතු කරන්න",
+	"label.button.generatepattern": "මෝස්තරයක් නිපදවීම",
+	"label.button.fill": "Fill",
+	"label.button.delete": "මකා දමන්න",
+	"label.button.Reset": "යලි පිහිටුවන්න",
+	
+	"label.radiobutton.freehand": "නිදහසේ",
+	"label.radiobutton.square": "සමචතුරස්‍රාකාර",
+	
+	"label.checkbox.enablecropping": "කප්පාදු කිරීම සක්‍රීය කරන්න",
+	"label.checkbox.showcolourregions.selectedarea": "වර්ණ පෙදෙස පෙන්වන්න [තෝරාගන්නා ලද පෙදෙස]",
+	"label.checkbox.showcolourregions.allarea": "වර්ණ පෙදෙස පෙන්වන්න [සම්පුර්ණ  පෙදෙස]",
+	
+	
+    "#Misc Labels": "..",
+    "label.createdby": "නිමවා ඇත්තේ",
+    "label.createdon": "නිමවූ දිනය",
+	
+	
+    "#Enumeration & Error Messages": "..",
+    "label.error": "දෝෂයකි"
+}
