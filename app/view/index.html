@@ -3,11 +3,16 @@
 <head>
     <title>Knitting Web App</title>
     <script src="../lib/js/jquery.min.js"></script>
-
+	
+	<!-- import locales.ini for global translation -->
+    <link rel="resource" type="application/l10n" href="global-translations/locales.ini" />
+	<!-- import l10.js for global translation -->
+    <script type="text/javascript" src="js/l10n.js"></script>
+	
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
     <link rel="stylesheet" href="../lib/css/jquery.Jcrop.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="responsive/responsive.css">
+    <link rel="stylesheet" type="text/css" href="responsive/responsive.css"/>
 
 </head>
 
@@ -29,6 +34,13 @@
                         </ul>
                     </li>
                     <li><a href="#">Edit</a></li>
+					<li class="dropdown"><a class="dropdown-toggle" data-l10n-id="menu_translate" data-toggle="dropdown" href="#">Translate<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-l10n-id="menu_translate_english">English</a></li>
+							<li><a href="#" data-l10n-id="menu_translate_sinhala">Sinhala</a></li>
+							<li><a href="#" data-l10n-id="menu_translate_tamil">Tamil</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Help<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">About Software</a></li>
