@@ -35,11 +35,10 @@
                     </li>
                     <li><a href="#" data-l10n-id="menu_edit">Edit</a></li>
 					<li class="dropdown"><a class="dropdown-toggle" data-l10n-id="menu_translate" data-toggle="dropdown" href="#" data-l10n-id="menu_translate">Translate<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" data-l10n-id="menu_translate_english">English</a></li>
-							<li><a href="#" data-l10n-id="menu_translate_german">German</a></li>
-							<li><a href="#" data-l10n-id="menu_translate_sinhala">Sinhala</a></li>
-							<li><a href="#" data-l10n-id="menu_translate_tamil">Tamil</a></li>
+                        <ul id="langmenu" class="dropdown-menu">
+                            <li><a href="#" onclick="setLang('en')" data-l10n-id="menu_translate_english">English</a></li>
+							<li><a href="#" onclick="setLang('ge')" data-l10n-id="menu_translate_german">German</a></li>
+							<li><a href="#" onclick="setLang('si')" data-l10n-id="menu_translate_sinhala">Sinhala</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" data-l10n-id="menu_help">Help<span class="caret"></span></a>
@@ -354,8 +353,6 @@
         console.log(table_height);
         $("#previewTable").height(table_height);
     }
-
-
 </script>
 
 <script src="../controller/pixelate.js"></script>
@@ -368,6 +365,9 @@
 <script src="../lib/js/jquery.Jcrop.min.js"></script>
 <script src="js/jcrop_main.js"></script>
 <script src="js/bootstrap.min.js"></script>
+
+<!-- set Language function for the localization setLang() -->
+<script src="js/set_lang.js"></script>
 
 <script type="text/javascript" src="../controller/colorschema.js"></script>
 <script type="text/javascript" src="../controller/drawingtool.js"></script>
