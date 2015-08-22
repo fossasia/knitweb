@@ -14,7 +14,7 @@ var bufferCtx = bufferCanvas.getContext("2d");
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
     if(!isRegionized)
-    layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
+        layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
 
     var mousemove = false;
     var count = 0;
@@ -24,8 +24,8 @@ layoutCanvas.onmousedown = function (e) {
     startY = e.clientY - rect.top;
     //console.log(startX+" and "+startY);
     if (!isRegionized)
-        //gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
-    cellWidth = pixelCanvas.width/numOfColumns;
+    //gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+        cellWidth = pixelCanvas.width/numOfColumns;
     cellHeight = pixelCanvas.height/numOfRows;
     prevPixelX = Math.floor(startX / cellWidth) * cellWidth;
     prevPixelY = Math.floor(startY / cellHeight) * cellHeight;
@@ -51,9 +51,9 @@ layoutCanvas.onmousedown = function (e) {
             if (!isRegionized)
                 layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
 
-                layoutCtx.strokeStyle = "rgba(255,0,0,255)";
-                layoutCtx.lineWidth = 1;
-                layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
+            layoutCtx.strokeStyle = "rgba(255,0,0,255)";
+            layoutCtx.lineWidth = 1;
+            layoutCtx.strokeRect(startPixelX, startPixelY, pixelWidth, pixelHeight);
 
         }
 //start from here
@@ -110,9 +110,10 @@ layoutCanvas.onmousedown = function (e) {
 
 layoutCanvas.onclick = function () {
     if (isRegionized) {
-        console.log(startPixelX / cellWidth + " " + startPixelY / cellHeight);
+        console.log(numOfRows *Math.floor(startPixelY / cellWidth)+" "+Math.floor(startPixelX / cellHeight)+" "+(startPixelX));
+        console.log(numOfRows *Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight));
         var colourVal = imgAvgData[numOfRows * Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight)];
-        console.log(100 * startPixelY / 10 + startPixelX / 10);
+        //console.log(100 * startPixelY / 10 + startPixelX / 10);
 
         for (var i = 0; i< collection.length; i++) {
             var arr = collection[i];
@@ -133,7 +134,7 @@ layoutCanvas.onclick = function () {
 function colourChange() {
     colourPickerEnabled=!colourPickerEnabled;
     var style = document.getElementsByClassName('colpick_new_color')[0].style.backgroundColor;
-// getColorBounds();
+
     if (isFreeHand) {
         pixelCtx.beginPath();
         for (var i = 0; i < list.length; i++) {
@@ -150,8 +151,6 @@ function colourChange() {
         for (var i = 0; i < pixelCanvas.width; i += cellWidth) {
             for (var j = 0; j < pixelCanvas.height; j += cellHeight) {
                 pixelCtx.strokeStyle = "0,0,0,255";
-                //pixelCtx.lineWidth = 0.01;
-                //pixelCtx.strokeRect(i, j, cellWidth, cellHeight);
             }
         }
     }
@@ -167,8 +166,6 @@ function colourChange() {
             if (imageArr[i][j]) {
                 pixelCtx.clearRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 pixelCtx.fillStyle = style;
-                //pixelCtx.lineWidth = 0.2;
-                //pixelCtx.strokeRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                 pixelCtx.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
             }
         }
@@ -182,208 +179,110 @@ function getColorBounds() {
     data = imgData.data;
 
     for (var i = 0; i < numOfRows; i++) {
-        //var result ="";
         for (var j = 0; j < numOfColumns; j++) {
-            var pos = (Math.floor(cellHeight)*pixelCanvas.width * 4)* i + (Math.floor(cellHeight/2)*pixelCanvas.width * 4) + Math.floor(cellWidth/2) * 4 + Math.floor(cellWidth) * j * 4;
-            //console.log("position:"+pos);
             imgAvgData[numOfRows * i + j] = (rdArr[numOfColumns * j + i] + "," + gArr[numOfColumns * j + i] + "," + bArr[numOfColumns * j + i]);
-            //result+=imgAvgData[numOfRows * i + j]+" ";
         }
-        //console.log(result);
     }
 }
+
+var flag = false;
+var tempColourArr = [];
+
+
+function callFlood(){
+
+    //getColorBounds();
+    var colourList = [];
+    collection = [];
+    var startGridPosX = startPixelX / cellWidth;
+    var startGridPosY = startPixelY / cellHeight;
+    var endGridPosX = (startPixelX + pixelWidth) / cellWidth;
+    var endGridPosY = (startPixelY + pixelHeight) / cellHeight;
+    var mark=[],dupImgDataArr;
+
+    for (var i = 0; i < numOfRows; i++) {
+
+        var elements = [];
+        for (var j = 0; j < numOfColumns; j++) {
+            elements[j]=false;
+        }
+        mark.push(elements);
+    }
+
+    dupImgDataArr = imgAvgData.slice();
+    for (var i = startGridPosY; i < endGridPosY; i++) {
+        for (var j = startGridPosX; j < endGridPosX; j++) {
+            var tempVal = dupImgDataArr[numOfRows * i + j];
+            tempColourArr = [];
+            //tempColourArr.push(tempVal);
+            flood(dupImgDataArr, mark, i, j,tempVal, -1,tempColourArr);
+            if(flag) {
+                //collection.push(tempArr);
+                var result = tempVal+": ";
+                var copyArr = [];
+                copyArr[0] = tempVal;
+                tempColourArr = tempColourArr.sort(function(a, b){return a-b});
+                for (var k = 0; k < tempColourArr.length; k++) {
+                    result+= tempColourArr[k]+" ";
+                    copyArr[k+1] = tempColourArr[k];
+                }
+                collection.push(copyArr);
+            }
+            flag=false;
+        }
+    }
+
+
+    function flood(img, mark,row,col,src,tgt,tempArr){
+        if (row < 0) return;
+        if (col < 0) return;
+        if (row >= numOfRows) return;
+        if (col >= numOfColumns) return;
+
+        // make sure this pixel hasn't been visited yet
+        if (mark[row][col])return;
+
+        // make sure this pixel is the right color to fill
+        if (img[col+row*numOfRows]!==src){return};
+
+        // fill pixel with target  and mark it as visited
+        img[col+row*numOfRows]=tgt;
+
+        if(row>=startGridPosY && row<endGridPosY && col>=startGridPosX && col<endGridPosX)
+            tempColourArr.push(col+row*numOfRows);
+        //console.log("row:"+row+" col:"+col);
+        flag=true;
+        mark[row][col] = true;
+
+        flood(img, mark, row - 1, col, src, tgt);
+        flood(img, mark, row + 1, col, src, tgt);
+        flood(img, mark, row, col - 1, src, tgt);
+        flood(img, mark, row, col + 1, src, tgt);
+
+    }
+
+}
+
+
 
 // function for checking for colour boundaries
 function checkBounds(check) {
     if (check.checked) {
+
         layoutCanvas.style.cursor = "crosshair";
         isRegionized = true;
-        getColorBounds();
-        var colourList = [];
         collection = [];
-        var startGridPosX = startPixelX / cellWidth;
-        var startGridPosY = startPixelY / cellHeight;
-        var endGridPosX = (startPixelX + pixelWidth) / cellWidth;
-        var endGridPosY = (startPixelY + pixelHeight) / cellHeight;
 
-//traverse grid through selected region
-        for (var i = startGridPosY; i < endGridPosY; i++) {
-            for (var j = startGridPosX; j < endGridPosX; j++) {
-
-                var tempVal = imgAvgData[numOfRows * i + j];
-                var check = $.inArray(tempVal, colourList);
-                if (check !== -1) {
-                    colourList.push(tempVal);
-                }
-                var innerCheck = -1;
-                var kVal = -1, pos = -1;
-                for (var k = 0; k < collection.length; k++) {
-                    var tempArray = collection[k];
-                    innerCheck = $.inArray(numOfRows * i + j, tempArray);
-                    if (innerCheck > -1) {
-                        kVal = k;
-                        pos = innerCheck;
-                        break;
-                    }
-                }
-                if (innerCheck == -1) {
-                    var newArr = [];
-                    newArr[0] = tempVal;
-                    newArr.push(numOfRows * i + j);
-                    collection.push(newArr);
-                    kVal = collection.length - 1;
-                    pos = 0;
-                }
-//setting homogeneous neighbouring colour grid positions
-                var arr = collection[kVal];
-                if ((j - 1) >= startGridPosX && imgAvgData[numOfRows * i + j - 1] === tempVal) {
-                    arr.push(numOfRows * i + j - 1);
-                }
-                if ((j + 1) < endGridPosX && imgAvgData[numOfRows * i + j + 1] === tempVal) {
-                    arr.push(numOfRows * i + j + 1);
-                }
-                if ((j - 1) >= startGridPosX && (i - 1) >= startGridPosY && imgAvgData[numOfRows * (i - 1) + j - 1] === tempVal) {
-                    arr.push(numOfRows * (i - 1) + j - 1);
-                }
-                if ((i - 1) >= startGridPosY && imgAvgData[numOfRows * (i - 1) + j] === tempVal) {
-                    arr.push(numOfRows * (i - 1) + j);
-                }
-                if ((i - 1) >= startGridPosY && (j + 1) < endGridPosX && imgAvgData[numOfRows * (i - 1) + j + 1] === tempVal) {
-                    arr.push(numOfRows * (i - 1) + j + 1);
-                }
-                if ((j - 1) >= startGridPosX && (i + 1) < endGridPosY && imgAvgData[numOfRows * (i + 1) + j - 1] === tempVal) {
-                    arr.push(numOfRows * (i + 1) + j - 1);
-                }
-                if ((i + 1) < endGridPosY && imgAvgData[numOfRows * (i + 1) + j] === tempVal) {
-                    arr.push(numOfRows * (i + 1) + j);
-                }
-                if ((i + 1) < endGridPosY && (j + 1) < endGridPosX && imgAvgData[numOfRows * (i + 1) + j + 1] === tempVal) {
-                    arr.push(numOfRows * (i + 1) + j + 1);
-                }
-            }
-        }
-        //sorting colour list values according to their respective positions
-        for (var i = 0; i < collection.length; i++) {
-
-            var tempArray = collection[i];
-            var dupArr = tempArray.slice(1, tempArray.length);
-            dupArr = dupArr.sort(function (a, b) {
-                return a - b
-            });
-
-            var max = -1;
-            var cpyArr = [];
-            cpyArr[0] = tempArray[0];
-            for (var j = 0; j < dupArr.length; j++) {
-                if (max < dupArr[j]) {
-                    max = dupArr[j];
-                    cpyArr.push(max);
-                }
-            }
-            //var resultString = "colour value1#:" + cpyArr[0] + " :";
-            //for (var j = 1; j < cpyArr.length; j++) {
-            //    resultString += "," + cpyArr[j];
-            //}
-            //console.log(resultString);
-
-            collection[i] = [];
-            collection[i] = cpyArr;
-        }
-        removeDupColours();
+        getColorBounds();
+        callFlood();
         showColourBounds();
+
     } else if (!check.checked) {
         isRegionized = false;
-        //gridCtx.clearRect(0,0,gridCanvas.width,gridCanvas.height);
         layoutCtx.clearRect(0, 0, layoutCanvas.width, layoutCanvas.height);
     }
 }
 
-//function for removing overlapping regions returned by the process
-function removeDupColours() {
-
-    // console.log(collection.length);
-    var colourArr = [];
-
-    for (var i = 0; i < numOfColumns*numOfRows; i++) {
-        colourArr[i] = "";
-    }
-
-    for (var i = 0; i < collection.length; i++) {
-        var tempArray = collection[i];
-        var dupArr = tempArray.slice(1, tempArray.length - 1);
-        dupArr = dupArr.sort(function (a, b) {
-            return a - b
-        });
-        //var result = "";
-        for (var j = 0; j < dupArr.length; j++) {
-            //result+=dupArr[j]+",";
-            colourArr[dupArr[j]] += i + ",";
-        }
-        //console.log(result);
-    }
-
-    var pairs = [];
-    var resultStr = "";
-    for (var i = 0; i < colourArr.length; i++) {
-        var tempArr = colourArr[i].split(',');
-        var result = "";
-        if (tempArr.length > 2) {
-            for (var j = 0; j < tempArr.length - 1; j++) {
-                result += tempArr[j] + ",";
-            }
-            //       console.log(result);
-
-            if (resultStr.indexOf(result) == -1) {
-                pairs.push(result);
-            }
-            resultStr += result;
-        }
-    }
-
-    for (var i = 0; i < pairs.length; i++) {
-
-        var pos = pairs[i].split(',');
-        var parm1 = collection[pos[0]].slice(1, collection[pos[0]].length);
-        var parm2 = collection[pos[1]].slice(1, collection[pos[1]].length);
-        var mergedArr = merge(parm1, parm2);
-        mergedArr[0] = collection[pos[0]][0];
-        collection[pos[1]].push(-1);
-        collection[pos[0]] = [];
-        collection[pos[0]] = mergedArr;
-
-    }
-
-    var instanceArr = [];
-    for (var i = 0; i < collection.length; i++) {
-
-        var tempArray = collection[i];
-        if (tempArray[tempArray.length - 1] !== -1) {
-            instanceArr.push(tempArray);
-        }
-    }
-    //  collection = [];
-    collection = instanceArr;
-}
-
-//merging of two overlapping regions(same coloured)
-function merge(a, b) {
-    var answer = [];
-    var i = 0, j = 0, k = 1;
-
-    while (i < a.length && j < b.length) {
-        if (a[i] < b[j])
-            answer[k++] = a[i++];
-        else
-            answer[k++] = b[j++];
-    }
-    while (i < a.length)
-        answer[k++] = a[i++];
-
-    while (j < b.length)
-        answer[k++] = b[j++];
-
-    return answer;
-}
 
 //function for visualizing of colour boundaries
 function showColourBounds() {
@@ -403,55 +302,49 @@ function showColourBounds() {
             result+=tempArr[j]+",";
 
             check = $.inArray(tempArr[j] - numOfColumns, tempArr);
-            console.log("i th pos: "+(tempArr[j] % numOfColumns)+ "j th pos: "+parseInt(tempArr[j] / numOfRows));
+
             if (check == -1) {
                 layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY));
                 layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistY ,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
-                //console.log((tempArr[j] % numOfColumns) * cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight));
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY));
             }
 
             check = $.inArray(tempArr[j] + 1, tempArr);
-            //console.log("i th pos: "+(tempArr[j] % numOfColumns)+ "j th pos: "+tempArr[j] / numOfRows * cellHeight);
+
             if (check == -1) {
                 layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY));
                 layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX+ pixelDistX ,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY+ pixelDistY));
-                //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY+ pixelDistY));
             }
 
             check = $.inArray(tempArr[j] + parseInt(numOfColumns), tempArr);
             if (check == -1) {
                 layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX+pixelDistX,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY + pixelDistY));
                 layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
-                //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth) + cellWidth+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+ Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY + pixelDistY));
             }
 
             check = $.inArray(tempArr[j] - 1, tempArr);
             if (check == -1) {
                 layoutCtx.moveTo((tempArr[j] % numOfColumns) * pixelDistX,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY));
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY));
                 layoutCtx.lineTo((tempArr[j] % numOfColumns) * pixelDistX,
-                    Math.floor(tempArr[j] / numOfRows * pixelDistY + pixelDistY));
-                //console.log(Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight)+" to "+Math.floor((tempArr[j] % numOfColumns) * cellWidth)+","+Math.floor(tempArr[j] / numOfRows * cellHeight) + cellHeight);
+                    Math.floor(parseInt(tempArr[j] / numOfRows) * pixelDistY + pixelDistY));
             }
             layoutCtx.strokeStyle = "rgba(0,0,0,255)";
             layoutCtx.stroke();
 
             isRegionized = true;
         }
-        //console.log(result);
     }
 }
 
 //function for visualizing of different colour regions
 function showColourRegions(tempArr) {
 
-    var count = 255;
     for (var i = 0; i < collection.length; i++) {
 
         for (var j = 1; j < tempArr.length; j++) {
