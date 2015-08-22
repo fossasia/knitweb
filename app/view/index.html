@@ -3,11 +3,16 @@
 <head>
     <title>Knitting Web App</title>
     <script src="../lib/js/jquery.min.js"></script>
-
+	
+	<!-- import locales.ini for global translation -->
+    <link rel="resource" type="application/l10n" href="global-translations/locales.ini" />
+	<!-- import l10.js for global translation -->
+    <script type="text/javascript" src="js/l10n.js"></script>
+	
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
     <link rel="stylesheet" href="../lib/css/jquery.Jcrop.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="responsive/responsive.css">
+    <link rel="stylesheet" type="text/css" href="responsive/responsive.css"/>
 
 </head>
 
@@ -17,21 +22,28 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Knitting Web Application</a>
+                <a class="navbar-brand" href="#" data-l10n-id="heading_knittingwebapplication">Knitting Web Application</a>
             </div>
             <div>
                 <ul class="nav navbar-nav">
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">File<span class="caret"></span></a>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" data-l10n-id="menu_file">File<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Open Project</a></li>
-                            <li><a href="#">Save Pattern</a></li>
-                            <li><a href="#">Import Pattern</a></li>
+                            <li><a href="#" data-l10n-id="menu_file_openproject">Open Project</a></li>
+                            <li><a href="#" data-l10n-id="menu_file_savepattern">Save Pattern</a></li>
+                            <li><a href="#" data-l10n-id="menu_file_importpattern">Import Pattern</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Edit</a></li>
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Help<span class="caret"></span></a>
+                    <li><a href="#" data-l10n-id="menu_edit">Edit</a></li>
+					<li class="dropdown"><a class="dropdown-toggle" data-l10n-id="menu_translate" data-toggle="dropdown" href="#" data-l10n-id="menu_translate">Translate<span class="caret"></span></a>
+                        <ul id="langmenu" class="dropdown-menu">
+                            <li><a href="#" onclick="setLang('en')" data-l10n-id="menu_translate_english">English</a></li>
+							<li><a href="#" onclick="setLang('ge')" data-l10n-id="menu_translate_german">German</a></li>
+							<li><a href="#" onclick="setLang('si')" data-l10n-id="menu_translate_sinhala">Sinhala</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" data-l10n-id="menu_help">Help<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">About Software</a></li>
+                            <li><a href="#" data-l10n-id="menu_help_aboutsoftware">About Software</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -41,7 +53,7 @@
     <div id="wrapper" class="page">
         <div id="content">
             <fieldset id="load-file">
-                <p id="status">Load a Pattern</p>
+                <p id="status" data-l10n-id="heading_loadapattern">Load a Pattern</p>
                 <input id="file" type="file" onchange="readURL(this);"/>
             </fieldset>
             <div id="row-preview" class="img-outer">
@@ -50,7 +62,7 @@
                     <img id="test" src="#" style="display: none"/>
 
                     <div id="loader-controller-group">
-                        <label>
+                        <label data-l10n-id="checkbox_enablecropping">
                             <input id="cropCheck" onclick="crop()" type="checkbox">
                             &nbsp;Enable cropping
                         </label>
@@ -74,18 +86,18 @@
                 </div>
 
                 <div id="yarn-colors" class="right-to-img-loader">
-                    <button id="addBtn">Add Yarn Colour</button>
+                    <button id="addBtn" data-l10n-id="button_addyarncolour">Add Yarn Colour</button>
                     <table id="previewTable" cellspacing="0" cellpadding="0"></table>
                 </div>
 
                 <div class="clear"></div>
             </div>
             <div id="generator">
-                <button onclick="init()">Generate Pattern</button>
+                <button onclick="init()" data-l10n-id="button_generatepattern">Generate Pattern</button>
             </div>
 
             <fieldset id="row-generated">
-                <h3>Generated Pattern </h3>
+                <h3 data-l10n-id="heading_generatedpattern">Generated Pattern </h3>
 
                 <div>
                     <div>
@@ -106,9 +118,9 @@
                                 </div>
                                 <div class="text-input-group">
                                     <label>&nbsp;</label>
-                                    <button onclick="colourChange()"><span class="glyphicon glyphicon-screenshot"></span>Fill</button>
-                                    <button onclick="pixelDel()"><span class="glyphicon glyphicon-trash"></span>Delete</button>
-                                    <button onclick="undo()"><span class="glyphicon glyphicon-repeat"></span>Reset</button>
+                                    <button onclick="colourChange()" data-l10n-id="button_fill"><span class="glyphicon glyphicon-screenshot"></span>Fill</button>
+                                    <button onclick="pixelDel()" data-l10n-id="button_delete"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                                    <button onclick="undo()" data-l10n-id="button_Reset"><span class="glyphicon glyphicon-repeat"></span>Reset</button>
                                 </div>
                             </div>
                             <!--<button onclick="checkBounds()">test</button>-->
@@ -117,14 +129,14 @@
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
-                                    <label>columns:&nbsp;</label>
+                                    <label data-l10n-id="input_columns">columns:&nbsp;</label>
                                     <input id="widthInput" class="input-params" type="text" value="100">
 
                                     <div class="clear"></div>
                                 </div>
 
                                 <div class="text-input-group">
-                                    <label>rows:&nbsp;</label>
+                                    <label data-l10n-id="input_rows">rows:&nbsp;</label>
                                     <input id="heightInput" class="input-params" type="text" value="100">
 
                                     <div class="clear"></div>
@@ -164,7 +176,7 @@
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
-                                    <label>&nbsp;Port:</label>&nbsp;
+                                    <label data-l10n-id="input_port">&nbsp;Port:</label>&nbsp;
                                     <select id="port_list" style="width:40%"><option>-select-</option></select>&nbsp;
                                     <button onclick="refreshPorts()"><span class="glyphicon glyphicon-refresh"></span></button>
                                 </div>
@@ -174,7 +186,7 @@
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
-                                    <label>&nbsp;Machine:</label>&nbsp;
+                                    <label data-l10n-id="input_machine">&nbsp;Machine:</label>&nbsp;
                                     <select id="machine_list" style="width:40%"><option>-select-</option></select>&nbsp;
                                     <button onclick="updateMachineType()"><span class="glyphicon glyphicon-refresh"></span></button>
                                 </div>
@@ -185,7 +197,7 @@
                             <div class="input-group">
                                 <div class="text-input-group">
                                     <label>&nbsp;</label>
-                                    <button onclick="loadPattern()" style="width:50%">Proceed Knitting</button>
+                                    <button onclick="loadPattern()" style="width:50%" data-l10n-id="button_proceed_knit">Proceed Knitting</button>
                                 </div>
                             </div>
                         </div>
@@ -198,7 +210,7 @@
 
         <fieldset id="row-generated-simulator">
             <div id="simulator" style='display:none'>
-                <h1 style='margin-top:5px;margin-left:20px'>Knitting Simulator</h1>
+                <h1 style='margin-top:5px;margin-left:20px' data-l10n-id="">Knitting Simulator</h1>
 
                 <div id="simulator-canvas-section" style="margin: 10px">
                     <div id="simulator-canvas-div">
@@ -209,14 +221,14 @@
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
-                                    <label>Column:</label>
+                                    <label data-l10n-id="">Column:</label>
                                     <input id="column-num" class="input-params" type="text" value="0" readonly="readonly" >
 
                                     <div class="clear"></div>
                                 </div>
 
                                 <div class="text-input-group">
-                                    <label>Row:</label>
+                                    <label data-l10n-id="">Row:</label>
                                     <input id="row-num" class="input-params" type="text" value="0" readonly="readonly" >
                                     <div class="clear"></div>
                                 </div>
@@ -226,14 +238,14 @@
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
-                                    <label>Colors:&nbsp;</label>
+                                    <label data-l10n-id="">Colors:&nbsp;</label>
                                     <input id="colour-count" class="input-params" type="text" value="2" readonly="readonly" >
 
                                     <div class="clear"></div>
                                 </div>
 
                                 <div class="text-input-group">
-                                    <label>Start Line:&nbsp;</label>
+                                    <label data-l10n-id="">Start Line:&nbsp;</label>
                                     <input id="start-line" class="input-params" type="text" value="0">
 
                                     <div class="clear"></div>
@@ -245,7 +257,7 @@
                             <div class="input-group">
                                 <div class="text-input-group">
                                     <label>&nbsp;</label>
-                                    <input type="checkbox" onclick="">&nbsp;Infinite Repeat
+                                    <input type="checkbox" onclick="" data-l10n-id="">&nbsp;Infinite Repeat
                                 </div>
                             </div>
                         </div>
@@ -253,14 +265,14 @@
                         <div class="panel">
                             <div class="input-group">
                                 <div class="text-input-group">
-                                    <label>Start Needle:&nbsp;</label>
+                                    <label data-l10n-id="">Start Needle:&nbsp;</label>
                                     <input id="start-needle" class="input-params" type="text" value="0" >
 
                                     <div class="clear"></div>
                                 </div>
 
                                 <div class="text-input-group">
-                                    <label>Stop Needle:&nbsp;</label>
+                                    <label data-l10n-id="">Stop Needle:&nbsp;</label>
                                     <input id="stop-needle" class="input-params" type="text" value="0">
 
                                     <div class="clear"></div>
@@ -272,7 +284,7 @@
                             <div class="input-group">
                                 <div class="text-input-group">
                                     <label>&nbsp;</label>
-                                    <button id="configure-btn" type="button" class="btn btn-default" onclick="configureKnit()" style="width:60%">Configure</button>
+                                    <button id="configure-btn" type="button" class="btn btn-default" onclick="configureKnit()" style="width:60%" data-l10n-id="button_configure">Configure</button>
                                 </div>
                             </div>
                         </div>
@@ -281,9 +293,9 @@
                             <div class="input-group">
                                 <div class="text-input-group">
                                     <label>&nbsp;</label>
-                                    <button id="start-btn" type="button" class="btn btn-default" disabled="disabled" onclick="startKnit()" style="width:20%">Start</button>
-                                    <button id="pause-btn" type="button" class="btn btn-default" disabled="disabled" onclick="updateHead()" style="width:20%">Pause</button>
-                                    <button id="stop-btn" type="button" class="btn btn-default" disabled="disabled" onclick="updateHead()" style="width:20%">Stop</button>
+                                    <button id="start-btn" type="button" class="btn btn-default" disabled="disabled" onclick="startKnit()" style="width:20%" data-l10n-id="">Start</button>
+                                    <button id="pause-btn" type="button" class="btn btn-default" disabled="disabled" onclick="updateHead()" style="width:20%" data-l10n-id="">Pause</button>
+                                    <button id="stop-btn" type="button" class="btn btn-default" disabled="disabled" onclick="updateHead()" style="width:20%" data-l10n-id="">Stop</button>
                                 </div>
                             </div>
                         </div>
@@ -291,7 +303,7 @@
                 </div>
 
                 <div style="margin-top: 10px">
-                    <button type="button" class="btn btn-primary" id="back-nav-btn" style='width:20%;margin-left:20px;float: left' onClick='loadContentPage()'>Back to Editor</button>
+                    <button type="button" class="btn btn-primary" id="back-nav-btn" style='width:20%;margin-left:20px;float: left' onClick='loadContentPage()' data-l10n-id="">Back to Editor</button>
                 </div>
             </div>
         </fieldset>
@@ -341,8 +353,6 @@
         console.log(table_height);
         $("#previewTable").height(table_height);
     }
-
-
 </script>
 
 <script src="../controller/pixelate.js"></script>
@@ -355,6 +365,9 @@
 <script src="../lib/js/jquery.Jcrop.min.js"></script>
 <script src="js/jcrop_main.js"></script>
 <script src="js/bootstrap.min.js"></script>
+
+<!-- set Language function for the localization setLang() -->
+<script src="js/set_lang.js"></script>
 
 <script type="text/javascript" src="../controller/colorschema.js"></script>
 <script type="text/javascript" src="../controller/drawingtool.js"></script>
