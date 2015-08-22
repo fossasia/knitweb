@@ -102,6 +102,7 @@ function configKnitJob(job_id, image_data, colors, file_url){
     });
 }
 
+//start the configured knit job
 function knitJob(job_id){
     $.ajax({
         type: "POST",
