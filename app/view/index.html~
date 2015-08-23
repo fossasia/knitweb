@@ -3,7 +3,10 @@
 <head>
     <title>Knitting Web App</title>
     <script src="../lib/js/jquery.min.js"></script>
+<<<<<<< HEAD
 
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+=======
 	
 	<!-- import locales.ini for global translation -->
     <link rel="resource" type="application/l10n" href="global-translations/locales.ini" />
@@ -11,6 +14,7 @@
     <script type="text/javascript" src="js/l10n.js"></script>
 	
     <link rel="stylesheet" href="css/bootstrap.min.css">
+>>>>>>> 06a7b114e3176e866408f7960c4008afd6424c44
     <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
     <link rel="stylesheet" href="../lib/css/jquery.Jcrop.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="responsive/responsive.css"/>
