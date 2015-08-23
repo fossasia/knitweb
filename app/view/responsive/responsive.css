@@ -445,3 +445,28 @@ nav{
 	width:35%;
 }
 
+
+/*******************************drawing widget styling***************************************************/
+#drawing-wrapper {
+	width:100%;
+	overflow: hidden;
+	display: none;
+}
+
+#drawing-section {
+	float: left;
+	position: relative;
+	height: 1000px;
+}
+
+#drawing-canvas,#layout-canvas {
+	border: solid 1px grey;
+	position: absolute;
+	float: left;
+}
+
+#button-panel {
+	float: right;
+	padding: 10px;
+}
+

@@ -1,5 +1,5 @@
 var knit_job_id = "";
-var knit_status = false;
+var knit_status = false, isStarted = false;
 
 function refreshPorts() {
     getAvailablePorts();
@@ -10,6 +10,7 @@ function updateMachineType() {
 }
 
 function configureKnit() {
+
     var colour_count = document.getElementById("previewTable").rows.length;
     document.getElementById('configure-btn').disabled = true;
     document.getElementById('start-btn').disabled = false;
@@ -22,6 +23,7 @@ function configureKnit() {
 }
 
 function createJob() {
+
     var list = document.getElementById('port_list');
     var current_port_id = list.options[list.selectedIndex].value;
     var plugin_id = "dummy";
@@ -29,6 +31,8 @@ function createJob() {
 }
 
 function startKnit() {
+
+    isStarted = true;
     document.getElementById('pause-btn').disabled = false;
     document.getElementById('stop-btn').disabled = false;
     document.getElementById('start-btn').disabled = true;

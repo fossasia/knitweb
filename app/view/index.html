@@ -4,7 +4,7 @@
     <title>Knitting Web App</title>
     <script src="../lib/js/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="../lib/css/colpick.css" type="text/css"/>
     <link rel="stylesheet" href="../lib/css/jquery.Jcrop.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="responsive/responsive.css">
@@ -297,6 +297,25 @@
         </fieldset>
     </div>
 
+    <div id="drawing-wrapper">
+        <div id="drawing-section">
+
+            <canvas width="500px" height="500px" id="layout-canvas"></canvas>
+            <canvas width="500px" height="500px" id="drawing-canvas"></canvas>
+
+        </div>
+        <div id="button-panel" class="btn-group-vertical">
+            <button id="rect-btn" type="button" class="btn btn-default">Rectangle</button>
+            <button id="circle-btn" type="button" class="btn btn-default">Circle</button>
+            <button id="triangle-btn" type="button" class="btn btn-default">Triangle</button>
+            <button id="line-btn" type="button" class="btn btn-default">Straight line</button>
+            <button id="continuous-line-btn" type="button" class="btn btn-default">Cont line</button>
+            <button id="clear-btn" type="button" class="btn btn-default">Clear</button>
+            <button id="load-btn" type="button" class="btn btn-default">Load Image</button>
+            <button id="crop-btn" type="button" class="btn btn-default">Crop</button>
+        </div>
+    </div>
+
 </div>
 
 
@@ -354,7 +373,7 @@
 <script src="../lib/js/jquery.Jcrop.js"></script>
 <script src="../lib/js/jquery.Jcrop.min.js"></script>
 <script src="js/jcrop_main.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="../controller/colorschema.js"></script>
 <script type="text/javascript" src="../controller/drawingtool.js"></script>
