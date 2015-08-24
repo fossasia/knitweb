@@ -3,13 +3,15 @@ var startPixelX, startPixelY, endPixelX, endPixelY, pixelWidth, pixelHeight, pre
 var temp, testX, testY;
 var imgAvgData = [];
 var collection = [];
-var isRegionized = false,colourPickerEnabled = false;
+var isRegionized = false,colourPickerEnabled = false,isAllArea=false;
 var cellWidth,cellHeight;
 
 var gridCanvas = document.getElementById("gridCanvas");
 var gridCtx = gridCanvas.getContext("2d");
 var bufferCanvas = document.getElementById("canvas2");
 var bufferCtx = bufferCanvas.getContext("2d");
+
+
 
 //getting canvas position for select tool
 layoutCanvas.onmousedown = function (e) {
@@ -25,7 +27,7 @@ layoutCanvas.onmousedown = function (e) {
     //console.log(startX+" and "+startY);
     if (!isRegionized)
     //gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
-        cellWidth = pixelCanvas.width/numOfColumns;
+    cellWidth = pixelCanvas.width/numOfColumns;
     cellHeight = pixelCanvas.height/numOfRows;
     prevPixelX = Math.floor(startX / cellWidth) * cellWidth;
     prevPixelY = Math.floor(startY / cellHeight) * cellHeight;
@@ -109,7 +111,12 @@ layoutCanvas.onmousedown = function (e) {
 };
 
 layoutCanvas.onclick = function () {
+
     if (isRegionized) {
+
+        if(isAllArea) {
+            console.log(startPixelX+" and "+startPixelY);
+        }
         console.log(numOfRows *Math.floor(startPixelY / cellWidth)+" "+Math.floor(startPixelX / cellHeight)+" "+(startPixelX / cellHeight));
         console.log(numOfRows *Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight));
         var colourVal = imgAvgData[numOfRows * Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight)];
@@ -192,15 +199,24 @@ function getColorBounds() {
 var flag = false;
 var tempColourArr = [];
 
-function callFlood(){
+function callFlood(check){
 
     //getColorBounds();
     var colourList = [];
     collection = [];
-    var startGridPosX = startPixelX / cellWidth;
-    var startGridPosY = startPixelY / cellHeight;
-    var endGridPosX = (startPixelX + pixelWidth) / cellWidth;
-    var endGridPosY = (startPixelY + pixelHeight) / cellHeight;
+    var startGridPosX, startGridPosY, endGridPosX, endGridPosY;
+
+    if(check){
+        startGridPosX = Math.round(startPixelX / cellWidth);
+        startGridPosY = Math.round(startPixelY / cellHeight);
+        endGridPosX = Math.round((startPixelX + pixelWidth) / cellWidth);
+        endGridPosY = Math.round((startPixelY + pixelHeight) / cellHeight);
+    }else {
+        startGridPosX = 0;
+        startGridPosY = 0;
+        endGridPosX = numOfColumns;
+        endGridPosY = numOfRows;
+    }
     var mark=[],dupImgDataArr;
 
     for (var i = 0; i < numOfRows; i++) {
@@ -213,6 +229,9 @@ function callFlood(){
     }
 
     dupImgDataArr = imgAvgData.slice();
+
+    console.log(startGridPosY+" and "+endGridPosY+" and "+startGridPosX+" and "+endGridPosX);
+
     for (var i = startGridPosY; i < endGridPosY; i++) {
         for (var j = startGridPosX; j < endGridPosX; j++) {
             var tempVal = dupImgDataArr[numOfRows * i + j];
@@ -269,15 +288,17 @@ function callFlood(){
 }
 
 // function for checking for colour boundaries
-function checkBounds(check) {
+function checkBounds(check,region) {
+    console.log("got here");
     if (check.checked) {
 
         layoutCanvas.style.cursor = "crosshair";
         isRegionized = true;
+        isAllArea = !region;
         collection = [];
 
         getColorBounds();
-        callFlood();
+        callFlood(region);
         showColourBounds();
 
     } else if (!check.checked) {
