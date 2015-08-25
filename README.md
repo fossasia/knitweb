@@ -16,9 +16,6 @@ To install the Knitlib server please follow the instructions here: https://githu
 
 ### 3.1 How to use the Knit web app - Offline Pattern Generation (when it is not connected to the server/machine)
 
-### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
-(how to start it, how to knit, how to use the knitpat format, how to save and load files)
-
 **On Linux**
 
 1. Go to /knitweb/offline_app directory.
@@ -28,6 +25,9 @@ To install the Knitlib server please follow the instructions here: https://githu
 
 1. Go to /knitweb/offline_app directory.
 2. run the run.bat
+
+### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
+(how to start it, how to knit, how to use the knitpat format, how to save and load files)
 
 ## 4 Working with Knitapps 
 ### 4.1 Knitting pattern editor
