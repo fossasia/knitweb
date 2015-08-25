@@ -12,16 +12,19 @@ Knitweb is an app frontend and backend that works together with Knitlib server a
 ### 3.1 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
 (how to start it, how to knit, how to use the knitpat format, how to save and load files)
 ### 3.2 How to use the Knit web app - Offline Pattern Generation (when it is not connected to the server/machine)
-** On Linux**
+**On Linux**
+
 1. Go to /knitweb/offline_app directory.
 2. run the run.sh file typing sh run.sh
-** On Windows **
+**On Windows**
+
 1. Go to /knitweb/offline_app directory.
 2. run the run.bat
 
 ## 4 Working with Knitapps 
 ### 4.1 Knitting pattern editor
-** Pattern Generator Usage: **
+**Pattern Generator Usage:**
+
 1. Load a pattern using 'Browse'.
 2. Then tick 'crop' if the pattern wants to be cropped and then click 'Draw'. 
 3. Then select available yarn colours from the pallette.
