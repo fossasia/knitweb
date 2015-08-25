@@ -16,6 +16,7 @@ Knitweb is an app frontend and backend that works together with Knitlib server a
 
 1. Go to /knitweb/offline_app directory.
 2. run the run.sh file typing sh run.sh
+
 **On Windows**
 
 1. Go to /knitweb/offline_app directory.
@@ -23,6 +24,7 @@ Knitweb is an app frontend and backend that works together with Knitlib server a
 
 ## 4 Working with Knitapps 
 ### 4.1 Knitting pattern editor
+
 **Pattern Generator Usage:**
 
 1. Load a pattern using 'Browse'.
