@@ -46,7 +46,7 @@ side] and it will load the preview of the pattern to the window at the right sid
 
 ####Crop/Rotate of a pattern
 
-![alt tag](?raw=true/docs/demo_images/2.png?raw=true)
+![alt tag](/docs/demo_images/2.png?raw=true)
 
 Step1:Enable crop function by checking “Enable Cropping” check box.	
 Step2: select cropping area from the pattern and the click crop button at the bottom-right of the image
