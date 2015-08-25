@@ -35,8 +35,6 @@ Note: These drawing tools are now used to edit the patterns that are loaded from
 This can be improved such that user can draw a pattern from scratch using these tools that 
 can be used for knitting. 
 
-#### READ MORE
-https://github.com/fashiontec/knitweb/tree/master/docs
 
 ##Flow of UI Functions
 
@@ -73,9 +71,11 @@ regenerate the pattern.
 ####Square/ Free Hand tool
 
 ![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/5.png)
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/6.png)
 
 Step1:Select Square or free hand tools from the radio panel. By default it is square tool.
+
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/6.png)
+
 Step2: Select a color from colour palette and select fill if you want to add the colour for the selected area.
 
 ####Show color Regions function
@@ -84,32 +84,32 @@ Step1:Select area from the square selection if you want a color regions for sele
 generate color regions for all area by selecting “Show Colour Regions[all area]”. Black coloured border
 will be shown around the region
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/7.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/8.png)
 
 Step2: Add a colour selected in colour palette by clicking on the relevant area you want to edit by changing
 colour. In the example bottom region is recolored.
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/8.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/9.png)
 
 ####Available Ports/Machine type
 
 Step1: User is shown available ports and machine types available for knitting. If it is not shown click
 refresh button. Here knit web client is communicates with the knit lib server to get data.
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/9.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/11.png)
 
 Step2: After editing is done click “Proceed Knitting” button to create a knit job for the pattern.
 
 ####Knitting Simulator
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/10.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/12.png)
 
 Knitting simulator window will show the edited pattern. Column and row will show current stitch's knitting
 row and column number. Colors field show number of colour values used in the pattern. Also there are
 inputs taken such as Start Line, Infinite repeat, Start Needle, Stop Needle used for configuration of a knit
 job.
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/11.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/13.png)
 
 After configuration options are available to start knit job, pause and stop knit job.
 
@@ -117,18 +117,21 @@ After configuration options are available to start knit job, pause and stop knit
 
 Open/Download Pattern/Import Pattern
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/12.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/14.png)
 
 User is able to download the pattern after editing without going for a knit job configuration.
 
 ####Translate application page
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/13.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/15.png)
 
 This feature enables translation of application fields text into several languages such as English, German,
 Sinhala. Solution is added such that any language can be added to the application just by editing a language
 data file. Therefore it is a scalable solution. German translation is shown below.
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/14.png)
+![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/16.png)
+
+#### READ MORE
+https://github.com/fashiontec/knitweb/tree/master/docs
 
 
