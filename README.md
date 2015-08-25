@@ -18,16 +18,43 @@ To install the Knitlib server please follow the instructions here: https://githu
 
 **On Linux**
 
-1. Go to /knitweb/offline_app directory.
+* Initial setup(first time after cloning the project):
+
+1. Go to /knitweb/bin directory.
+2. run the setup.sh file by typing sh setup.sh (this step is needed to download required binaries)
+
+* Execute application:
+
+1. Go to /knitweb/bin directory.
 2. run the run.sh file typing sh run.sh
 
 **On Windows**
 
-1. Go to /knitweb/offline_app directory.
+1. Go to /knitweb/bin directory.
 2. run the run.bat
 
 ### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
-(how to start it, how to knit, how to use the knitpat format, how to save and load files)
+
+* It is same procedure as the using offline mode. Only difference is in online mode server will be available for configure knitting. 
+  In offline mode app will indicate server is not available when trying to configure knitting. In this mode user can download generated pattern
+  and use it later in a machine where server is available.
+
+**On Linux**
+
+* Initial setup(first time after cloning the project):
+
+1. Go to /knitweb/bin directory.
+2. run the setup.sh file by typing sh setup.sh (this step is needed to download required binaries)
+
+* Execute application:
+
+1. Go to /knitweb/bin directory.
+2. run the run.sh file typing sh run.sh
+
+**On Windows**
+
+1. Go to /knitweb/bin directory.
+2. run the run.bat
 
 ## 4 Working with Knitapps 
 ### 4.1 Knitting pattern editor
@@ -44,9 +71,9 @@ There are two kinds of drawing tools included inside the pattern grid.
 1. Square/Rectangular pattern drawing.
 2. Free hand pattern drawing.
 
--------Under Square/Rectangular pattern drawing user will be able to draw rectangular shapes and add colours to the shape using colour pallette.------------
+* Under Square/Rectangular pattern drawing user will be able to draw rectangular shapes and add colours to the shape using colour pallette.
 
--------Under Free hand pattern drawing user will be able to draw using free hand and add colour values to the shape drawn.-----------
+* Under Free hand pattern drawing user will be able to draw using free hand and add colour values to the shape drawn.
 
 Note: These drawing tools are now used to edit the patterns that are loaded from a file. This can be improved such that user can draw a pattern from scratch using these tools that can be used for knitting. 
 
