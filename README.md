@@ -129,7 +129,7 @@ This feature enables translation of application fields text into several languag
 Sinhala. Solution is added such that any language can be added to the application just by editing a language
 data file. Therefore it is a scalable solution. German translation is shown below.
 
-![alt tag](https://raw.github.com/fashiontec/knitweb/tree/master/docs/demo_images/16.png)
+![alt tag](/docs/demo_images/16.png?raw=true)
 
 #### READ MORE
 https://github.com/fashiontec/knitweb/tree/master/docs
