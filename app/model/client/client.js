@@ -3,17 +3,26 @@ var knit_job_id;
 
 
 //getting asynchronous messages from the knitlib server
-if ("WebSocket" in window) {
+try{
+    if ("WebSocket" in window) {
 
-    var ws = new WebSocket("ws://" + location.host + "/v1/knitting_socket");
-    ws.onmessage = function (evt) {
-        var received_msg = evt.data;
-        console.log(received_msg);
-    };
+        var ws = new WebSocket("ws://" + location.host + "/v1/knitting_socket");
+        ws.onmessage = function (evt) {
+            var received_msg = evt.data;
+            console.log(received_msg);
+        };
 
-    ws.onopen = function () {
-        ws.send("hello");
-    };
+        ws.onopen = function () {
+            ws.send("hello");
+        };
+
+        ws.onclose = function() {
+            console.info( 'Socket is now closed.' );
+        }
+    }
+
+} catch(e) {
+    console.error('Sorry, the web socket is un-available');
 }
 
 // function for getting available ports for knit job communication
@@ -26,6 +35,11 @@ function getAvailablePorts() {
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
+        statusCode: {
+            404: function() {
+                alert('server not found');
+            }
+        },
         success: function (json) {
             isSet = true;
             var obj = JSON.stringify(json);
@@ -55,6 +69,11 @@ function getAvailablePorts() {
             "plugin_id": plugin_id,
             "port": port
         },
+        statusCode: {
+            404: function() {
+                    alert("server not found");
+            }
+        },
         success: function(data){
             console.log("Created knitting job:");
             console.log(data);
@@ -76,7 +95,7 @@ function initKnitJob(job_id) {
         },
         success: function(data){
             knit_status = true;
-            console.log("Initiated knitting job:")
+            console.log("Initiated knitting job:");
             console.log(data);
         }
     });
@@ -118,13 +137,18 @@ function knitJob(job_id){
     });
 }
 
-function getMachineType() {
+function getMachinePlugins() {
     var parsedObj;
     $.ajax({
-        url: "//"+location.host +"/v1/get_machine_type",
+        url: "//"+location.host +"/v1/get_machine_plugins",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
+        statusCode: {
+            404: function() {
+                alert('server not found');
+            }
+        },
         success: function (json) {
             isSet = true;
             var obj = JSON.stringify(json);
@@ -140,16 +164,30 @@ function getMachineType() {
     });
 }
 
-
-function getDeviceType() {
+function getPluginSupportedFeatures(machine_id) {
+    var parsedObj;
     $.ajax({
-        url: 'http://127.0.0.1:8000/device',
+        url: "//"+location.host +"/v1/plugin/"+machine_id+"/supported_features",
         type: 'GET',
-        success: function (res) {
-            deviceType = res;
+        dataType: 'json',
+        crossDomain: true,
+        statusCode: {
+            404: function() {
+                alert('features not found');
+            }
+        },
+        success: function (json) {
+            isSet = true;
+            var obj = JSON.stringify(json);
+            parsedObj = JSON.parse(obj);
+            var start_needle = parsedObj.properties.start_needle;
+            var stop_needle = parsedObj.properties.stop_needle;
+            var start_line = parsedObj.properties.start_line;
+            var infinite_repeat = parsedObj.properties.inf_repeat;
+
         },
         error: function (err) {
-            alert(err);
+            console.log(err);
         }
     });
 }

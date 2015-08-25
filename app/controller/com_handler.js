@@ -6,7 +6,7 @@ function refreshPorts() {
 }
 
 function updateMachineType() {
-    getMachineType();
+    getMachinePlugins();
 }
 
 function configureKnit() {
