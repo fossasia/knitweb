@@ -6,7 +6,7 @@ Knitweb is an app frontend and backend that works together with Knitlib server a
 ## 2. How to install Knitapps 
 
 ### 2.1. How to install the Knitlib server and Knitlib
-To install the Knitlib server please follow the instructions here: https://github.com/fashiontec/knitlib-webserver
+To install the Knitlib server please follow the instructions here: https://github.com/fashiontec/knitserver
 
 ### 2.2. How to install the webapp
 * Requirements
