@@ -30,8 +30,15 @@ To install the Knitlib server please follow the instructions here: https://githu
 
 **On Windows**
 
+* Initial setup(first time after cloning the project):
+
 1. Go to /knitweb/bin/windows directory.
-2. run the run.bat
+2. run the setup.bat file (this step is needed to download required binaries).
+
+* Execute application:
+
+1. Go to /knitweb/bin/windows directory.
+2. run the run.bat file.
 
 ### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
 
