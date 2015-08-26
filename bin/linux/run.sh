@@ -1,1 +1,1 @@
-../bin/electron ../../knitweb
+../../bin/electron ../../../knitweb
