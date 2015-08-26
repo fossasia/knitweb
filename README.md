@@ -20,17 +20,17 @@ To install the Knitlib server please follow the instructions here: https://githu
 
 * Initial setup(first time after cloning the project):
 
-1. Go to /knitweb/bin directory.
+1. Go to /knitweb/bin/linux directory.
 2. run the setup.sh file by typing sh setup.sh (this step is needed to download required binaries)
 
 * Execute application:
 
-1. Go to /knitweb/bin directory.
+1. Go to /knitweb/bin/linux directory.
 2. run the run.sh file typing sh run.sh
 
 **On Windows**
 
-1. Go to /knitweb/bin directory.
+1. Go to /knitweb/bin/windows directory.
 2. run the run.bat
 
 ### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
@@ -43,12 +43,12 @@ To install the Knitlib server please follow the instructions here: https://githu
 
 * Initial setup(first time after cloning the project):
 
-1. Go to /knitweb/bin directory.
+1. Go to /knitweb/bin/linux directory.
 2. run the setup.sh file by typing sh setup.sh (this step is needed to download required binaries)
 
 * Execute application:
 
-1. Go to /knitweb/bin directory.
+1. Go to /knitweb/bin/linux directory.
 2. run the run.sh file typing sh run.sh
 
 **On Windows**

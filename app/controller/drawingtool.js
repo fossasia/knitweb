@@ -114,11 +114,8 @@ layoutCanvas.onclick = function () {
 
     if (isRegionized) {
 
-        if(isAllArea) {
-            console.log(startPixelX+" and "+startPixelY);
-        }
-        console.log(numOfRows *Math.floor(startPixelY / cellWidth)+" "+Math.floor(startPixelX / cellHeight)+" "+(startPixelX / cellHeight));
-        console.log(numOfRows *Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight));
+        //console.log(numOfRows *Math.floor(startPixelY / cellWidth)+" "+Math.floor(startPixelX / cellHeight)+" "+(startPixelX / cellHeight));
+        //console.log(numOfRows *Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight));
         var colourVal = imgAvgData[numOfRows * Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight)];
         //console.log(100 * startPixelY / 10 + startPixelX / 10);
 
@@ -230,7 +227,6 @@ function callFlood(check){
 
     dupImgDataArr = imgAvgData.slice();
 
-    console.log(startGridPosY+" and "+endGridPosY+" and "+startGridPosX+" and "+endGridPosX);
 
     for (var i = startGridPosY; i < endGridPosY; i++) {
         for (var j = startGridPosX; j < endGridPosX; j++) {
@@ -248,8 +244,7 @@ function callFlood(check){
                     result+= tempColourArr[k]+" ";
                     copyArr[k+1] = tempColourArr[k];
                 }
-                console.log(result);
-                console.log("*******");
+
                 collection.push(copyArr);
             }
             flag = false;
@@ -289,7 +284,6 @@ function callFlood(check){
 
 // function for checking for colour boundaries
 function checkBounds(check,region) {
-    console.log("got here");
     if (check.checked) {
 
         layoutCanvas.style.cursor = "crosshair";
