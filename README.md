@@ -40,6 +40,12 @@ To install the Knitlib server please follow the instructions here: https://githu
 1. Go to /knitweb/bin/windows directory.
 2. run the run.bat file.
 
+If powershell is missing in your environment variables;
+
+Add this to your Path environment variable
+
+    %SYSTEMROOT%\System32\WindowsPowerShell\v1.0\
+
 ### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
 
 * It is same procedure as the using offline mode. Only difference is in online mode server will be available for configure knitting. 
