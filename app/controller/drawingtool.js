@@ -25,7 +25,7 @@ layoutCanvas.onmousedown = function (e) {
     startX = e.clientX - rect.left;
     startY = e.clientY - rect.top;
     //console.log(startX+" and "+startY);
-    if (!isRegionized)
+    //if (!isRegionized)
     //gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
     cellWidth = pixelCanvas.width/numOfColumns;
     cellHeight = pixelCanvas.height/numOfRows;
@@ -114,9 +114,12 @@ layoutCanvas.onclick = function () {
 
     if (isRegionized) {
 
+        if(isAllArea) {
+            //console.log(startPixelX+" and "+startPixelY);
+        }
         //console.log(numOfRows *Math.floor(startPixelY / cellWidth)+" "+Math.floor(startPixelX / cellHeight)+" "+(startPixelX / cellHeight));
         //console.log(numOfRows *Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight));
-        var colourVal = imgAvgData[numOfRows * Math.floor(startPixelY / cellWidth) + Math.floor(startPixelX / cellHeight)];
+        var colourVal = imgAvgData[numOfRows * Math.round(startPixelY / cellWidth) + Math.round(startPixelX / cellHeight)];
         //console.log(100 * startPixelY / 10 + startPixelX / 10);
 
         for (var i = 0; i< collection.length; i++) {
@@ -209,6 +212,7 @@ function callFlood(check){
         endGridPosX = Math.round((startPixelX + pixelWidth) / cellWidth);
         endGridPosY = Math.round((startPixelY + pixelHeight) / cellHeight);
     }else {
+        isRegionized=true;
         startGridPosX = 0;
         startGridPosY = 0;
         endGridPosX = numOfColumns;
