@@ -1,12 +1,13 @@
-var deviceType;
 var knit_job_id;
+var isSet = false;
 
 
 //getting asynchronous messages from the knitlib server
 try{
     if ("WebSocket" in window) {
 
-        var ws = new WebSocket("ws://" + location.host + "/v1/knitting_socket");
+        var hostEndPoint = getHostLocation();
+        var ws = new WebSocket("ws://" + hostEndPoint.host+":"+hostEndPoint.port+ "/v1/knitting_socket");
         ws.onmessage = function (evt) {
             var received_msg = evt.data;
             console.log(received_msg);
@@ -22,16 +23,17 @@ try{
     }
 
 } catch(e) {
-    console.error('Sorry, the web socket is un-available');
+    console.error('Sorry, the web socket is unavailable');
 }
 
 // function for getting available ports for knit job communication
 function getAvailablePorts() {
-    var isSet = false;
+
     var parsedObj;
+    var hostEndPoint = getHostLocation();
 
     $.ajax({
-        url: "//"+location.host +"/v1/get_ports",
+        url: "//"+hostEndPoint.host +":"+hostEndPoint.port +"/v1/get_ports",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
@@ -51,6 +53,7 @@ function getAvailablePorts() {
             portList.add(option);
         },
         error: function (err) {
+            alert('error in connection establishment');
             console.log(err);
         }
     });
@@ -61,10 +64,12 @@ function getAvailablePorts() {
 //method for creating knitting job at the backend
  function createKnitJob(plugin_id,port) {
 
+     var hostEndPoint = getHostLocation();
+
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "//"+location.host + "/v1/create_job/",
+        url: "//"+hostEndPoint.host+":"+hostEndPoint.port + "/v1/create_job/",
         data: {
             "plugin_id": plugin_id,
             "port": port
@@ -81,15 +86,17 @@ function getAvailablePorts() {
         }
     });
     return knit_job_id;
-};
+}
 
 
 //function for initializing knitting job
 function initKnitJob(job_id) {
+
+    var hostEndPoint = getHostLocation();
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "//"+location.host + "/v1/init_job/" + job_id,
+        url: "//"+hostEndPoint.host+":"+hostEndPoint.port + "/v1/init_job/" + job_id,
         data: {
             /* No data should be needed for job init. */
         },
@@ -99,15 +106,17 @@ function initKnitJob(job_id) {
             console.log(data);
         }
     });
-};
+}
 
 
 //function for configuring knitting by sending image data
 function configKnitJob(job_id, image_data, colors, file_url){
+
+    var hostEndPoint = getHostLocation();
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "//"+location.host + "/v1/configure_job/" + job_id,
+        url: "//"+hostEndPoint.host+":"+hostEndPoint.port + "/v1/configure_job/" + job_id,
         data: { "knitpat_dict":
             JSON.stringify({
                 "colors": colors,
@@ -115,7 +124,7 @@ function configKnitJob(job_id, image_data, colors, file_url){
                 "image_data": image_data
             })},
         success: function(data){
-            console.log("Configured knitting job:")
+            console.log("Configured knitting job:");
             console.log(data);
         }
     });
@@ -123,15 +132,16 @@ function configKnitJob(job_id, image_data, colors, file_url){
 
 //start the configured knit job
 function knitJob(job_id){
+    var hostEndPoint = getHostLocation();
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "//"+location.host + "/v1/knit_job/" + job_id,
+        url: "//"+hostEndPoint.host+":"+hostEndPoint.port + "/v1/knit_job/" + job_id,
         data: {
             /* No data should be needed */
         },
         success: function(data){
-            console.log("Knitting knitting job:")
+            console.log("Knitting knitting job:");
             console.log(data);
         }
     });
@@ -139,8 +149,9 @@ function knitJob(job_id){
 
 function getMachinePlugins() {
     var parsedObj;
+    var hostEndPoint = getHostLocation();
     $.ajax({
-        url: "//"+location.host +"/v1/get_machine_plugins",
+        url: "//"+hostEndPoint.host+":"+hostEndPoint.port +"/v1/get_machine_plugins",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
@@ -166,8 +177,9 @@ function getMachinePlugins() {
 
 function getPluginSupportedFeatures(machine_id) {
     var parsedObj;
+    var hostEndPoint = getHostLocation();
     $.ajax({
-        url: "//"+location.host +"/v1/plugin/"+machine_id+"/supported_features",
+        url: "//"+hostEndPoint.host+":"+hostEndPoint.port +"/v1/plugin/"+machine_id+"/supported_features",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
@@ -180,14 +192,31 @@ function getPluginSupportedFeatures(machine_id) {
             isSet = true;
             var obj = JSON.stringify(json);
             parsedObj = JSON.parse(obj);
-            var start_needle = parsedObj.properties.start_needle;
-            var stop_needle = parsedObj.properties.stop_needle;
-            var start_line = parsedObj.properties.start_line;
-            var infinite_repeat = parsedObj.properties.inf_repeat;
+            //var start_needle = parsedObj.properties.start_needle;
+            //var stop_needle = parsedObj.properties.stop_needle;
+            //var start_line = parsedObj.properties.start_line;
+            //var infinite_repeat = parsedObj.properties.inf_repeat;
 
         },
         error: function (err) {
             console.log(err);
         }
     });
+}
+
+function getHostLocation (){
+    var host,port;
+
+    host = $('#host_addr').val();
+    port = $('#port').val();
+    console.log(host+"this is the host");
+
+    if(host === "") {
+        host = location.host;
+        port = location.port;
+    }
+    return {
+        host:host,
+        port:port
+    };
 }
