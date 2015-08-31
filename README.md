@@ -169,5 +169,49 @@ data file. Therefore it is a scalable solution. German translation is shown belo
 
 ![alt tag](/docs/demo_images/16.png?raw=true)
 
+### 4.3 Configure and Run a Knit Job
+
+#### 4.3.1 Select communication Port for knit job
+
+![alt tag](/docs/demo_images/17.png?raw=true)
+
+Step1:select "port" at the pattern editor interface. If port is not updating click refresh button.
+
+#### 4.3.2 Select Machine type for knit job
+
+![alt tag](/docs/demo_images/18.png?raw=true)
+
+Step1:select "Machine Type" at the pattern editor interface to select the machine type(single/double).
+
+#### 4.3.3 Create knit job
+
+![alt tag](/docs/demo_images/19.png?raw=true)
+
+Step1:Click "proceed to knitting". Along with that knitweb is creating a knitjob by sending port id and plugin details to the knitlib server.
+
+#### 4.3.4 Configure knit job
+
+![alt tag](/docs/demo_images/20.png?raw=true)
+
+Step1:In knitting simulator window click "configure" and it will init and configure knit job by sending num of colors,fileurl and imagedata to the knitlib server.
+
+#### 4.3.4 Start knit job
+
+![alt tag](/docs/demo_images/21.png?raw=true)
+
+Step1:clicking start it will start knitting process for the edited pattern. Knitting progress is shown to the user after clicking start.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
