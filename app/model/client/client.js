@@ -33,7 +33,7 @@ function getAvailablePorts() {
     var hostEndPoint = getHostLocation();
 
     $.ajax({
-        url: "//"+hostEndPoint.host +":"+hostEndPoint.port +"/v1/get_ports",
+      url: "http://"+hostEndPoint.host +":"+hostEndPoint.port +"/v1/get_ports",
         type: 'GET',
         dataType: 'json',
         crossDomain: true,
@@ -48,9 +48,12 @@ function getAvailablePorts() {
             parsedObj = JSON.parse(obj);
             console.log(parsedObj);
             var portList = document.getElementById("port_list");
-            var option = document.createElement("option");
-            option.text = parsedObj.test;
-            portList.add(option);
+            for(var myPort in parsedObj) {
+              var option = document.createElement("option");
+              option.text = parsedObj[myPort];
+              option.value = myPort;
+              portList.add(option);
+            }
         },
         error: function (err) {
             alert('error in connection establishment');
@@ -164,10 +167,14 @@ function getMachinePlugins() {
             isSet = true;
             var obj = JSON.stringify(json);
             parsedObj = JSON.parse(obj);
-            var portList = document.getElementById("machine_list");
-            var option = document.createElement("option");
-            option.text = parsedObj.message;
-            portList.add(option);
+            console.log(parsedObj);
+            var pluginList = document.getElementById("machine_list");
+            for(var plugin in parsedObj['active_plugins']) {
+              var option = document.createElement("option");
+              option.text = parsedObj['active_plugins'][plugin];
+              option.value = parsedObj['active_plugins'][plugin];
+              pluginList.add(option);
+            }
         },
         error: function (err) {
             console.log(err);
@@ -209,12 +216,12 @@ function getHostLocation (){
 
     host = $('#host_addr').val();
     port = $('#port').val();
-    console.log(host+"this is the host");
 
     if(host === "") {
-        host = location.host;
+        host = location.hostname;
         port = location.port;
     }
+    console.log("working on " + host + ":" + port);
     return {
         host:host,
         port:port
