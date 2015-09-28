@@ -1,1 +1,2 @@
-../../bin/electron ../../../knitweb
+#!/bin/bash
+./electron ../../../knitweb
