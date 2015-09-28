@@ -3,39 +3,37 @@
 ## 1. What is Knitweb
 Knitweb is an app frontend and backend that works together with Knitlib server and uses the Knitpat format.
 
-## 2. How to install Knitapps 
+## 2. How to install Knitapps
 
 ### 2.1. How to install the Knitlib server and Knitlib
 To install the Knitlib server please follow the instructions here: https://github.com/fashiontec/knitserver
 
 ### 2.2. How to install the webapp
 * Requirements
-* Step by Step Installation on Linux and Windows
 
-## 3. Knitapps Online/Offline
+You need a computer that can run Electron, a Blink (Chromium) based Single Site Browser. From a Raspberry Pi, to Laptops or Desktop PCs running Windows, GNU/Linux Distributions or Mac OS (untested).
 
-### 3.1 How to use the Knit web app - Offline Pattern Generation (when it is not connected to the server/machine)
+Tested versions of Electron:
+  * v0.31 (bundled install scripts)
 
-**On Linux**
-
-* Initial setup(first time after cloning the project):
+#### Installation on Linux, BSD, Mac OS X
 
 1. Go to /knitweb/bin/linux directory.
-2. run the setup.sh file by typing sh setup.sh (this step is needed to download required binaries)
+2. If you are using a 64 bit Linux distribution, run the setup.sh file by typing bash setup.sh. If not, download the appropiate version of Electron http://electron.atom.io/
 
-* Execute application:
-
-1. Go to /knitweb/bin/linux directory.
-2. run the run.sh file typing sh run.sh
-
-**On Windows**
-
-* Initial setup(first time after cloning the project):
+#### Installation on Windows
 
 1. Go to /knitweb/bin/windows directory.
 2. run the setup.bat file (this step is needed to download required binaries).
 
-* Execute application:
+## 3. Running Knitapps
+
+### On Linux
+
+1. Go to /knitweb/bin/linux directory.
+2. run the run.sh file typing sh run.sh
+
+### On Windows
 
 1. Go to /knitweb/bin/windows directory.
 2. run the run.bat file.
@@ -46,36 +44,14 @@ Add this to your Path environment variable
 
     %SYSTEMROOT%\System32\WindowsPowerShell\v1.0\
 
-### 3.2 How to use the Knit web app - Online (when it is connected to the knitting server/machine)
 
-* It is same procedure as the using offline mode. Only difference is in online mode server will be available for configure knitting. 
-  In offline mode app will indicate server is not available when trying to configure knitting. In this mode user can download generated pattern
-  and use it later in a machine where server is available.
-
-**On Linux**
-
-* Initial setup(first time after cloning the project):
-
-1. Go to /knitweb/bin/linux directory.
-2. run the setup.sh file by typing sh setup.sh (this step is needed to download required binaries)
-
-* Execute application:
-
-1. Go to /knitweb/bin/linux directory.
-2. run the run.sh file typing sh run.sh
-
-**On Windows**
-
-1. Go to /knitweb/bin directory.
-2. run the run.bat
-
-## 4 Working with Knitapps 
+## 4 Working with Knitapps
 ### 4.1 Knitting pattern editor
 
 **Pattern Generator Usage:**
 
 1. Load a pattern using 'Browse'.
-2. Then tick 'crop' if the pattern wants to be cropped and then click 'Draw'. 
+2. Then tick 'crop' if the pattern wants to be cropped and then click 'Draw'.
 3. Then select available yarn colours from the pallette.
 4. Then Click 'Generate Patteren'.
 
@@ -88,7 +64,7 @@ There are two kinds of drawing tools included inside the pattern grid.
 
 * Under Free hand pattern drawing user will be able to draw using free hand and add colour values to the shape drawn.
 
-Note: These drawing tools are now used to edit the patterns that are loaded from a file. This can be improved such that user can draw a pattern from scratch using these tools that can be used for knitting. 
+Note: These drawing tools are now used to edit the patterns that are loaded from a file. This can be improved such that user can draw a pattern from scratch using these tools that can be used for knitting.
 
 ### 4.2.1 Navigation bar options
 
@@ -107,7 +83,7 @@ side] and it will load the preview of the pattern to the window at the right sid
 ![alt tag](/docs/demo_images/1.png?raw=true)
 
 #### 4.2.3 Crop/Rotate of a pattern
-Step 1:Enable crop function by checking “Enable Cropping” check box.	
+Step 1:Enable crop function by checking “Enable Cropping” check box.
 Step 2: Select cropping area from the pattern and the click crop button at the bottom-right of the image
 loader. It will load the cropped pattern in the preview window. You can also rotate the pattern from the
 preview window before editing.
