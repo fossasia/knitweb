@@ -45,3 +45,12 @@ var comHandler = {
     
     module.exports = comHandler;
     
+    // Keep functions available in the browser global scope for the existing HTML onclick handlers
+    if (typeof window !== 'undefined') {
+        window.refreshPorts = comHandler.refreshPorts;
+        window.updateMachineType = comHandler.updateMachineType;
+        window.configureKnit = comHandler.configureKnit.bind(comHandler);
+        window.createJob = comHandler.createJob.bind(comHandler);
+        window.startKnit = comHandler.startKnit.bind(comHandler);
+    }
+    
